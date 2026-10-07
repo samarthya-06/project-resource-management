@@ -1,6 +1,7 @@
 # Project & Resource Management System — Design specification
 
 Status: proposed implementation baseline, 7 October 2026.
+Design scope update: the user requested desktop-only Paper designs; mobile and tablet layout artifacts are excluded from this design pass. Earlier narrow-screen guidance remains an implementation consideration, not a requirement to create mobile mockups.
 Audience: UI designer, Google Stitch, and development assistant.
 Stack: Django, Django REST Framework, PostgreSQL, HTML/CSS/JavaScript.
 
@@ -190,6 +191,6 @@ Use shared Django partials for shell, fields, buttons, status tags and table sta
 
 Design a desktop-first Project & Resource Management System for a small company, using this design.md as the governing specification. Use IBM/Carbon-inspired neutral surfaces, IBM Plex Sans, primary blue #0f62fe, charcoal #161616, square edges, thin borders and compact readable enterprise tables. The application has a charcoal 48px header, white 240px sidebar and light-gray work area with white panels. Use our product name and original branding.
 
-Create a consistent linked screen set: Login; Manager Overview; Projects list; Create project; Project details with Overview, Team, Tasks and Report views; Create task; Employee My tasks; Task details with Log time and Completed read-only variants; and Admin Employees. Show role-aware actions, precise labels, real table columns, status tags and restrained summary tiles. Include mobile adaptations for Projects and Task details.
+Create a consistent linked screen set: Login; Manager Overview; Projects list; Create project; Project details with Overview, Team, Tasks and Report views; Create task; Employee My tasks; Task details with Log time and Completed read-only variants; and Admin Employees. Show role-aware actions, precise labels, real table columns, status tags and restrained summary tiles. Create desktop layouts only; mobile adaptations are excluded by the user.
 
 Use a fictional Client Website Redesign project with employees Asha and Ravi. Show exactly To do, In progress and Completed task statuses. Include membership-only task assignment, date-range validation, time in minutes, task ownership and completed-task locking. Design empty, error and successful states. Use accessible contrast, visible focus and persistent field labels. Produce coherent application screens with a reusable component language; avoid promotional sections or controls for unspecified features. The result must be feasible with Django templates, HTML, CSS and JavaScript in the assignment timeline. Treat Admin completion overrides and detailed transition/time restrictions as the proposed policies documented above.

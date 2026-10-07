@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "IBM Plex Sans"; font-style: normal; font-weight: 100 700;
+  font-display: swap; src: url("../fonts/IBMPlexSans.ttf") format("truetype");
+}
+:root {
+  --app-background: #f4f4f4; --app-surface: #fff; --app-field: #f4f4f4;
+  --app-text: #161616; --app-text-secondary: #525252; --app-border: #e0e0e0;
+  --app-primary: #0f62fe; --app-danger: #da1e28; --app-focus: #0f62fe;
+  --app-font: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+  color: var(--app-text); background: var(--app-background); font-family: var(--app-font); }
+.brand { display: flex; align-items: center; gap: 16px; padding: 24px 32px;
+  font-size: 16px; line-height: 20px; font-weight: 600; }
+.brand-mark { flex-shrink: 0; width: 16px; height: 16px; background: var(--app-primary); }
+.auth-main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px; }
+.auth-card { display: flex; flex-direction: column; flex-shrink: 0; gap: 24px; padding: 32px;
+  width: 440px; max-width: 100%; background: var(--app-surface); border: 1px solid var(--app-border); }
+.form-heading { display: flex; flex-direction: column; gap: 8px; }
+h1 { margin: 0; font-size: 28px; line-height: 36px; font-weight: 400; }
+p { margin: 0; font-size: 14px; line-height: 22px; }
+.form-heading p, .help { color: var(--app-text-secondary); }
+.form-stack { display: flex; flex-direction: column; gap: 24px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+label, .help, .field-errors { font-size: 14px; line-height: 20px; }
+.input-row { display: flex; align-items: center; min-height: 48px; background: var(--app-field);
+  border-bottom: 1px solid #8d8d8d; }
+input:not([type="hidden"]) { width: 100%; min-width: 0; min-height: 48px; border: 0; border-radius: 0;
+  padding: 12px 16px; background: transparent; color: var(--app-text); font: 400 16px/24px var(--app-font); }
+button { border-radius: 0; cursor: pointer; font: 400 14px/20px var(--app-font); }
+.primary { width: 100%; min-height: 48px; padding: 12px 20px; border: 0;
+  background: var(--app-primary); color: #fff; }
+.primary:hover { background: #0050e6; }
+.password-toggle, .text-button { border: 0; color: var(--app-primary); background: transparent;
+  min-height: 48px; padding: 12px 16px; }
+.notice { padding: 16px 20px; border-left: 3px solid var(--app-primary); background: #edf5ff;
+  font-size: 14px; line-height: 22px; }
+.notice.error { border-color: var(--app-danger); background: #fff1f1; }
+.invalid { border-bottom: 2px solid var(--app-danger); }
+.field-errors { color: var(--app-danger); }
+.errorlist { list-style: none; margin: 0; padding: 0; }
+.help ul { margin: 0; padding-left: 20px; }
+a { color: var(--app-primary); font-size: 14px; line-height: 20px; }
+:focus-visible { outline: 2px solid var(--app-focus); outline-offset: 2px; }
+.skip-link { position: absolute; top: -60px; left: 16px; padding: 12px; background: white; }
+.skip-link:focus { top: 8px; }
+.password-card { width: 560px; }
+.overview-card { width: 560px; }
+[hidden] { display: none !important; }
