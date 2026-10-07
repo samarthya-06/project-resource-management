@@ -117,3 +117,10 @@ The first broad Ruff run found three pre-existing unused scaffold imports; remov
 and rechecked successfully. No remaining infrastructure blocker. Tests used Django's
 separate PostgreSQL test database; development data was not reset or reseeded. No
 migration application was needed, and no push or deployment was performed.
+
+## Phase 3 adapters
+
+Resource REST adapters now call these operations and selectors; see `api.md` for
+exact routes, permissions, field parsing and error responses. Report and Overview
+functions scope queries before aggregating. The existing service functions and
+locking behavior remain unchanged. HTML workflow screens are the next milestone.

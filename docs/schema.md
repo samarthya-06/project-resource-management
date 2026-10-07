@@ -149,4 +149,5 @@ The new models are not registered as writable Django Admin resources in this pha
 Phase 2 shared functions now enforce ownership, field whitelists, completed-record
 locks, scoped reads, Admin corrections and guarded account role changes. See
 `business-rules.md` for the contract. Models themselves still have no actor; callers
-must use the operations for application mutations. No resource pages/APIs are exposed.
+must use the operations for application mutations. Phase 3 exposes REST resources through these functions; application UI remains pending.
+Reports aggregate tasks/time separately and preserve original contributors; see `api.md`.

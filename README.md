@@ -3,7 +3,7 @@
 Django take-home assignment for Piiritu Innovations. Implemented: PostgreSQL,
 custom role-aware accounts, session authentication, password change, project data models,
 protected relationships, explicit data validation and deterministic demo data.
-Shared permission operations and scoped reads are implemented; resource APIs, reports and the designed application screens remain pending.
+Shared permission operations and scoped reads are implemented; resource APIs and basic reports are implemented; the designed application screens remain pending.
 
 ## Stack
 
@@ -208,3 +208,19 @@ Run the focused permission journey and rejection tests with:
 ```bash
 uv run pytest tests/test_business_operations.py -q
 ```
+
+## REST resources and reports (Phase 3)
+
+See [API documentation](docs/api.md) for the exact account/project/membership/task/time
+routes, session/CSRF instructions, field restrictions, filters, pagination and errors.
+Reports and Overview use current scoped database values and original time contributors.
+No additional project migration is required for this phase.
+
+```bash
+uv run pytest tests/test_resource_api.py -q
+uv run python manage.py shell -c 'from scripts.verify_project_reports import verify; print(verify())'
+```
+
+The comparison executes [read-only PostgreSQL queries](sql/project_reports.sql) against
+existing data without reseeding/resetting it. See `docs/api-verification.md` for actual
+HTTP/test and SQL comparison evidence. The Paper application screens remain the next step.

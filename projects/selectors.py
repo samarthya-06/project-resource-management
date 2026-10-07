@@ -1,5 +1,7 @@
 """Scope before filtering, fetching details, pagination or aggregation."""
 
+from django.core.exceptions import PermissionDenied
+
 from accounts.models import User
 from accounts.services import require_actor
 from projects.models import Project, Task, TimeEntry
@@ -40,3 +42,13 @@ def time_entries_for(actor):
 
 def time_entry_for(actor, entry_id):
     return time_entries_for(actor).get(pk=entry_id)
+
+
+def membership_options_for(actor, project_id):
+    actor = require_actor(actor)
+    project = project_for(actor, project_id)
+    if actor.role != User.Role.ADMIN and not (
+        actor.role == User.Role.PROJECT_MANAGER and project.manager_id == actor.pk
+    ):
+        raise PermissionDenied("Only Admin or the owning Manager can select new members.")
+    return User.objects.filter(role=User.Role.EMPLOYEE, is_active=True)
