@@ -123,31 +123,30 @@ tests verify both assignment-first and removal-first outcomes.
 `QuerySet.update()`, bulk_create/bulk_update and raw SQL bypass model validation and
 these save locks. They must not be used for future application mutations without an
 explicit validated operation. Database constraints still protect their row-level
-invariants. Account role/activity changes currently use the existing accounts code;
-coordination with project mutations must be added with the account/business services.
+invariants. Account role/activity changes use guarded shared operations; see `business-rules.md`
+for the User-before-Project lock order at the application boundary.
 
 ## Deletion policy
 
 - Projects with memberships or tasks are protected; remove eligible memberships and
   dependent tasks explicitly before deleting a project. A truly empty project is deletable.
 - Tasks with time entries are protected, including queryset deletion. Tasks without time
-  history are deletable at the trusted data layer; actor/status permissions remain for services.
+  history are deletable at the trusted data layer; shared services enforce actor/status permissions.
 - Users referenced as managers, members, assignees or contributors are protected.
   Deactivate accounts instead of deleting work/history.
 - Membership instance and queryset deletion reject unfinished assignments. Removal after
   completion/reassignment preserves tasks and original time contributions.
 - Time entries are leaf records. Trusted data-layer deletion is possible, but never
-  cascaded from projects/tasks/users. Future operations must restrict normal-user edits
+  cascaded from projects/tasks/users. Shared operations restrict normal-user edits
   and deletes on completed work and expose intentional Admin corrections explicitly.
 
 PROTECT is Django's collector policy. PostgreSQL foreign keys independently reject
 orphan references; raw SQL is not authorized to bypass the documented deletion policy.
 The new models are not registered as writable Django Admin resources in this phase.
 
-## Scope boundary
+## Application boundary
 
-These are data validation and persistence foundations, not actor authorization services.
-Manager project ownership checks, Employee field/time ownership restrictions, normal-user
-completed-record read-only enforcement and explicit Admin corrections will be implemented
-before exposing project mutations through pages/APIs. Models have no request/user actor
-parameter. No project resource pages or APIs were added in this phase.
+Phase 2 shared functions now enforce ownership, field whitelists, completed-record
+locks, scoped reads, Admin corrections and guarded account role changes. See
+`business-rules.md` for the contract. Models themselves still have no actor; callers
+must use the operations for application mutations. No resource pages/APIs are exposed.

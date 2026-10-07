@@ -82,3 +82,10 @@ normal-user completed-record locks and explicit Admin corrections must precede r
 pages/APIs. Report SQL/application reports, required manual evidence and final clean-checkout
 rehearsal remain for later phases. The model layer does not know the logged-in actor;
 bulk/raw writes bypass its cross-table validation. See `schema.md` and `known-limitations.md`.
+
+## Follow-up milestone
+
+Phase 2 subsequently implemented the shared actor operations, scoped reads and
+account guards described in `business-rules.md`. That document records the full
+162-test PostgreSQL result; the evidence above remains the original data-foundation
+snapshot. Resource APIs, UI, reports and required manual evidence are still pending.

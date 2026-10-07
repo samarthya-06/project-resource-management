@@ -28,6 +28,11 @@ class AccountAdmin(UserAdmin):
         ("Workspace", {"fields": ("first_name", "last_name", "email", "role")}),
     )
 
+    def get_readonly_fields(self, request, obj=None):
+        fields = super().get_readonly_fields(request, obj)
+        # Existing roles change only through the guarded application operation.
+        return (*fields, "role") if obj else fields
+
     def has_module_permission(self, request):
         return (
             request.user.is_active

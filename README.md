@@ -3,7 +3,7 @@
 Django take-home assignment for Piiritu Innovations. Implemented: PostgreSQL,
 custom role-aware accounts, session authentication, password change, project data models,
 protected relationships, explicit data validation and deterministic demo data.
-Actor permission services, resource APIs, reports and the designed application screens remain pending.
+Shared permission operations and scoped reads are implemented; resource APIs, reports and the designed application screens remain pending.
 
 ## Stack
 
@@ -193,3 +193,18 @@ executed checks, `docs/api.md` for current endpoints, `docs/schema.md` for the m
 and `docs/known-limitations.md`.
 The Paper design handoff is in `docs/paper-ui-handoff.md`. Desktop-only design artifacts
 were requested by the user. The complete assignment and required manual evidence are pending.
+
+## Shared business operations (Phase 2)
+
+`projects/services.py` handles authorized projects, membership, tasks and time;
+`projects/selectors.py` scopes reads; `accounts/services.py` handles Admin account
+management. Future views/APIs must use these functions. See
+[the operation contract](docs/business-rules.md) for editable fields, completed-work
+corrections, private notes, role-change prerequisites and transaction behavior.
+Existing roles are read-only in Django Admin; guarded application operations change them.
+
+Run the focused permission journey and rejection tests with:
+
+```bash
+uv run pytest tests/test_business_operations.py -q
+```
