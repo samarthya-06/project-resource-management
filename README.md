@@ -1,8 +1,9 @@
 # Project & Resource Management System
 
-Django take-home assignment for Piiritu Innovations. Current milestone: PostgreSQL,
-custom role-aware accounts, session authentication, password change and demo accounts.
-Project/task/membership/time/report workflows and their designed screens are not implemented yet.
+Django take-home assignment for Piiritu Innovations. Implemented: PostgreSQL,
+custom role-aware accounts, session authentication, password change, project data models,
+protected relationships, explicit data validation and deterministic demo data.
+Actor permission services, resource APIs, reports and the designed application screens remain pending.
 
 ## Stack
 
@@ -80,7 +81,7 @@ and POST sign-out. The full Paper Overview and workflow screens are the next mil
   A same-origin JavaScript request must send the session cookie and `X-CSRFToken` on
   future state-changing API requests. There is no token/JWT authentication configured.
 
-## Optional development demo accounts
+## Optional development demo data
 
 Set a strong `DEMO_PASSWORD` in `.env`, then explicitly run:
 
@@ -101,8 +102,58 @@ uv run python manage.py seed_demo
 New demo accounts share your chosen `DEMO_PASSWORD`; credentials are never printed by
 the seed command or shown on the login page. Demo accounts skip the initial-password
 requirement for rehearsal. Repeating the command preserves existing accounts and
-passwords. It refuses to run when debug is disabled, never runs automatically and
-currently seeds only accounts; projects/tasks will be added in their milestone.
+passwords. It refuses to run when debug is disabled and never runs automatically.
+It also creates the following project fixtures on first use:
+
+| Manager | Project | Tasks | Completed | Logged hours |
+| --- | --- | --- | --- | --- |
+| Neha | Client Website Redesign | 6 | 2 | 12 |
+| Neha | Employee Onboarding Portal | 5 | 2 | 12 |
+| Neha | Internal Knowledge Base | 0 | 0 | 0 |
+| Arjun | Operations Handbook | 1 | 0 | 0 |
+
+Neha's totals match the Paper handoff: three projects, seven unfinished tasks,
+four completed tasks and 24 hours. Website contributors are Asha 420 minutes and
+Ravi 300 minutes. Asha's own totals are two tasks in each status and 13 hours.
+The fourth project belongs to the second manager for isolation testing; it adds no
+hours to Neha's totals. Meera is inactive and unassigned; Dev is active and unassigned
+on a fresh seed. The complete seed creates 7 accounts, 4 projects, 5 memberships,
+12 tasks and 7 time entries. Work entries use 06 Oct 2026, or the current date if
+the command is run earlier, so the demo never creates future-dated time.
+
+Stable internal `Project.demo_key` values identify demo roots. Existing demo projects
+and their entire contents are skipped on subsequent runs: names, dates, assignments,
+statuses, time notes/minutes, deleted children and account changes are preserved.
+Normal user-created projects with matching display names are not adopted or overwritten.
+If an existing account's role/activity conflicts with a missing project's new data,
+validation fails and the transaction rolls back; the command does not repair/reset accounts.
+Deleting an entire demo project removes its key; an explicit later seed can recreate it.
+Expected sample totals apply to fresh fixtures; rerunning the seed does not restore totals
+after user edits. There is no destructive reset or force-refresh option.
+
+## Project data rules and deletion
+
+`Project` belongs to a Project Manager; `ProjectMembership` links an Employee to a
+project; `Task` belongs to that project and a member assignee; `TimeEntry` preserves
+its task and original contributor independently of later reassignment.
+
+Ordinary model saves explicitly validate roles/activity, membership, required fields,
+project date ordering, forward task status changes and positive whole-minute entries
+(1–1440, no future dates). Database constraints independently protect row invariants.
+Bulk ORM updates/inserts and raw SQL bypass cross-table validation and must not be used
+as future application write paths. See `docs/schema.md` for exact field definitions,
+constraints, lock order and the distinction between data validation and actor permissions.
+
+All dependent foreign keys use PROTECT. Projects with team/tasks, tasks with time,
+and referenced users cannot be casually deleted. Membership removal is blocked by
+unfinished assignments; completed tasks and original contribution history survive removal.
+Empty projects, tasks without time and leaf time entries are deletable only at the
+trusted data layer for now; completed-record/role permissions require the next service phase.
+The four new models are not exposed as writable resources in Django Admin.
+
+Use additive migrations. `projects/0001_initial.py` adds new tables and depends on the
+existing User; `accounts/0001_initial.py` remains unchanged. Inspect `migrate --plan`
+before applying to an existing database. Never delete applied migrations or reset records.
 
 The prepared local worktree uses its own `prms_b532` database/role. Its generated local
 credentials and demo password are in the ignored `.env`; they are not repository defaults.
@@ -113,8 +164,8 @@ credentials and demo password are in the ignored `.env`; they are not repository
 uv run python manage.py check
 uv run python manage.py makemigrations --check --dry-run
 uv run pytest
-uv run ruff check accounts config tests scripts
-uv run ruff format --check accounts config tests scripts
+uv run ruff check accounts config projects/models.py projects/demo.py projects/migrations tests scripts
+uv run ruff format --check accounts config projects/models.py projects/demo.py projects/migrations tests scripts
 ```
 
 PostgreSQL must be available and the database role needs permission to create a test
@@ -137,7 +188,8 @@ saves 1440 × 900 screenshots in `docs/evidence/authentication/`. It does not su
 password change or modify account data. Optional `AUTH_BASE_URL` selects another local
 server address. This is an automated browser check, not manual-case evidence.
 
-See `docs/auth-foundation-verification.md` for executed checks, `docs/api.md` for
-current endpoints, `docs/schema.md` for the current model, and `docs/known-limitations.md`.
+See `docs/auth-foundation-verification.md` and `docs/project-data-verification.md` for
+executed checks, `docs/api.md` for current endpoints, `docs/schema.md` for the models,
+and `docs/known-limitations.md`.
 The Paper design handoff is in `docs/paper-ui-handoff.md`. Desktop-only design artifacts
 were requested by the user. The complete assignment and required manual evidence are pending.

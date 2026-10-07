@@ -5,10 +5,11 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from accounts.models import User
+from projects.demo import seed_project_data
 
 
 class Command(BaseCommand):
-    help = "Create deterministic development accounts; preserve existing accounts and passwords."
+    help = "Create development accounts and project data; preserve all existing records."
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
@@ -26,8 +27,11 @@ class Command(BaseCommand):
             ("dev@demo.local", "Dev", "Rao", User.Role.EMPLOYEE, True),
         ]
         with transaction.atomic():
+            users = {}
             for username, first_name, last_name, role, active in accounts:
-                if User.objects.filter(username=username).exists():
+                existing = User.objects.filter(username=username).first()
+                if existing is not None:
+                    users[username] = existing
                     self.stdout.write(f"Preserved {username}")
                     continue
                 user = User(
@@ -48,7 +52,12 @@ class Command(BaseCommand):
                 user.set_password(password)
                 user.full_clean()
                 user.save()
+                users[username] = user
                 self.stdout.write(f"Created {username} ({user.get_role_display()})")
+            try:
+                seed_project_data(users, self.stdout)
+            except ValidationError as exc:
+                raise CommandError("Demo project data: " + "; ".join(exc.messages)) from exc
         self.stdout.write(
-            self.style.SUCCESS("Demo accounts ready. Password is DEMO_PASSWORD; never printed.")
+            self.style.SUCCESS("Demo data ready. Account password is DEMO_PASSWORD; never printed.")
         )

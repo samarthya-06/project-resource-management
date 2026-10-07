@@ -1,7 +1,7 @@
 # Assignment review and implementation plan
 
 Reviewed: 7 October 2026. The assessment below records the original scaffold.
-Progress update: the authentication foundation is now implemented and verified on PostgreSQL; see `auth-foundation-verification.md`. Project/task/report implementation remains pending.
+Progress update: authentication and the project data foundation are implemented and verified on PostgreSQL; see `auth-foundation-verification.md` and `project-data-verification.md`. Shared actor permission services, resource APIs, reports and application screens remain pending. The original scaffold assessment below is historical.
 
 ## Assignment source and deadline
 

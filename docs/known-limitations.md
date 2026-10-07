@@ -1,12 +1,16 @@
 # Current limitations
 
-As of the authentication foundation milestone:
+As of the project data foundation milestone:
 
 - Implemented: PostgreSQL configuration/migrations, custom roles, session login,
   initial-password gate, password change, POST logout, inactive-session rejection,
-  read-only identity API and explicit idempotent development account seed.
+  read-only identity API, four project data models with explicit validation/protected
+  relationships and idempotent development account/project seeding.
 - The Overview is a foundation landing page, not the finished Paper dashboard.
-  Project/membership/task/time/report models, services, APIs and screens remain pending.
+  Project permission/mutation services, report queries, resource APIs and screens remain pending.
+- Ordinary saves enforce structural rules and forward statuses. Actor-aware completed-record
+  locks, explicit Admin corrections, scoped reads and coordinated account role/activity changes
+  must be implemented before resource write endpoints. Bulk writes bypass cross-table validation.
 - Account provisioning currently uses bootstrap superuser development administration.
   Application account management outside Django Admin will be added with the Employees UI.
 - Credential handoff is manual/private. Public signup, email invitations and email password
