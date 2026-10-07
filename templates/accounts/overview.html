@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Overview · Project Workspace{% endblock %}
+{% block content %}
+<div class="auth-card overview-card">
+  <div class="form-heading"><h1>Overview</h1><p>{{ user.get_full_name|default:user.username }} · {{ user.get_role_display }}</p></div>
+  {% for message in messages %}<div class="notice" role="status">{{ message }}</div>{% endfor %}
+  <p>You are signed in. Project, task and account management screens are the next implementation step.</p>
+  <a href="{% url 'accounts:password_change' %}">Change password</a>
+  {% if user.is_superuser %}<a href="{% url 'admin:index' %}">Development administration</a>{% endif %}
+  <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="primary" type="submit">Sign out</button></form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Project Workspace{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+  <script src="{% static 'js/auth.js' %}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="brand"><span class="brand-mark" aria-hidden="true"></span>Project Workspace</header>
+  <main id="main" class="auth-main">{% block content %}{% endblock %}</main>
+</body>
+</html>
