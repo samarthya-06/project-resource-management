@@ -1,0 +1,9 @@
+{% extends "workspace/base.html" %}{% block title %}{% if account %}Edit{% else %}Create{% endif %} employee · Project Workspace{% endblock %}{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{% url 'accounts:employees' %}">Employees</a> / {% if account %}Edit employee{% else %}Create employee{% endif %}</nav>
+<div class="page-heading"><div><h1>{% if account %}Edit employee{% else %}Create employee{% endif %}</h1><p>Create an account with the access needed for their work.{% if account and not account.is_active %} This account is inactive.{% endif %}</p></div></div>
+<form method="post" class="panel form-panel" data-saving>{% csrf_token %}<p class="help">Fields marked * are required.</p>{% include "workspace/form_errors.html" %}
+<div class="field-grid">{% include "workspace/field.html" with field=form.first_name %}{% include "workspace/field.html" with field=form.last_name %}</div>
+{% include "workspace/field.html" with field=form.username %}{% include "workspace/field.html" with field=form.email %}
+<div class="field-grid">{% include "workspace/field.html" with field=form.role %}{% include "workspace/field.html" with field=form.password %}</div>
+{% if form.confirm_role %}{% include "workspace/field.html" with field=form.confirm_role %}<p class="help">Changing a role may require reassigning projects or unfinished tasks and removing memberships first.</p>{% endif %}
+<div class="form-actions"><a class="button secondary" href="{% url 'accounts:employees' %}">Cancel</a><button class="button primary" type="submit">{% if account %}Save employee{% else %}Create employee{% endif %}</button></div><p class="saving-status" role="status" hidden>Saving…</p></form>{% endblock %}

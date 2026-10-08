@@ -8,4 +8,5 @@ urlpatterns = [
     path("api/auth/me/", current_user, name="current_user"),
     path("api/", include("projects.api_urls")),
     path("", include("accounts.urls")),
+    path("", include("projects.urls")),
 ]

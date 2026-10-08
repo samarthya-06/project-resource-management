@@ -1,7 +1,7 @@
 # Assignment review and implementation plan
 
 Reviewed: 7 October 2026. The assessment below records the original scaffold.
-Progress update: authentication and the project data foundation are implemented and verified on PostgreSQL; see `auth-foundation-verification.md` and `project-data-verification.md`. Phase 2 shared actor operations and scoped reads are implemented; see `business-rules.md`. Phase 3 adds resource REST APIs, scoped basic reports and SQL comparison; application screens and executed manual evidence remain pending. The original scaffold assessment below is historical.
+Progress update: authentication and the project data foundation are implemented and verified on PostgreSQL; see `auth-foundation-verification.md` and `project-data-verification.md`. Phase 2 shared actor operations and scoped reads are implemented; see `business-rules.md`. Phase 3 adds resource REST APIs, scoped basic reports and SQL comparison; application screens and executed manual evidence remain pending. Phase 4A adds the desktop shell, dashboards, account and project/team/report screens; see `workspace-ui-verification.md`. Phase 4B completes task/time desktop workflows; see `task-ui-verification.md`. Human manual evidence and clean-checkout rehearsal remain pending. The original scaffold assessment below is historical.
 
 ## Assignment source and deadline
 

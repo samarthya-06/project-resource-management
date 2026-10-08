@@ -1,7 +1,8 @@
 # Paper UI design handoff
 
 Design session: 7 October 2026.
-Current canvas after the user switched accounts: https://app.paper.design/file/01M4B6HF35VC0BWDT7VKCV7YMY/p-1-0
+Current editable canvas: https://app.paper.design/file/01M4BSRQY350PXSN06W3J5RHJR/p-1-0
+Previous account copy: https://app.paper.design/file/01M4B6HF35VC0BWDT7VKCV7YMY/p-1-0
 Previous copy: https://app.paper.design/file/01M4B5SPHF2QH0BVJFMJZEE4PF/p-1-0
 Original canvas: https://app.paper.design/file/01M4B48N247NKY6049SS6QAMA4/p-1-0
 
@@ -73,3 +74,46 @@ These are editable visual designs. Buttons do not yet execute workflows; there i
 ## Authentication implementation update
 
 The Django foundation and working login/password-change/logout are now implemented. Login dimensions were read through Paper export; IBM Plex Sans follows the application specification. See `auth-foundation-verification.md` for executed PostgreSQL and desktop browser checks. The remaining Paper application screens are still designs awaiting implementation.
+
+## Phase 4A implementation update — 7–8 October 2026
+
+The current editable copy is named `project-resource-management`; all 19 desktop
+artboards and 1138 nodes were inspected through Paper. This copied file reports zero
+saved tokens, while the previous copy has nine; shared CSS tokens implement the
+specified colors/font in the application. The user also supplied eighteen @2x PNGs.
+Paper screenshots/styles and those PNGs served as comparison references.
+
+Corrected the editable reference: inactive Employees actions now say Edit, initial
+password help says “Share privately. Password change is required.”, member-picker
+empty guidance no longer suggests activation, and Phase 4A project/Overview/team/report
+numeric columns are right-aligned. Report alignment was screenshot-rechecked. The
+supplied PNGs predate these corrections and remain historical visual references.
+
+Implemented shared desktop UI, three role Overviews, Employees, Projects/create/edit,
+project Overview/Team/Report and member add/remove. Edit variants reuse form patterns.
+The app adds persistent search labels, native controls, accessible error summaries,
+private password-handoff guidance and explicit POST confirmations. Task/time pages
+and correction screens remain Phase 4B; their design navigation is intentionally not
+exposed in the app yet. See `workspace-ui-verification.md` for screenshot comparisons,
+executed browser/PostgreSQL checks and the limits of visual parity/accessibility evidence.
+
+
+## Phase 4B implementation comparison — 8 October 2026
+
+Paper Desktop was initially unavailable, then reopened by the user. The current editable
+file above was successfully inspected (19 artboards, 1138 nodes, zero saved tokens in
+this account copy). Read live JSX for Project Tasks/Create task/My tasks/In progress,
+computed header/sidebar/content styles, and live screenshots of TODO/In progress/
+Completed/Project Tasks. The app retains the established Phase 4A tokens rather than
+creating another system. Log time uses the exact 384px panel, 24px gap, 48px controls and
+shared neutral/blue surfaces. Screenshot review covered spacing, type, contrast,
+alignment and overflow; no Paper mutations were needed.
+
+Task navigation and dashboard links now work. Manager/Admin details, edit/reassignment,
+time editing/deletion and Admin corrections reuse the supplied forms and confirmations.
+Differences: persistent labels and Apply/Clear filter controls; native date/select/number
+inputs; multiline notes; actual dates/descriptions/time entries instead of samples;
+right-aligned duration columns; explicit original-contributor names for Manager/Admin;
+full-page checkbox confirmations; extra read-only description where present. These
+changes make states/permissions usable and do not claim exact pixel parity. My tasks is
+Employee-only, matching backend role responsibilities. See `task-ui-verification.md`.

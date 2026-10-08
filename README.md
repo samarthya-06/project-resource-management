@@ -3,7 +3,7 @@
 Django take-home assignment for Piiritu Innovations. Implemented: PostgreSQL,
 custom role-aware accounts, session authentication, password change, project data models,
 protected relationships, explicit data validation and deterministic demo data.
-Shared permission operations and scoped reads are implemented; resource APIs and basic reports are implemented; the designed application screens remain pending.
+Shared operations, scoped REST APIs/reports and the Phase 4A desktop workspace are implemented. Task/time screens remain for Phase 4B.
 
 ## Stack
 
@@ -53,8 +53,7 @@ uv run python manage.py runserver
 ```
 
 Open http://127.0.0.1:8000/login/. `createsuperuser` creates the initial Admin account.
-The authenticated landing page is currently a foundation page, with password change
-and POST sign-out. The full Paper Overview and workflow screens are the next milestone.
+The authenticated landing page is the role-scoped Overview. The desktop workspace includes account, project/team management and project reports, with task assignment, time recording, completion, password change and POST sign-out.
 
 ## Accounts and authentication
 
@@ -68,9 +67,9 @@ and POST sign-out. The full Paper Overview and workflow screens are the next mil
   only login, password change and POST logout; API access returns 403. A password change
   requires the old password, matching confirmation and Django strength validation
   (minimum ten characters). It retains the current session and invalidates other sessions.
-- Bootstrap Admins can provision accounts at `/admin/accounts/user/add/`, select the
-  stored role and give initial credentials privately. There is no public signup/email
-  delivery. The application Employees create/edit screens remain pending.
+- Application Admins provision, edit and deactivate accounts through `/employees/`.
+  Give initial credentials privately; new/reset accounts must change their password.
+  There is no public signup/email delivery. `/admin/` is optional bootstrap administration.
 - Development account administration requires an active Django superuser with the Admin
   role. Manager/Employee roles cannot hold `is_staff` or `is_superuser`; database checks
   enforce this. User deletion is disabled in Django Admin; deactivate instead. Resetting
@@ -147,8 +146,9 @@ constraints, lock order and the distinction between data validation and actor pe
 All dependent foreign keys use PROTECT. Projects with team/tasks, tasks with time,
 and referenced users cannot be casually deleted. Membership removal is blocked by
 unfinished assignments; completed tasks and original contribution history survive removal.
-Empty projects, tasks without time and leaf time entries are deletable only at the
-trusted data layer for now; completed-record/role permissions require the next service phase.
+Shared services and REST APIs authorize safe deletion of empty projects and eligible
+tasks/time entries; dependent history is protected and completed-work locks apply.
+The Phase 4A project UI implements create/edit/team operations, without a delete action.
 The four new models are not exposed as writable resources in Django Admin.
 
 Use additive migrations. `projects/0001_initial.py` adds new tables and depends on the
@@ -164,8 +164,8 @@ credentials and demo password are in the ignored `.env`; they are not repository
 uv run python manage.py check
 uv run python manage.py makemigrations --check --dry-run
 uv run pytest
-uv run ruff check accounts config projects/models.py projects/demo.py projects/migrations tests scripts
-uv run ruff format --check accounts config projects/models.py projects/demo.py projects/migrations tests scripts
+uv run ruff check accounts config projects tests scripts
+uv run ruff format --check accounts config projects tests scripts
 ```
 
 PostgreSQL must be available and the database role needs permission to create a test
@@ -223,4 +223,94 @@ uv run python manage.py shell -c 'from scripts.verify_project_reports import ver
 
 The comparison executes [read-only PostgreSQL queries](sql/project_reports.sql) against
 existing data without reseeding/resetting it. See `docs/api-verification.md` for actual
-HTTP/test and SQL comparison evidence. The Paper application screens remain the next step.
+HTTP/test and SQL comparison evidence. Task/time application screens are implemented in Phase 4B.
+
+## Desktop workspace (Phase 4A)
+
+| Route | Screen and access |
+| --- | --- |
+| `/` | Overview; all roles, authorized scope only |
+| `/employees/` | Account list/search/status filter; Admin only |
+| `/employees/create/` | Account creation; Admin only |
+| `/employees/<id>/edit/` | Account edit/optional password reset; Admin only |
+| `/employees/<id>/deactivate/` | Confirmation then POST deactivation; Admin only |
+| `/projects/` | Scoped project list/name search; all roles |
+| `/projects/create/` | Admin or Manager project creation |
+| `/projects/<id>/edit/` | Admin or owning Manager edit |
+| `/projects/<id>/` | Scoped project Overview |
+| `/projects/<id>/team/` | Scoped Team, read-only for Employees |
+| `/projects/<id>/report/` | Scoped Report; Employees see labelled Own work |
+| `/projects/<id>/team/add/` | Admin or owning Manager active Employee picker |
+| `/projects/<id>/team/<employee_id>/remove/` | Confirmation then POST removal; unfinished-task guard |
+
+Create/edit forms share templates and existing services. Only Admin sees a project
+Manager selector; Manager ownership comes from the actor. Role changes require an
+explicit checkbox and the existing reassignment guards. Blank password reset keeps
+the current password. Deactivation preserves all history. Lists paginate 25 records
+in ID order; searches operate within authorized scope. All mutations use POST/CSRF.
+
+The desktop shell uses bundled IBM Plex Sans, a 48px header, 240px sidebar, neutral
+surfaces and square controls. Native date controls follow browser locale. Task titles on Overview link to task details. Project Tasks is reachable from every
+project section; Employees have My tasks navigation. All required account, project,
+team, task and time workflows run outside Django Admin.
+
+Install Chromium once, then run the isolated UI checks (no development server needed):
+
+```bash
+uv run playwright install chromium
+uv run pytest tests/test_workspace_html.py tests/test_workspace_browser.py -q
+```
+
+The browser fixture serves Django/static files on an ephemeral local port and seeds
+only the PostgreSQL test database. It creates/edits/deactivates fixture accounts and
+projects, preserving development data and demo credentials. It captures screenshots
+in `docs/evidence/workspace/`. Browser checks also run with `uv run pytest` and require
+Chromium to be installed. Linux hosts may need `uv run playwright install --with-deps chromium`.
+See [Phase 4A verification](docs/workspace-ui-verification.md) for actual results,
+Paper comparisons, keyboard/reflow scope and remaining work. These are automated
+checks; the assignment's human manual cases remain pending.
+
+
+## Task and time desktop workflow (Phase 4B)
+
+| Route | Screen/action and access |
+| --- | --- |
+| `/projects/<id>/tasks/` | Scoped team task summaries; status/assignee filters |
+| `/projects/<id>/tasks/create/` | Admin/owning Manager create and assign a TODO task |
+| `/my-tasks/` | Employee current assignments; status/project filters, default unfinished |
+| `/tasks/<id>/` | Scoped task details, progress, readable time history |
+| `/tasks/<id>/edit/` | Admin/owning Manager edit/reassign unfinished tasks |
+| `/tasks/<id>/start/` | POST start; assigned Employee or Admin/owning Manager |
+| `/tasks/<id>/complete/` | GET confirmation, POST completion; same actors |
+| `/tasks/<id>/delete/` | GET confirmation, POST safe unfinished deletion; Admin/owning Manager |
+| `/tasks/<id>/time/add/` | Inline or full-page Log time; assigned Employee on IN_PROGRESS task |
+| `/time-entries/<id>/edit/` | Own time edit while still assigned and IN_PROGRESS |
+| `/time-entries/<id>/delete/` | GET confirmation, POST own time deletion under the same rule |
+| `/tasks/<id>/correction/` | Explicit Admin completed-task correction; status retained |
+| `/time-entries/<id>/correction/` | Explicit Admin historical/current time correction; identity retained |
+
+Every mutation calls the existing services and requires POST with CSRF. Task project
+and time contributor/task identity are fixed. Task assignment options are active project
+Employees; edit forms allow blank to keep an existing historical/inactive assignee.
+Filters include current members and historical assignees, without foreign users.
+Lists use 25-row ID ordering and retain filters when paging. Invalid filters render 400;
+ordinary HTML validation/save errors retain values with 200; stale/forbidden service
+writes retain values with 403. Foreign/missing objects return 404; unsupported methods
+return 405. Repeated current status is a no-op, including repeated completion POST.
+
+Time uses whole minutes 1–1440 and a nonfuture date. An Employee sees only their own
+detailed time/notes and original contributions; Admin/owning Manager can read project
+history. Managers cannot edit time. Reassignment/completion immediately blocks ordinary
+time writes; completed work exposes read-only guidance and explicit Admin corrections.
+Completion asks users to record remaining time first. Delete time requires confirmation;
+tasks with recorded history cannot be deleted. Admin cannot reopen/delete completed tasks
+or invent/delete historical time through correction forms.
+
+```bash
+uv run pytest tests/test_task_html.py tests/test_task_browser.py -q
+```
+
+These checks use isolated PostgreSQL fixtures and Chromium. Screenshots are in
+`docs/evidence/tasks/`; [Phase 4B verification](docs/task-ui-verification.md) records
+actual results and Paper differences. [Manual cases](docs/manual-test-cases.csv) are
+prepared with NOT RUN status for human execution; automated checks do not mark them PASS.

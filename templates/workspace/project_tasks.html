@@ -1,0 +1,5 @@
+{% extends "workspace/project_detail.html" %}{% load workspace %}{% block project_section %}
+<div class="page-heading"><div><h2>Tasks</h2><p>{{ report.total_tasks }} tasks · {{ report.completed_tasks }} completed · {{ report.total_minutes|duration }} recorded{% if actor.role == 'EMPLOYEE' %} · Own work summary{% endif %}</p></div>{% if actor.role != 'EMPLOYEE' %}<a class="button primary" href="{% url 'projects:task_create' project.pk %}">Create task</a>{% endif %}</div>
+<section class="panel"><h2 class="panel-heading">Project tasks</h2>{% include "workspace/task_filters.html" %}{% include "workspace/task_table.html" %}</section>
+{% if actor.role == 'EMPLOYEE' %}<div class="notice">Team task summaries are read-only unless a task is assigned to you. Logged time shows only your original contributions; other employees’ detailed entries and notes remain private.</div>{% endif %}
+{% endblock %}

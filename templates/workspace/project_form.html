@@ -1,0 +1,8 @@
+{% extends "workspace/base.html" %}{% block title %}{% if project %}Edit{% else %}Create{% endif %} project · Project Workspace{% endblock %}{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{% url 'projects:list' %}">Projects</a> / {% if project %}Edit project{% else %}Create project{% endif %}</nav>
+<div class="page-heading"><div><h1>{% if project %}Edit project{% else %}Create project{% endif %}</h1><p>{% if actor.role == 'ADMIN' %}Set the scope, dates and project manager.{% else %}Set the scope and dates. You manage this project.{% endif %}</p></div></div>
+<form method="post" class="panel form-panel" data-saving>{% csrf_token %}<p class="help">Fields marked * are required.</p>{% include "workspace/form_errors.html" %}
+{% include "workspace/field.html" with field=form.name %}{% include "workspace/field.html" with field=form.description %}
+<div class="field-grid">{% include "workspace/field.html" with field=form.start_date %}{% include "workspace/field.html" with field=form.end_date %}</div>
+{% if form.manager_id %}{% include "workspace/field.html" with field=form.manager_id %}{% else %}<p class="help">Project manager: {{ actor.get_full_name|default:actor.username }}. Only an Admin can change the manager.</p>{% endif %}
+<div class="form-actions"><a class="button secondary" href="{% if project %}{% url 'projects:detail' project.pk %}{% else %}{% url 'projects:list' %}{% endif %}">Cancel</a><button class="button primary" type="submit">{% if project %}Save project{% else %}Create project{% endif %}</button></div><p class="saving-status" role="status" hidden>Saving…</p></form>{% endblock %}

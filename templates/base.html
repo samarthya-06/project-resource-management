@@ -7,6 +7,7 @@
   <title>{% block title %}Project Workspace{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/auth.css' %}">
   <script src="{% static 'js/auth.js' %}" defer></script>
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>

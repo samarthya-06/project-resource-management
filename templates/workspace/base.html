@@ -1,0 +1,20 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Project Workspace{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'css/auth.css' %}"><link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+<script src="{% static 'js/workspace.js' %}" defer></script></head>
+<body class="workspace-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="app-header"><a class="app-brand" href="{% url 'accounts:overview' %}"><span class="brand-mark" aria-hidden="true"></span>Project Workspace</a>
+<div class="account-nav"><span>{{ actor.get_full_name|default:actor.username }}</span><span class="header-role">{{ actor.get_role_display }}</span><form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">Sign out</button></form></div></header>
+<div class="workspace-layout"><aside class="sidebar"><div class="nav-label">Workspace</div><nav aria-label="Workspace">
+<a href="{% url 'accounts:overview' %}" {% if nav == 'overview' %}aria-current="page"{% endif %}>Overview</a>
+<a href="{% url 'projects:list' %}" {% if nav == 'projects' %}aria-current="page"{% endif %}>Projects</a>
+{% if actor.role == 'EMPLOYEE' %}<a href="{% url 'projects:my_tasks' %}" {% if nav == 'tasks' %}aria-current="page"{% endif %}>My tasks</a>{% endif %}
+{% if actor.role == 'ADMIN' %}<a href="{% url 'accounts:employees' %}" {% if nav == 'employees' %}aria-current="page"{% endif %}>Employees</a>{% endif %}
+</nav><div class="sidebar-bottom"><a href="{% url 'accounts:password_change' %}">Change password</a><p>Project &amp; Resource<br>Management System</p></div></aside>
+<main id="main" class="page-content" tabindex="-1">
+{% for message in messages %}<div class="notice{% if message.tags == 'error' %} error{% endif %}" role="status">{{ message }}</div>{% endfor %}
+{% block content %}{% endblock %}</main></div></body></html>

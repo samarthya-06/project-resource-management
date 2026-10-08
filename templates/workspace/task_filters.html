@@ -1,0 +1,1 @@
+{% include "workspace/form_errors.html" %}<form method="get" class="search-bar">{% for field in form %}{% include "workspace/field.html" %}{% endfor %}<button class="button secondary" type="submit">Apply filters</button><a href="{% if project %}{% url 'projects:tasks' project.pk %}{% else %}{% url 'projects:my_tasks' %}{% endif %}">Clear filters</a></form>

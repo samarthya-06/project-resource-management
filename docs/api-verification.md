@@ -99,3 +99,12 @@ role-specific Overview, Employees, Projects/detail/team/report, My tasks and tas
 forms using these APIs with CSRF, accessible controls and error states. Required manual
 case execution, browser checks and clean-checkout submission rehearsal remain pending.
 Automated HTTP/SQL tests do not replace the assignment's manual evidence.
+
+Phase 4A follow-up: shared desktop/account/project/team/report screens now call these services and selectors directly. See `workspace-ui-verification.md`; the Phase 3 results above remain historical evidence. Task/time screens and human manual-case execution remain pending.
+# Phase 4B follow-up
+
+Task/time desktop adapters now call the existing operations; resource APIs, report
+formulas and SQL are unchanged. The final combined PostgreSQL suite passed all 270
+tests (75.48 seconds), retaining the existing backend/API/authentication checks.
+Read-only SQL/application comparison matched all four development projects and four
+contributor groups. See `task-ui-verification.md` for executed HTML/browser evidence.

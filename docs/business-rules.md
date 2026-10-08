@@ -124,3 +124,46 @@ Resource REST adapters now call these operations and selectors; see `api.md` for
 exact routes, permissions, field parsing and error responses. Report and Overview
 functions scope queries before aggregating. The existing service functions and
 locking behavior remain unchanged. HTML workflow screens are the next milestone.
+
+## HTML entry points (Phase 4A)
+
+The desktop pages adapt the same services/selectors/reports without calling the
+server's own HTTP API. Each page reloads the actor; account pages require application
+Admin, project/team writes require Admin or owning Manager, and Employee project
+pages are read-only. Forms reject unknown/protected keys and preserve nonsecret values
+after errors. Native controls parse input; existing operations remain authoritative.
+Role edits require a confirmation checkbox, password resets are optional and restore
+the initial-password gate, and destructive actions show a confirmation page before
+CSRF-protected POST. Eligible member options exclude existing members; service validation
+still rejects a forged duplicate. No activation action is exposed. Task/time UI is implemented in Phase 4B below.
+
+
+## HTML task/time adapters (Phase 4B)
+
+`projects/task_views.py` parses forms and calls existing shared services. The project
+Tasks tab uses scoped status/assignee filters; My tasks is Employee-only, scoped to
+current assignments, and defaults to unfinished. Lists paginate before separately
+aggregating scoped time for displayed tasks. Employee logged-time columns contain only
+own original contributions; project summary metrics are explicitly labelled Own work.
+Task detail reads team summaries and only authorized time details/notes.
+
+Create/edit share TaskForm with a fixed project and active member choices. Leaving
+assignee blank on edit keeps historical/inactive assignment; selecting a new assignee
+still requires active membership. Employees have no detail/reassignment form. Ordinary
+completed-task edits are denied; Admin uses explicit correction wording and the existing
+correction service. Managers/Admin may start/complete scoped tasks under the existing
+service contract; Employees only their assignments. Start is POST-only. Completion,
+task deletion and time deletion require confirmation plus POST; repeated completion
+remains an authorized same-status no-op.
+
+Log/edit time share TimeForm, deriving contributor from the actor for creation. Identity
+is never posted as an editable field. Employees edit/delete their own entry only while
+still assigned and IN_PROGRESS. Admin time corrections may edit historical or completed
+entries without changing attribution/status; Managers have read access only.
+
+Native controls parse values, forms reject protected keys, and model/service validation
+remains authoritative. Fresh service PermissionDenied returns a retained-input 403 with
+completion/reassignment guidance; validation/database failure returns retained-input 200.
+Protected deletion produces a controlled history-preservation error. Foreign/missing
+resources return 404. All pages recheck actor activity and initial-password gating.
+No new locks, models, migrations, report formulas or service architecture were added.

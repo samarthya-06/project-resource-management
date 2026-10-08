@@ -1,0 +1,5 @@
+{% extends "workspace/base.html" %}{% load workspace %}{% block title %}My tasks · Project Workspace{% endblock %}{% block content %}
+<div class="page-heading"><div><h1>My tasks</h1><p>Your assigned work. Start a task, record time, then mark it completed.</p></div></div>
+<div class="metrics"><div class="metric"><p>To do</p><strong>{{ summary.task_counts.TODO }}</strong></div><div class="metric"><p>In progress</p><strong>{{ summary.task_counts.IN_PROGRESS }}</strong></div><div class="metric"><p>Completed</p><strong>{{ summary.completed_tasks }}</strong></div><div class="metric"><p>Your logged hours</p><strong>{{ summary.total_minutes|duration }}</strong></div></div>
+<section class="panel"><h2 class="panel-heading">Your assigned tasks</h2>{% include "workspace/task_filters.html" %}{% include "workspace/task_table.html" %}</section><div class="notice">Own work in membership projects. Totals include your original recorded contributions, even after reassignment. The list shows only your current assignments.</div>
+{% endblock %}
