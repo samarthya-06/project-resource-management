@@ -3,7 +3,8 @@
 Django take-home assignment for Piiritu Innovations. Implemented: PostgreSQL,
 custom role-aware accounts, session authentication, password change, project data models,
 protected relationships, explicit data validation and deterministic demo data.
-Shared operations, scoped REST APIs/reports and the Phase 4A desktop workspace are implemented. Task/time screens remain for Phase 4B.
+Shared operations, scoped REST APIs/reports and the complete Phase 4A/4B desktop
+workspace, task management and time tracking are implemented.
 
 ## Stack
 
@@ -12,6 +13,9 @@ Dependencies are locked in `uv.lock`. Frontend: Django templates, HTML/CSS and p
 IBM Plex Sans is bundled with its SIL Open Font License in `static/fonts/`.
 
 ## Setup
+
+For the interview demo deployment, see [Render Free setup](docs/render-deployment.md).
+It covers the exact build/start commands, secrets, migrations and explicit hosted seeding.
 
 Install Python 3.12, uv and a running PostgreSQL server. From the repository root:
 

@@ -31,7 +31,9 @@ As of Phase 4B complete desktop workflow, 8 October 2026:
   pending. Thirty manual cases are drafted in `manual-test-cases.csv`, all NOT RUN.
   Automated browser/HTTP/SQL checks do not replace manual evidence.
 - Login has no application rate limiting. This assignment is not a deployment
-  readiness claim. `.env` stays ignored; no deployment, submission or database reset.
+  readiness claim. `.env` stays ignored; no submission or database reset.
+  Render deployment configuration is prepared and locally verified; live deployment
+  and hosted workflow checks remain pending. See `render-deployment.md`.
 - Bulk ORM/raw writes bypass cross-table validation; application mutations must keep
   using shared operations rather than introducing direct model writes.
 
