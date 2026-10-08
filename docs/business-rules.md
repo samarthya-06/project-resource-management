@@ -140,6 +140,12 @@ still rejects a forged duplicate. No activation action is exposed. Task/time UI 
 
 ## HTML task/time adapters (Phase 4B)
 
+HTML duration input accepts whole hours (0–24) and additional minutes (0–59).
+TimeForm validates a combined duration of 1–1440 minutes and converts it before
+calling the existing time service. Editing splits stored minutes using divmod.
+The API continues to accept integer total minutes; task/contributor attribution,
+completion locks and all existing service validation still apply.
+
 `projects/task_views.py` parses forms and calls existing shared services. The project
 Tasks tab uses scoped status/assignee filters; My tasks is Employee-only, scoped to
 current assignments, and defaults to unfinished. Lists paginate before separately

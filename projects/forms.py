@@ -103,8 +103,9 @@ class TimeForm(OperationForm):
         widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
         help_text="No future dates.",
     )
+    hours = forms.IntegerField(min_value=0, max_value=24, initial=0, help_text="Whole hours.")
     minutes = forms.IntegerField(
-        min_value=1, max_value=1440, help_text="Whole minutes, from 1 to 1440."
+        min_value=0, max_value=59, initial=0, help_text="Additional minutes, from 0 to 59."
     )
     note = forms.CharField(
         label="Work note", required=False, widget=forms.Textarea(attrs={"rows": 2})
@@ -115,7 +116,23 @@ class TimeForm(OperationForm):
         self.fields["work_date"].widget.attrs["max"] = timezone.localdate().isoformat()
         self.initial["work_date"] = timezone.localdate()
         if entry:
-            self.initial.update(work_date=entry.work_date, minutes=entry.minutes, note=entry.note)
+            hours, minutes = divmod(entry.minutes, 60)
+            self.initial.update(
+                work_date=entry.work_date, hours=hours, minutes=minutes, note=entry.note
+            )
+
+    def clean(self):
+        data = super().clean()
+        if "hours" in data and "minutes" in data:
+            total = data["hours"] * 60 + data["minutes"]
+            if not 1 <= total <= 1440:
+                raise ValidationError("Enter a duration from 1 minute to 24 hours.")
+        return data
+
+    def service_data(self):
+        data = dict(self.cleaned_data)
+        data["minutes"] += data.pop("hours") * 60
+        return data
 
 
 class TaskFilterForm(forms.Form):

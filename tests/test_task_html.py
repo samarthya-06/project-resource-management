@@ -26,7 +26,19 @@ def task_data(t, **extra):
 
 
 def time_data(t, **extra):
-    return {"work_date": str(t.today), "minutes": 60, "note": "Retained private note", **extra}
+    duration = extra.pop("minutes", 60)
+    hours, minutes = (
+        divmod(duration, 60)
+        if isinstance(duration, int) and "hours" not in extra
+        else (0, duration)
+    )
+    return {
+        "work_date": str(t.today),
+        "hours": hours,
+        "minutes": minutes,
+        "note": "Retained private note",
+        **extra,
+    }
 
 
 def test_complete_html_journey(workspace):
@@ -263,7 +275,39 @@ def test_database_failure_preserves_time_input(workspace):
     with patch("projects.services.create_time_entry", side_effect=DatabaseError("Test outage")):
         response = client_for(t.employee).post(f"/tasks/{t.task.pk}/time/add/", time_data(t))
     assert "Your changes could not be saved" in response.content.decode()
-    assert response.context["form"]["minutes"].value() == "60"
+    assert response.context["form"]["hours"].value() == "1"
+    assert response.context["form"]["minutes"].value() == "0"
+
+
+@pytest.mark.parametrize(
+    "hours,minutes,total", [(0, 1, 1), (3, 0, 180), (1, 30, 90), (24, 0, 1440)]
+)
+def test_hours_minutes_saved_as_total_minutes(workspace, hours, minutes, total):
+    t = workspace
+    response = client_for(t.employee).post(
+        f"/tasks/{t.task.pk}/time/add/", time_data(t, hours=hours, minutes=minutes)
+    )
+    assert response.status_code == 302
+    assert TimeEntry.objects.filter(task=t.task).latest("pk").minutes == total
+
+
+@pytest.mark.parametrize("hours,minutes", [(0, 0), (24, 1), (-1, 30), (1, 60), ("1.5", 0)])
+def test_invalid_split_duration_preserves_input(workspace, hours, minutes):
+    t = workspace
+    response = client_for(t.employee).post(
+        f"/tasks/{t.task.pk}/time/add/", time_data(t, hours=hours, minutes=minutes)
+    )
+    assert response.context["form"].errors
+    assert response.context["form"]["hours"].value() == str(hours)
+    assert response.context["form"]["note"].value() == "Retained private note"
+    assert TimeEntry.objects.filter(task=t.task).count() == 1
+
+
+def test_edit_time_initial_duration_is_split(workspace):
+    t = workspace
+    response = client_for(t.employee).get(f"/time-entries/{t.entry.pk}/edit/")
+    assert response.context["form"]["hours"].value() == 1
+    assert response.context["form"]["minutes"].value() == 30
 
 
 def test_actual_csrf_task_and_time_mutations(workspace):

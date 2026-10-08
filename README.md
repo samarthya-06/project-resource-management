@@ -302,7 +302,11 @@ ordinary HTML validation/save errors retain values with 200; stale/forbidden ser
 writes retain values with 403. Foreign/missing objects return 404; unsupported methods
 return 405. Repeated current status is a no-op, including repeated completion POST.
 
-Time uses whole minutes 1–1440 and a nonfuture date. An Employee sees only their own
+The HTML time form accepts whole Hours and additional Minutes (0–59), with a total
+from 1 minute to 24 hours. For example, 3 hours and 0 minutes saves 180 minutes.
+Create, edit and Admin correction share this form; existing entries split into hours
+and minutes for editing. PostgreSQL and the REST API still use whole minutes 1–1440
+and a nonfuture date. An Employee sees only their own
 detailed time/notes and original contributions; Admin/owning Manager can read project
 history. Managers cannot edit time. Reassignment/completion immediately blocks ordinary
 time writes; completed work exposes read-only guidance and explicit Admin corrections.

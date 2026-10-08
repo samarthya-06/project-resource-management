@@ -1,1 +1,5 @@
-{% include "workspace/form_errors.html" %}{% include "workspace/field.html" with field=form.work_date %}{% include "workspace/field.html" with field=form.minutes %}{% include "workspace/field.html" with field=form.note %}<p class="saving-status" role="status" hidden>Saving…</p>
+{% include "workspace/form_errors.html" %}
+{% include "workspace/field.html" with field=form.work_date %}
+<p class="help">Enter time worked in hours and minutes. Total duration: 1 minute to 24 hours.</p>
+<div class="field-grid">{% include "workspace/field.html" with field=form.hours %}{% include "workspace/field.html" with field=form.minutes %}</div>
+{% include "workspace/field.html" with field=form.note %}<p class="saving-status" role="status" hidden>Saving…</p>

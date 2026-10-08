@@ -1,5 +1,27 @@
 # Phase 4B — task/time desktop workflow verification
 
+## Hours and minutes improvement — 8 October 2026
+
+Log time, Edit time and Admin time correction now accept whole Hours and additional
+Minutes (0–59). TimeForm converts them to integer total minutes before calling the
+existing services and splits existing durations for editing. Total duration remains
+1–1440 minutes. Database fields, API contract, reports, attribution and permissions
+are unchanged; no migration is needed.
+
+Executed against isolated PostgreSQL fixtures:
+
+- Focused HTML/browser tests: 35 passed in 39.72 seconds.
+- Full PostgreSQL regression suite: 284 passed in 87.73 seconds.
+- Django check: no issues. Migration drift: no changes detected.
+- Ruff check: passed. Formatting check: 62 files already formatted.
+- Browser coverage includes conversion, edit prefill, retained invalid input,
+  keyboard movement between duration fields, 200% viewport simulation, completion
+  locks and Admin correction preserving attribution. Updated desktop screenshot
+  inspected locally; the split fields reuse existing shared styling.
+
+These are automated local checks, not human manual testing or live Render evidence.
+Render deployment and live verification remain pending for this change.
+
 Executed 8 October 2026 in the existing worktree. Phase 4A changes were already
 present and uncommitted; preserved them and all existing backend behavior. Mutation
 checks used isolated PostgreSQL test fixtures, with no development record or demo

@@ -74,7 +74,10 @@ def test_manager_employee_complete_desktop_workflow(page, live_server):
     page.get_by_role("button", name="Start task", exact=True).click()
     expect(page.get_by_role("heading", name="Log time", exact=True)).to_be_visible()
     page.get_by_label("Work date").fill(today)
-    page.get_by_label("Minutes").fill("90")
+    page.get_by_label("Hours").fill("1")
+    page.keyboard.press("Tab")
+    expect(page.get_by_label("Minutes")).to_be_focused()
+    page.get_by_label("Minutes").fill("30")
     page.get_by_label("Work note").fill("Keyboard and navigation review")
     page.get_by_role("button", name="Log time", exact=True).click()
     entry = TimeEntry.objects.get(task=task)
@@ -82,7 +85,10 @@ def test_manager_employee_complete_desktop_workflow(page, live_server):
     shell_checks(page)
     capture(page, "employee-in-progress")
     page.get_by_role("link", name=f"Edit time entry {entry.pk}", exact=True).click()
-    page.get_by_label("Minutes").fill("120")
+    expect(page.get_by_label("Hours")).to_have_value("1")
+    expect(page.get_by_label("Minutes")).to_have_value("30")
+    page.get_by_label("Hours").fill("2")
+    page.get_by_label("Minutes").fill("0")
     capture(page, "employee-edit-time")
     page.get_by_role("button", name="Save time", exact=True).click()
     # Bypass native numeric validation to verify the server error and retained note.
@@ -128,7 +134,8 @@ def test_manager_employee_complete_desktop_workflow(page, live_server):
         str(live_server) + f"/time-entries/{entry.pk}/edit/",
         form={
             "work_date": today,
-            "minutes": "999",
+            "hours": "2",
+            "minutes": "0",
             "note": "Forbidden",
             "csrfmiddlewaretoken": token,
         },
@@ -174,7 +181,8 @@ def test_admin_corrections_and_foreign_access(page, live_server, demo):
     page.get_by_role("button", name="Correct completed task", exact=True).click()
     page.get_by_role("link", name=f"Correct time entry {entry.pk}", exact=True).click()
     expect(page.get_by_text("Original contributor: Asha Deshmukh.", exact=False)).to_be_visible()
-    page.get_by_label("Minutes").fill("250")
+    page.get_by_label("Hours").fill("4")
+    page.get_by_label("Minutes").fill("10")
     capture(page, "admin-time-correction")
     page.get_by_role("button", name="Correct time entry", exact=True).click()
     task.refresh_from_db()

@@ -137,7 +137,7 @@ To do exposes Start task. In progress exposes Mark completed. Completed shows a 
 Assignment/status changes must refresh current data. If the server rejects a stale edit because a task has already completed, preserve unsaved input where practical and explain that it cannot be saved.
 
 ### Log time
-Form: work date, whole minutes and optional work note. Present durations as e.g. 1h 30m; persist integer minutes. Accept positive values only, with a documented maximum per entry. Proposed baseline: own assigned, In progress tasks only, no future work dates, and no normal-user changes after completion.
+Form: work date, whole hours, additional minutes (0–59) and optional work note. Convert hours and minutes to a total of 1–1440 integer minutes on the server. Present durations as e.g. 1h 30m; persist integer minutes. Existing entries split back into hours and minutes for editing. Proposed baseline: own assigned, In progress tasks only, no future work dates, and no normal-user changes after completion.
 Explain that entries record work duration and are not a live timer or proof of clock-in attendance. Invalid membership/ownership must also fail on the API.
 
 ## 7. Shared component behaviour

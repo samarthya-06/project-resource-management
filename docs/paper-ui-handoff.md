@@ -100,6 +100,12 @@ executed browser/PostgreSQL checks and the limits of visual parity/accessibility
 
 ## Phase 4B implementation comparison — 8 October 2026
 
+User-requested duration improvement (8 October): Log time, Edit time and Admin
+correction now use Hours and additional Minutes (0–59). The server converts them
+to whole minutes; the stored schema and REST contract are unchanged. This deliberately
+differs from the supplied Paper exports' single Minutes input and reuses the existing
+two-column field grid, labels, helper text and validation styles.
+
 Paper Desktop was initially unavailable, then reopened by the user. The current editable
 file above was successfully inspected (19 artboards, 1138 nodes, zero saved tokens in
 this account copy). Read live JSX for Project Tasks/Create task/My tasks/In progress,

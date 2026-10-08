@@ -292,7 +292,7 @@ def time_form(request, task_id=None, entry_id=None, correction=False):
             else services.create_time_entry
         )
         saved, code = save_operation(
-            form, operation, actor, entry.pk if entry else task.pk, **form.cleaned_data
+            form, operation, actor, entry.pk if entry else task.pk, **form.service_data()
         )
         if saved:
             messages.success(
