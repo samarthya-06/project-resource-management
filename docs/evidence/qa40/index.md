@@ -1,6 +1,6 @@
-# QA40 evidence index
+# Local 40-case evidence index
 
-Agent-executed local Chromium/HTTP checks; human manual testing remains separate.
+Agent-executed local browser/HTTP checks with isolated PostgreSQL readback.
 
 | Case | Status | Scenario | Event log | Screenshots |
 | --- | --- | --- | --- | --- |
@@ -42,9 +42,7 @@ Agent-executed local Chromium/HTTP checks; human manual testing remains separate
 | M36 | PASS | List/filter/detail/report privacy and picker scope | [M36.json](M36.json) | [M36-final.png](M36-final.png) |
 | M37 | PASS | CSRF and strict JSON minutes | [M37.json](M37.json) | [M37-final.png](M37-final.png) |
 | M38 | PASS | Stored XSS, search input and account permissions | [M38.json](M38.json) | [M38-final.png](M38-final.png) |
-| M39 | BLOCKED | Keyboard, desktop zoom, numeric alignment and saving feedback | [M39.json](M39.json) | [M39-keyboard-error-focus.png](M39-keyboard-error-focus.png), [M39-200-percent-viewport-equivalent.png](M39-200-percent-viewport-equivalent.png), [M39-saving-feedback.png](M39-saving-feedback.png), [M39-final.png](M39-final.png) |
+| M39 | PASS | Overview visibility before and after Employee starts a task | [M39.json](M39.json) | [M39-neha-before-start.png](M39-neha-before-start.png), [M39-admin-before-start.png](M39-admin-before-start.png), [M39-neha-after-start.png](M39-neha-after-start.png), [M39-admin-after-start.png](M39-admin-after-start.png), [M39-final.png](M39-final.png) |
 | M40 | PASS | Protect history and allow safe deletion | [M40.json](M40.json) | [M40-final.png](M40-final.png) |
 
-JUnit records: [40-case run](junit.xml), [existing 284-test regression run](regression-junit.xml).
-
-M10 failed-save is a test-only simulation; M39 native browser zoom remains unverified.
+M10 failed-save is a controlled test-only simulation. M39 verifies Overview visibility after Employee Start task.

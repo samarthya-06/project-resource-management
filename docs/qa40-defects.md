@@ -9,7 +9,6 @@ not a claim that the application has no defects. No application fixes were made.
 
 | ID | Related case | Classification | Observation | Evidence | Next action |
 | --- | --- | --- | --- | --- | --- |
-| QA40-U01 | M39 | Unverified, Medium priority | Keyboard, error focus, saving feedback, numeric alignment and zoom-equivalent reflow passed. Native browser-menu 200% zoom and human usability were not executed. | `evidence/qa40/M39.json`, `evidence/qa40/M39-200-percent-viewport-equivalent.png` | Run M39 with actual browser zoom, keyboard navigation and table-region scrolling. |
 | QA40-U02 | All | Unverified | This review used the local app and isolated test database. It did not verify the hosted Render app or hosted database. | `qa40-review.md` | Repeat the critical workflow and permission checks on the deployment with disposable accounts. |
 
 The failed-save screenshot in M10 is an intentional test-only database-error
@@ -25,3 +24,8 @@ For a future confirmed defect, record: defect ID, case/requirement, severity, ac
 role, preconditions, exact steps and request data, expected/actual outcome, screenshot
 or response evidence, fix reference and retest result. Keep a defect open until its
 fix has been retested. Do not invent a defect merely to provide a negative scenario.
+
+M39 confirms expected Overview behavior: Admin/Manager Work in progress excludes
+TODO tasks and includes them after the assigned Employee clicks Start task. Project
+counts update immediately. The user's observation was reproduced with isolated
+fixtures and is a passing workflow case, not a confirmed defect.

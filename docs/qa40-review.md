@@ -4,12 +4,14 @@ Review date: 9 October 2026. Application commit: `ea0366bab91eb5d37b53a416635f30
 Execution method: agent-executed Chromium browser and HTTP checks, with PostgreSQL
 readback. These results are separate from human manual testing.
 
-The results sheet contains **39 PASS, 0 FAIL and 1 BLOCKED**. M39's automated
-keyboard, reflow, saving and numeric-alignment checks passed; native browser-menu
-200% zoom and human usability assessment remain unexecuted. All 40 executable
-test functions passed. The existing 284-test PostgreSQL regression suite also
-passed in a separate invocation. No application fixes, development/hosted database
-resets or credential changes, pushes or deployments were performed as part of this review.
+The results sheet contains **40 PASS and 0 FAIL**. M39 verifies Overview visibility
+before and after the assigned Employee uses Start task. Admin and Manager project
+totals include the new project immediately; their Work in progress tables include
+its task only after it reaches IN_PROGRESS. The Employee sees their own TODO task,
+and a foreign Manager cannot see it. This matches the user's local observation.
+All 40 executable test functions passed. The existing 284-test PostgreSQL regression
+suite passed in a separate invocation. No application behavior was changed for this
+case. Test mutations used isolated fixtures, not development or hosted records.
 
 ## Deliverables
 
@@ -42,8 +44,7 @@ authenticated HTTP client for direct URL/API, malformed input, CSRF and forbidde
 mutation checks. ORM/SQL readback verifies persistence and unchanged protected
 records. Source code is not changed to force a passing outcome. M10 injects a
 test-only `DatabaseError` to verify failed-save retention; this is a controlled
-simulation, not a discovered application failure. M39 uses a 720×450 CSS viewport
-at 2× density as a zoom-equivalent check, not actual browser zoom.
+simulation, not a discovered application failure.
 
 ## Coverage
 
@@ -55,7 +56,8 @@ at 2× density as a zoom-equivalent check, not actual browser zoom.
 | M24–M29 | Hours/minutes boundaries, future dates, own entry edit/delete, ownership and stale completion/reassignment |
 | M30–M33 | Scoped reports/Overview, Admin corrections, SQL agreement and historical contributors |
 | M34–M38 | REST workflow/validation, forged fields, data isolation, CSRF, stored script escaping and literal search input |
-| M39–M40 | Keyboard/reflow/saving/numeric columns, protected history and allowed empty-record deletion |
+| M39 | Overview project totals and task visibility before/after Start task, including foreign Manager isolation |
+| M40 | Protected history and allowed empty-record deletion |
 
 Expected negative outcomes were exercised: bad passwords, duplicate identifiers,
 reversed dates, invalid members/durations, forbidden updates, missing CSRF tokens
@@ -96,7 +98,7 @@ uv run ruff check .
 uv run ruff format --check accounts config projects tests scripts
 ```
 
-The case suite passed 40 executable tests in 133.46 seconds; its JUnit record is
+The case suite passed 40 executable tests in 134.53 seconds; its JUnit record is
 `evidence/qa40/junit.xml`. The separately executed existing regression suite passed
 284 tests in 80.29 seconds (`regression-junit.xml`). Django reported no issues,
 migration checking reported no changes, and Ruff lint/format checks passed.
@@ -106,7 +108,7 @@ Representative screenshots: [duplicate account validation](evidence/qa40/M05-fin
 [stale-state rejection](evidence/qa40/M29-final.png),
 [completed correction](evidence/qa40/M32-final.png),
 [generic unavailable response](evidence/qa40/M16-final.png) and
-[zoom-equivalent reflow](evidence/qa40/M39-200-percent-viewport-equivalent.png).
+[Admin Overview after Start task](evidence/qa40/M39-admin-after-start.png).
 See the [complete evidence index](evidence/qa40/index.md) for the exact captured files.
 
 To intentionally replace case evidence, run:

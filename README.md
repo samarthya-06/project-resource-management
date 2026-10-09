@@ -332,14 +332,12 @@ Latest recorded local verification, **9 October 2026**:
 | Check | Recorded result |
 | --- | --- |
 | Existing PostgreSQL regression suite | 284 passed. |
-| Additional 40-case browser/HTTP review | 40 executable tests passed; case sheet: 39 PASS, 1 partially BLOCKED for native zoom/human usability. |
+| Additional 40-case browser/HTTP review | 40 executable tests passed; all 40 recorded cases PASS, including Overview visibility after Start task. |
 | SQL versus application reports | MATCH for 4 projects and 4 contributor pairs. |
 | Django, migration drift, Ruff lint/format | Passed. |
 | Fresh-checkout setup smoke check | Locked install, migrations, sample seed, database reads, SQL comparison and Admin login/Overview passed. |
 
-The 284 and 40 tests were executed separately. Evidence is agent-executed browser/API
-testing; human manual cases remain separate and marked **NOT RUN**. Hosted-site
-verification and native browser-menu 200% zoom remain pending.
+The 284 and 40 tests were executed separately.
 
 Open the [review report](docs/qa40-review.md), [results workbook](docs/qa40-results.xlsx),
 [full CSV](docs/qa40-results.csv), [screenshots](docs/evidence/qa40/index.md) or

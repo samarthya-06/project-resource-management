@@ -6,8 +6,8 @@
   "status": "PASS",
   "error": "",
   "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
-  "started_utc": "2026-10-09T06:36:05.830955+00:00",
-  "duration_seconds": 0.99,
+  "started_utc": "2026-10-09T08:38:11.648200+00:00",
+  "duration_seconds": 0.85,
   "events": [
     {
       "check": "Isolated PostgreSQL test database",

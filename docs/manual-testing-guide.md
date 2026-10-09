@@ -27,7 +27,7 @@ Current automated evidence is in `workspace-ui-verification.md` and
 with separate executed results in `qa40-results.csv` and `qa40-results.xlsx`.
 Case URLs/IDs in the draft reflect isolated review fixtures: substitute your own
 test-record IDs when following the steps. M10's failed-save subcheck requires a
-controlled test-only failure, and M39 requires native browser zoom.
+controlled test-only failure. M39 checks Admin/Manager Overview before and after the assigned Employee clicks Start task.
 Fresh-checkout setup smoke evidence is in `readme-setup-verification.md`; tools were
 already installed and Windows/installer instructions were not exercised. Human manual
 evidence and a full submission rehearsal remain required before calling the assignment

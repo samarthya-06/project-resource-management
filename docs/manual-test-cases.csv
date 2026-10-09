@@ -1048,47 +1048,87 @@ Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
 GET /api/accounts/ {}
 POST /api/accounts/ {""username"":""forbidden"",""password"":""[chosen strong password]""}","Markup escaped; search treated literally; non-Admins cannot manage accounts.","","NOT RUN","High",""
-"M39","R04,R07","Keyboard, desktop zoom, numeric alignment and saving feedback","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting. Native browser menu zoom must be tested by a human. Automated reflow uses a 720x450 CSS viewport at 2x density. Saving feedback inspection temporarily prevents navigation in the test browser.","1. GET /login/: 200 (expected 200)
-2. Fill Login identifier = asha@demo.local
+"M39","R02,R04,R05,R10","Overview visibility before and after Employee starts a task","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
+2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
 4. Click Sign in
-5. Browser sign-in as asha; Overview displayed
-6. GET /tasks/462/: 200 (expected 200)
-7. Fill Work date = 2026-10-09
-8. Fill Hours = 1
-9. Fill Minutes = 30
-10. Fill Work note = QA40 work
-11. Fill Minutes = 1.5
-12. Click Log time
-13. GET /tasks/462/: 200 (expected 200)
-14. Fill Work date = 2026-10-09
-15. Fill Hours = 1
-16. Fill Minutes = 30
-17. Fill Work note = Single browser submit
-18. Click Log time","Fill Login identifier = asha@demo.local
+5. Browser sign-in as neha; Overview displayed
+6. POST /api/projects/ with JSON {""name"":""Overview workflow project"",""start_date"":""2026-10-09"",""end_date"":""2026-10-09""}
+7. POST /api/projects/161/memberships/ with JSON {""employee_id"":272}
+8. POST /api/tasks/ with JSON {""project_id"":161,""title"":""Overview workflow task"",""assignee_id"":272}
+9. GET /login/: 200 (expected 200)
+10. Fill Login identifier = neha@demo.local
+11. Fill Password = [password omitted]
+12. Click Sign in
+13. Browser sign-in as neha; Overview displayed
+14. GET /: 200 (expected 200)
+15. GET /api/overview/ with JSON {}
+16. GET /api/overview/: 200 (expected 200)
+17. GET /login/: 200 (expected 200)
+18. Fill Login identifier = admin@demo.local
+19. Fill Password = [password omitted]
+20. Click Sign in
+21. Browser sign-in as admin; Overview displayed
+22. GET /: 200 (expected 200)
+23. GET /api/overview/ with JSON {}
+24. GET /api/overview/: 200 (expected 200)
+25. GET /login/: 200 (expected 200)
+26. Fill Login identifier = asha@demo.local
+27. Fill Password = [password omitted]
+28. Click Sign in
+29. Browser sign-in as asha; Overview displayed
+30. GET /: 200 (expected 200)
+31. GET /tasks/474/: 200 (expected 200)
+32. Click Start task
+33. GET /login/: 200 (expected 200)
+34. Fill Login identifier = neha@demo.local
+35. Fill Password = [password omitted]
+36. Click Sign in
+37. Browser sign-in as neha; Overview displayed
+38. GET /: 200 (expected 200)
+39. GET /login/: 200 (expected 200)
+40. Fill Login identifier = admin@demo.local
+41. Fill Password = [password omitted]
+42. Click Sign in
+43. Browser sign-in as admin; Overview displayed
+44. GET /: 200 (expected 200)
+45. GET /login/: 200 (expected 200)
+46. Fill Login identifier = arjun@demo.local
+47. Fill Password = [password omitted]
+48. Click Sign in
+49. Browser sign-in as arjun; Overview displayed
+50. GET /: 200 (expected 200)","Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
-Fill Work date = 2026-10-09
-Fill Hours = 1
-Fill Minutes = 30
-Fill Work note = QA40 work
-Fill Minutes = 1.5
-Fill Work date = 2026-10-09
-Fill Hours = 1
-Fill Minutes = 30
-Fill Work note = Single browser submit","Controls reachable with visible focus, readable at 200%, and one save.","","NOT RUN","Medium",""
+POST /api/projects/ {""name"":""Overview workflow project"",""start_date"":""2026-10-09"",""end_date"":""2026-10-09""}
+POST /api/projects/161/memberships/ {""employee_id"":272}
+POST /api/tasks/ {""project_id"":161,""title"":""Overview workflow task"",""assignee_id"":272}
+Fill Login identifier = neha@demo.local
+Fill Password = [password omitted]
+GET /api/overview/ {}
+Fill Login identifier = admin@demo.local
+Fill Password = [password omitted]
+GET /api/overview/ {}
+Fill Login identifier = asha@demo.local
+Fill Password = [password omitted]
+Fill Login identifier = neha@demo.local
+Fill Password = [password omitted]
+Fill Login identifier = admin@demo.local
+Fill Password = [password omitted]
+Fill Login identifier = arjun@demo.local
+Fill Password = [password omitted]","Admin/Manager totals include the project; TODO task appears in Work in progress only after Start task; Employee sees own TODO work; foreign Manager excluded.","","NOT RUN","Medium",""
 "M40","R02,R04,R07","Protect history and allow safe deletion","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
 4. Click Sign in
 5. Browser sign-in as neha; Overview displayed
-6. DELETE /api/projects/161/ with JSON {}
-7. DELETE /api/tasks/474/ with JSON {}
-8. DELETE /api/tasks/478/ with JSON {}
-9. DELETE /api/projects/163/ with JSON {}
-10. DELETE /api/tasks/476/ with JSON {}","Fill Login identifier = neha@demo.local
+6. DELETE /api/projects/162/ with JSON {}
+7. DELETE /api/tasks/475/ with JSON {}
+8. DELETE /api/tasks/479/ with JSON {}
+9. DELETE /api/projects/164/ with JSON {}
+10. DELETE /api/tasks/477/ with JSON {}","Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
-DELETE /api/projects/161/ {}
-DELETE /api/tasks/474/ {}
-DELETE /api/tasks/478/ {}
-DELETE /api/projects/163/ {}
-DELETE /api/tasks/476/ {}","Dependent work protected; empty projects and tasks without history removable.","","NOT RUN","High",""
+DELETE /api/projects/162/ {}
+DELETE /api/tasks/475/ {}
+DELETE /api/tasks/479/ {}
+DELETE /api/projects/164/ {}
+DELETE /api/tasks/477/ {}","Dependent work protected; empty projects and tasks without history removable.","","NOT RUN","High",""

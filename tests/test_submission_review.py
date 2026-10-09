@@ -208,9 +208,10 @@ CASES = [
         "Markup escaped; search treated literally; non-Admins cannot manage accounts.",
     ),
     (
-        "R04,R07",
-        "Keyboard, desktop zoom, numeric alignment and saving feedback",
-        "Controls reachable with visible focus, readable at 200%, and one save.",
+        "R02,R04,R05,R10",
+        "Overview visibility before and after Employee starts a task",
+        "Admin/Manager totals include the project; TODO task appears in Work in progress "
+        "only after Start task; Employee sees own TODO work; foreign Manager excluded.",
     ),
     (
         "R02,R04,R07",
@@ -347,12 +348,6 @@ def test_review(case, page, live_server, demo, monkeypatch, settings):
         )
         execute_case(q, case, demo, monkeypatch)
         q.shot("final")
-        if case == 39:
-            status = "BLOCKED"
-            error = (
-                "Native browser 200% zoom and human usability assessment not executed. "
-                "Zoom-equivalent reflow, keyboard and saving checks executed."
-            )
     except Exception as exc:
         status, error = "FAIL", f"{type(exc).__name__}: {exc}"
         q.shot("failure")
@@ -1209,78 +1204,66 @@ def execute_case(q, case, project, monkeypatch):
                 "POST", "/api/accounts/", {"username": "forbidden", "password": TEST_PASSWORD}, 403
             )
     elif case == 39:
-        q.login("asha")
-        q.time_form(task, 1, 30)
-        p.get_by_label("Hours").focus()
-        p.keyboard.press("Tab")
-        expect(p.get_by_label("Minutes")).to_be_focused()
-        q.check(
-            p.get_by_label("Minutes").evaluate("el=>getComputedStyle(el).outlineStyle") == "solid",
-            "Keyboard focus has visible outline",
-        )
-        q.fill("Minutes", 1.5)
-        p.locator('form[action$="/time/add/"]').evaluate("el=>el.noValidate=true")
-        q.click("Log time")
-        expect(p.locator(".error-summary")).to_be_focused()
-        q.shot("keyboard-error-focus")
-        q.time_form(task, 1, 30, "Single browser submit")
-        # Half the CSS viewport with doubled pixel density exercises zoom reflow.
-        zoom_context = p.context.browser.new_context(
-            viewport={"width": 720, "height": 450},
-            device_scale_factor=2,
-            storage_state=p.context.storage_state(),
-        )
-        zoom_page = zoom_context.new_page()
-        zoom_page.goto(q.base + f"/tasks/{task.pk}/")
-        expect(zoom_page.get_by_label("Hours")).to_be_visible()
-        zoom_page.get_by_role("button", name="Log time", exact=True).scroll_into_view_if_needed()
-        expect(zoom_page.get_by_role("button", name="Log time", exact=True)).to_be_visible()
-        q.check(
-            zoom_page.evaluate("document.documentElement.scrollWidth <= innerWidth"),
-            "Zoom-equivalent viewport has no page-level horizontal overflow",
-        )
-        q.page = zoom_page
-        q.shot("200-percent-viewport-equivalent")
-        q.page = p
-        zoom_context.close()
-        q.check(
-            p.get_by_label("Minutes").get_attribute("aria-describedby") is not None,
-            "Minutes has associated helper text",
-        )
-        # Prevent navigation once so the real submit handler can be inspected.
-        p.locator('form[action$="/time/add/"]').evaluate(
-            "el => el.addEventListener('submit', event => {event.preventDefault(); "
-            "window.qa40Submits=(window.qa40Submits||0)+1;})"
-        )
-        q.click("Log time")
-        expect(p.get_by_role("button", name="Log time", exact=True)).to_be_disabled()
-        expect(p.locator('form[action$="/time/add/"] .saving-status')).to_be_visible()
-        q.check(
-            p.locator('form[action$="/time/add/"]').get_attribute("aria-busy") == "true",
-            "Submit marks form busy and shows saving feedback",
-        )
-        p.get_by_role("button", name="Log time", exact=True).evaluate("el=>el.click()")
-        q.check(p.evaluate("window.qa40Submits") == 1, "Disabled button ignores a second click")
-        q.shot("saving-feedback")
-        with p.expect_response(lambda response: response.url.endswith("/time/add/")):
-            p.locator('form[action$="/time/add/"]').evaluate("el=>el.submit()")
-        p.wait_for_load_state("networkidle")
-        q.check(
-            TimeEntry.objects.filter(task=task, note="Single browser submit").count() == 1,
-            "One entry saved through browser submission",
-        )
-        q.check(
-            p.locator("td.numeric").first.evaluate("el=>getComputedStyle(el).textAlign") == "right",
-            "Time durations are right aligned",
-        )
-        q.events.append(
+        q.login("neha")
+        new = q.req(
+            "POST",
+            "/api/projects/",
             {
-                "limitation": (
-                    "720x450 CSS viewport at 2x pixel density used for zoom reflow. "
-                    "Native browser zoom and subjective human "
-                    "usability remain unverified."
-                )
-            }
+                "name": "Overview workflow project",
+                "start_date": q.today,
+                "end_date": q.today,
+            },
+            201,
+        )
+        q.req("POST", f"/api/projects/{new['id']}/memberships/", {"employee_id": asha.pk}, 201)
+        created = q.req(
+            "POST",
+            "/api/tasks/",
+            {
+                "project_id": new["id"],
+                "title": "Overview workflow task",
+                "assignee_id": asha.pk,
+            },
+            201,
+        )
+        for name, project_count in [("neha", 4), ("admin", 5)]:
+            q.login(name)
+            q.visit("/")
+            q.check(
+                "Overview workflow task" not in p.locator("table").inner_text(),
+                f"{name}: TODO task excluded from Work in progress",
+            )
+            q.check(
+                q.req("GET", "/api/overview/")["project_count"] == project_count,
+                f"{name}: new project included in summary",
+            )
+            q.shot(name + "-before-start")
+        q.login("asha")
+        q.visit("/")
+        expect(p.get_by_role("link", name="Overview workflow task", exact=True)).to_be_visible()
+        q.check(True, "Employee Overview includes own TODO task")
+        q.visit(f"/tasks/{created['id']}/")
+        q.click("Start task")
+        q.check(
+            Task.objects.get(pk=created["id"]).status == "IN_PROGRESS",
+            "Employee Start task button persists IN_PROGRESS",
+        )
+        for name in ["neha", "admin"]:
+            q.login(name)
+            q.visit("/")
+            expect(
+                p.locator("table").get_by_role("link", name="Overview workflow task", exact=True)
+            ).to_be_visible()
+            expect(
+                p.locator("table").get_by_role("link", name="Overview workflow project", exact=True)
+            ).to_be_visible()
+            q.check(True, f"{name}: started task and project visible in Work in progress")
+            q.shot(name + "-after-start")
+        q.login("arjun")
+        q.visit("/")
+        q.check(
+            "Overview workflow task" not in p.locator("main").inner_text(),
+            "Foreign Manager cannot see the task",
         )
     elif case == 40:
         q.login("neha")

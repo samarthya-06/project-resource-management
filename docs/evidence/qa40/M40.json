@@ -6,7 +6,7 @@
   "status": "PASS",
   "error": "",
   "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
-  "started_utc": "2026-10-09T06:36:54.387081+00:00",
+  "started_utc": "2026-10-09T08:39:01.829457+00:00",
   "duration_seconds": 0.7,
   "events": [
     {
@@ -40,27 +40,27 @@
       "step": "Browser sign-in as neha; Overview displayed"
     },
     {
-      "request": "DELETE /api/projects/161/",
+      "request": "DELETE /api/projects/162/",
       "payload": {}
     },
     {
-      "check": "DELETE /api/projects/161/: 400 (expected 400)",
+      "check": "DELETE /api/projects/162/: 400 (expected 400)",
       "passed": true
     },
     {
-      "request": "DELETE /api/tasks/474/",
+      "request": "DELETE /api/tasks/475/",
       "payload": {}
     },
     {
-      "check": "DELETE /api/tasks/474/: 400 (expected 400)",
+      "check": "DELETE /api/tasks/475/: 400 (expected 400)",
       "passed": true
     },
     {
-      "request": "DELETE /api/tasks/478/",
+      "request": "DELETE /api/tasks/479/",
       "payload": {}
     },
     {
-      "check": "DELETE /api/tasks/478/: 403 (expected 403)",
+      "check": "DELETE /api/tasks/479/: 403 (expected 403)",
       "passed": true
     },
     {
@@ -68,19 +68,19 @@
       "passed": true
     },
     {
-      "request": "DELETE /api/projects/163/",
+      "request": "DELETE /api/projects/164/",
       "payload": {}
     },
     {
-      "check": "DELETE /api/projects/163/: 204 (expected 204)",
+      "check": "DELETE /api/projects/164/: 204 (expected 204)",
       "passed": true
     },
     {
-      "request": "DELETE /api/tasks/476/",
+      "request": "DELETE /api/tasks/477/",
       "payload": {}
     },
     {
-      "check": "DELETE /api/tasks/476/: 204 (expected 204)",
+      "check": "DELETE /api/tasks/477/: 204 (expected 204)",
       "passed": true
     },
     {

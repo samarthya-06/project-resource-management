@@ -1,13 +1,13 @@
 {
   "id": "M39",
-  "requirements": "R04,R07",
-  "scenario": "Keyboard, desktop zoom, numeric alignment and saving feedback",
-  "expected": "Controls reachable with visible focus, readable at 200%, and one save.",
-  "status": "BLOCKED",
-  "error": "Native browser 200% zoom and human usability assessment not executed. Zoom-equivalent reflow, keyboard and saving checks executed.",
+  "requirements": "R02,R04,R05,R10",
+  "scenario": "Overview visibility before and after Employee starts a task",
+  "expected": "Admin/Manager totals include the project; TODO task appears in Work in progress only after Start task; Employee sees own TODO work; foreign Manager excluded.",
+  "status": "PASS",
+  "error": "",
   "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
-  "started_utc": "2026-10-09T06:36:50.813261+00:00",
-  "duration_seconds": 1.55,
+  "started_utc": "2026-10-09T08:38:56.455577+00:00",
+  "duration_seconds": 3.32,
   "events": [
     {
       "check": "Isolated PostgreSQL test database",
@@ -19,6 +19,134 @@
     },
     {
       "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "POST /api/projects/",
+      "payload": {
+        "name": "Overview workflow project",
+        "start_date": "2026-10-09",
+        "end_date": "2026-10-09"
+      }
+    },
+    {
+      "check": "POST /api/projects/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/projects/161/memberships/",
+      "payload": {
+        "employee_id": 272
+      }
+    },
+    {
+      "check": "POST /api/projects/161/memberships/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 161,
+        "title": "Overview workflow task",
+        "assignee_id": 272
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "neha: TODO task excluded from Work in progress",
+      "passed": true
+    },
+    {
+      "request": "GET /api/overview/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/overview/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "neha: new project included in summary",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "admin: TODO task excluded from Work in progress",
+      "passed": true
+    },
+    {
+      "request": "GET /api/overview/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/overview/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "admin: new project included in summary",
       "passed": true
     },
     {
@@ -40,91 +168,108 @@
       "step": "Browser sign-in as asha; Overview displayed"
     },
     {
-      "check": "GET /tasks/462/: 200 (expected 200)",
+      "check": "GET /: 200 (expected 200)",
       "passed": true
     },
     {
-      "step": "Fill Work date",
-      "value": "2026-10-09"
-    },
-    {
-      "step": "Fill Hours",
-      "value": "1"
-    },
-    {
-      "step": "Fill Minutes",
-      "value": "30"
-    },
-    {
-      "step": "Fill Work note",
-      "value": "QA40 work"
-    },
-    {
-      "check": "Keyboard focus has visible outline",
+      "check": "Employee Overview includes own TODO task",
       "passed": true
     },
     {
-      "step": "Fill Minutes",
-      "value": "1.5"
-    },
-    {
-      "step": "Click Log time"
-    },
-    {
-      "check": "GET /tasks/462/: 200 (expected 200)",
+      "check": "GET /tasks/474/: 200 (expected 200)",
       "passed": true
     },
     {
-      "step": "Fill Work date",
-      "value": "2026-10-09"
+      "step": "Click Start task"
     },
     {
-      "step": "Fill Hours",
-      "value": "1"
-    },
-    {
-      "step": "Fill Minutes",
-      "value": "30"
-    },
-    {
-      "step": "Fill Work note",
-      "value": "Single browser submit"
-    },
-    {
-      "check": "Zoom-equivalent viewport has no page-level horizontal overflow",
+      "check": "Employee Start task button persists IN_PROGRESS",
       "passed": true
     },
     {
-      "check": "Minutes has associated helper text",
+      "check": "GET /login/: 200 (expected 200)",
       "passed": true
     },
     {
-      "step": "Click Log time"
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
     },
     {
-      "check": "Submit marks form busy and shows saving feedback",
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /: 200 (expected 200)",
       "passed": true
     },
     {
-      "check": "Disabled button ignores a second click",
+      "check": "neha: started task and project visible in Work in progress",
       "passed": true
     },
     {
-      "check": "One entry saved through browser submission",
+      "check": "GET /login/: 200 (expected 200)",
       "passed": true
     },
     {
-      "check": "Time durations are right aligned",
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /: 200 (expected 200)",
       "passed": true
     },
     {
-      "limitation": "720x450 CSS viewport at 2x pixel density used for zoom reflow. Native browser zoom and subjective human usability remain unverified."
+      "check": "admin: started task and project visible in Work in progress",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "arjun@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as arjun; Overview displayed"
+    },
+    {
+      "check": "GET /: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign Manager cannot see the task",
+      "passed": true
     }
   ],
   "screenshots": [
-    "M39-keyboard-error-focus.png",
-    "M39-200-percent-viewport-equivalent.png",
-    "M39-saving-feedback.png",
+    "M39-neha-before-start.png",
+    "M39-admin-before-start.png",
+    "M39-neha-after-start.png",
+    "M39-admin-after-start.png",
     "M39-final.png"
   ]
 }

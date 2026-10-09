@@ -49,5 +49,5 @@ As of Phase 4B complete desktop workflow, 8 October 2026:
 
 9 October local review: see `qa40-review.md` for 40 agent-executed browser/HTTP cases,
 SQL evidence and regression results. Human manual-case evidence remains separate.
-M39's native browser-menu zoom/usability portion and hosted-site retesting remain
+Native browser-menu zoom/usability and hosted-site retesting remain
 unverified. No application defect was confirmed in this checked scope.
