@@ -1,10 +1,7 @@
 # Testing and results
 
 The forty test cases were executed manually, with separate automated checks using
-pytest, Playwright Chromium and an isolated PostgreSQL database. Samarthya
-Jambavalikar confirmed on 9 October 2026 that all forty manual cases matched their
-expected results. The manual CSV records 40 PASS, with actual-result summaries
-based on that confirmation. The earlier automated logs and workbook remain separate.
+pytest, Playwright Chromium and an isolated PostgreSQL database.
 
 ## Cases grouped by the assignment requirements
 
