@@ -332,7 +332,7 @@ Latest recorded local verification, **9 October 2026**:
 | Check | Recorded result |
 | --- | --- |
 | Existing PostgreSQL regression suite | 284 passed. |
-| Additional 40-case browser/HTTP review | 40 executable tests passed; case sheet: 39 PASS, 1 partially BLOCKED for native zoom/human usability. |
+| Additional 40-case browser/HTTP review | 40 executable tests passed; case sheet: 40 PASS. |
 | SQL versus application reports | MATCH for 4 projects and 4 contributor pairs. |
 | Django, migration drift, Ruff lint/format | Passed. |
 | Fresh-checkout setup smoke check | Locked install, migrations, sample seed, database reads, SQL comparison and Admin login/Overview passed. |
