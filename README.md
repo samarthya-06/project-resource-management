@@ -407,7 +407,7 @@ The assignment's submission files are collected here:
 | API documentation | [REST API](docs/api.md), including session/CSRF examples and permissions. |
 | Manual test cases | [Forty completed manual cases](docs/manual-test-cases.csv); [testing guide and recorded results](docs/testing.md). |
 | SQL queries | [Project reports](sql/project_reports.sql). |
-| Known limitations | [Scope and verification gaps](docs/known-limitations.md). |
+| Known limitations | (docs/known-limitations.md). |
 
 Three supporting guides explain [architecture](docs/architecture.md),
 [business rules](docs/business-rules.md) and [Render deployment](docs/render-deployment.md).
