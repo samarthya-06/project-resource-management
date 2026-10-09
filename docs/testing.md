@@ -21,7 +21,6 @@ the primary categories do not limit each case to one requirement.
 | --- | --- |
 | [Manual cases](manual-test-cases.csv) | Forty cases with preconditions, steps, data and expected results for manual execution. |
 | [Results workbook](qa40-results.xlsx) | Completed recorded results, case details, category coverage and SQL comparison. |
-| [Detailed results CSV](qa40-results.csv) | Recorded outcomes, steps, evidence paths and execution method. |
 | [Evidence index](evidence/qa40/index.md) | Screenshots and request/assertion logs for the forty cases. |
 | [SQL queries](../sql/project_reports.sql) | Read-only project status/completion/hour and original contributor totals. |
 
