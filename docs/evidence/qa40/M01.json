@@ -1,0 +1,97 @@
+{
+  "id": "M01",
+  "requirements": "R10",
+  "scenario": "Valid sign-in for all three roles",
+  "expected": "Correct identity, Overview and role navigation.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:34:45.054494+00:00",
+  "duration_seconds": 1.56,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "Admin: correct Employees navigation",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "Project Manager: correct Employees navigation",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "Employee: correct Employees navigation",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M01-admin.png",
+    "M01-neha.png",
+    "M01-asha.png",
+    "M01-final.png"
+  ]
+}

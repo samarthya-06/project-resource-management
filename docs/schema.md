@@ -1,4 +1,4 @@
-# Schema — authentication and project data foundations
+# Database schema
 
 Implemented: `accounts.User` extends Django `AbstractUser` and is selected by
 `AUTH_USER_MODEL` before the first migration. Database table: `accounts_user`.
@@ -148,6 +148,7 @@ The new models are not registered as writable Django Admin resources in this pha
 
 Phase 2 shared functions now enforce ownership, field whitelists, completed-record
 locks, scoped reads, Admin corrections and guarded account role changes. See
-`business-rules.md` for the contract. Models themselves still have no actor; callers
-must use the operations for application mutations. Phase 3 exposes REST resources through these functions; application UI remains pending.
+`business-rules.md` for the contract. Models themselves have no actor; callers
+must use the operations for application mutations. HTML screens and REST resources
+use these shared operations; see `architecture.md` for the request flow.
 Reports aggregate tasks/time separately and preserve original contributors; see `api.md`.

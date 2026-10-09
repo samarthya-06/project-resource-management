@@ -1,0 +1,170 @@
+{
+  "id": "M10",
+  "requirements": "R02,R06",
+  "scenario": "Invalid project dates and required fields",
+  "expected": "Validation errors; useful input retained; no invalid record saved.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:15.583476+00:00",
+  "duration_seconds": 1.45,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": "Retained invalid project"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-08"
+    },
+    {
+      "step": "Click Create project"
+    },
+    {
+      "check": "Invalid project was not saved",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": ""
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Click Create project"
+    },
+    {
+      "check": "Invalid project was not saved",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": "Missing dates"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Start date",
+      "value": ""
+    },
+    {
+      "step": "Fill End date",
+      "value": ""
+    },
+    {
+      "step": "Click Create project"
+    },
+    {
+      "check": "Invalid project was not saved",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": "Retain after failed save"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Description",
+      "value": "Retain this useful description"
+    },
+    {
+      "step": "Click Create project"
+    },
+    {
+      "check": "Simulated save failure retains input and stores no project",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M10-dates.png",
+    "M10-dates.png",
+    "M10-required.png",
+    "M10-simulated-failed-save.png",
+    "M10-final.png"
+  ]
+}

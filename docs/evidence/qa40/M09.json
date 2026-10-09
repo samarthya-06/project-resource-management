@@ -1,0 +1,110 @@
+{
+  "id": "M09",
+  "requirements": "R02,R06",
+  "scenario": "Create project with equal dates and correct owner",
+  "expected": "Manager owns their project; Admin may choose another Manager.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:12.227359+00:00",
+  "duration_seconds": 1.33,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": "QA40 project"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Click Create project"
+    },
+    {
+      "check": "Equal dates accepted and Manager ownership assigned",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /projects/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": "Admin selected project"
+    },
+    {
+      "step": "Fill Start date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill End date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Click Create project"
+    },
+    {
+      "check": "Admin-selected Manager stored",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M09-final.png"
+  ]
+}

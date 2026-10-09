@@ -1,0 +1,166 @@
+{
+  "id": "M29",
+  "requirements": "R05,R07",
+  "scenario": "Stale time form after completion or reassignment",
+  "expected": "403 with retained input; no late entry is saved.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:15.661839+00:00",
+  "duration_seconds": 2.08,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/338/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retained stale note"
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/338/",
+      "payload": {
+        "status": "COMPLETED"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/338/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Stale time POST returns 403",
+      "passed": true
+    },
+    {
+      "check": "Stale form saves no entry and retains note",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/340/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retained stale note"
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/340/",
+      "payload": {
+        "assignee_id": 203
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/340/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Stale time POST returns 403",
+      "passed": true
+    },
+    {
+      "check": "Stale form saves no entry and retains note",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M29-completed.png",
+    "M29-reassign.png",
+    "M29-final.png"
+  ]
+}

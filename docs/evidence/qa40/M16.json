@@ -1,0 +1,108 @@
+{
+  "id": "M16",
+  "requirements": "R03,R07,R10",
+  "scenario": "Remove member after reassignment",
+  "expected": "Removal succeeds; original time attribution retained; access revoked.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:34.178353+00:00",
+  "duration_seconds": 1.05,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/181/",
+      "payload": {
+        "assignee_id": 112
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/181/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/183/",
+      "payload": {
+        "assignee_id": 112
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/183/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/projects/63/memberships/111/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/projects/63/memberships/111/: 204 (expected 204)",
+      "passed": true
+    },
+    {
+      "check": "Original contributor retained after reassignment/removal",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/181/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/63/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/63/report/: 404 (expected 404)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M16-final.png"
+  ]
+}

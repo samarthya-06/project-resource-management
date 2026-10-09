@@ -1,0 +1,94 @@
+{
+  "id": "M40",
+  "requirements": "R02,R04,R07",
+  "scenario": "Protect history and allow safe deletion",
+  "expected": "Dependent work protected; empty projects and tasks without history removable.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:54.387081+00:00",
+  "duration_seconds": 0.7,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "DELETE /api/projects/161/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/projects/161/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/tasks/474/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/tasks/474/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/tasks/478/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/tasks/478/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "Dependent project/task/time history preserved",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/projects/163/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/projects/163/: 204 (expected 204)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/tasks/476/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/tasks/476/: 204 (expected 204)",
+      "passed": true
+    },
+    {
+      "check": "Safe empty project and task deleted",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M40-final.png"
+  ]
+}

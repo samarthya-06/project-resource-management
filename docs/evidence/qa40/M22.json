@@ -1,0 +1,66 @@
+{
+  "id": "M22",
+  "requirements": "R05",
+  "scenario": "Completion confirmation and cancellation",
+  "expected": "Remaining-time guidance; cancel preserves status; confirm locks task.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:51.991712+00:00",
+  "duration_seconds": 0.96,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/254/complete/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Cancel retains status",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/254/complete/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Mark completed"
+    },
+    {
+      "check": "Completion stored and Log time removed",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M22-confirmation.png",
+    "M22-final.png"
+  ]
+}

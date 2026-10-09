@@ -1,0 +1,131 @@
+{
+  "id": "M03",
+  "requirements": "R01,R10",
+  "scenario": "New account password-change gate",
+  "expected": "Workspace blocked until a strong matching password is set.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:34:51.735677+00:00",
+  "duration_seconds": 2.36,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "request": "POST /api/accounts/",
+      "payload": {
+        "username": "qa40-new",
+        "password": "[chosen strong password]",
+        "role": "EMPLOYEE"
+      }
+    },
+    {
+      "check": "POST /api/accounts/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "qa40-new"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "check": "GET /projects/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Direct project URL gated",
+      "passed": true
+    },
+    {
+      "step": "Fill Old password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Fill New password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Fill New password confirmation",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Change password"
+    },
+    {
+      "step": "Fill Old password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Fill New password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Fill New password confirmation",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Change password"
+    },
+    {
+      "step": "Fill Old password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Fill New password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Fill New password confirmation",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Change password"
+    },
+    {
+      "check": "Password changed and gate cleared in database",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M03-password-errors.png",
+    "M03-final.png"
+  ]
+}

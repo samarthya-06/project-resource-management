@@ -1,0 +1,79 @@
+{
+  "id": "M19",
+  "requirements": "R04,R07",
+  "scenario": "Edit/reassign task with fixed project",
+  "expected": "Task updated; project fixed; recorded work retains original contributor.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:43.382950+00:00",
+  "duration_seconds": 0.82,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/218/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Task title",
+      "value": "QA40 edited task"
+    },
+    {
+      "step": "Click Save task"
+    },
+    {
+      "check": "Reassignment retains fixed project and historical contributor",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/218/",
+      "payload": {
+        "project_id": 77
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/218/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/218/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Project is not editable",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M19-final.png"
+  ]
+}

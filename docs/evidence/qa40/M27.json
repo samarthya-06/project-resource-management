@@ -1,0 +1,112 @@
+{
+  "id": "M27",
+  "requirements": "R07",
+  "scenario": "Edit time and cancel/confirm deletion",
+  "expected": "Prefill splits 90 into 1h30m; edit saves 120; confirmed delete reduces total.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:08.836898+00:00",
+  "duration_seconds": 1.35,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /time-entries/186/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Hours",
+      "value": "2"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Click Save time"
+    },
+    {
+      "check": "Edited duration stored as 120 minutes",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/314/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "0"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "30"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Delete this test entry"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "GET /time-entries/193/delete/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Cancel preserves time entry",
+      "passed": true
+    },
+    {
+      "check": "GET /time-entries/193/delete/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Delete time entry"
+    },
+    {
+      "check": "Confirmed deletion removes only selected entry",
+      "passed": true
+    },
+    {
+      "check": "Confirmed deletion restores the original task time total",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M27-delete-confirmation.png",
+    "M27-final.png"
+  ]
+}

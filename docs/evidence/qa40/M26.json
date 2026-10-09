@@ -1,0 +1,89 @@
+{
+  "id": "M26",
+  "requirements": "R07",
+  "scenario": "Reject future work dates",
+  "expected": "HTML and API reject tomorrow without saving time.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:05.830955+00:00",
+  "duration_seconds": 0.99,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/302/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "QA40 work"
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-10"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 302,
+        "work_date": "2026-10-10",
+        "minutes": 60
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "Future date creates no time record",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M26-final.png"
+  ]
+}

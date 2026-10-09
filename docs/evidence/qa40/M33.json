@@ -1,0 +1,207 @@
+{
+  "id": "M33",
+  "requirements": "R07,R08",
+  "scenario": "SQL/report agreement and persistence",
+  "expected": "Read-only SQL agrees with ORM reports, including historical contributors.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:29.986513+00:00",
+  "duration_seconds": 1.09,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/389/",
+      "payload": {
+        "assignee_id": 231
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/389/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "sql_comparison": {
+        "projects_compared": 4,
+        "contributors_compared": 4,
+        "totals": [
+          {
+            "project_id": 132,
+            "tasks": 6,
+            "completed": 2,
+            "minutes": 720
+          },
+          {
+            "project_id": 133,
+            "tasks": 5,
+            "completed": 2,
+            "minutes": 720
+          },
+          {
+            "project_id": 134,
+            "tasks": 0,
+            "completed": 0,
+            "minutes": 0
+          },
+          {
+            "project_id": 135,
+            "tasks": 1,
+            "completed": 0,
+            "minutes": 0
+          }
+        ],
+        "result": "MATCH"
+      }
+    },
+    {
+      "sql_project_rows": [
+        {
+          "project_id": 132,
+          "name": "Client Website Redesign",
+          "total_tasks": 6,
+          "todo": 2,
+          "in_progress": 2,
+          "completed_tasks": 2,
+          "completion_percentage": 33.33,
+          "total_minutes": 720,
+          "total_hours": 12.0
+        },
+        {
+          "project_id": 133,
+          "name": "Employee Onboarding Portal",
+          "total_tasks": 5,
+          "todo": 2,
+          "in_progress": 1,
+          "completed_tasks": 2,
+          "completion_percentage": 40.0,
+          "total_minutes": 720,
+          "total_hours": 12.0
+        },
+        {
+          "project_id": 134,
+          "name": "Internal Knowledge Base",
+          "total_tasks": 0,
+          "todo": 0,
+          "in_progress": 0,
+          "completed_tasks": 0,
+          "completion_percentage": 0.0,
+          "total_minutes": 0,
+          "total_hours": 0.0
+        },
+        {
+          "project_id": 135,
+          "name": "Operations Handbook",
+          "total_tasks": 1,
+          "todo": 1,
+          "in_progress": 0,
+          "completed_tasks": 0,
+          "completion_percentage": 0.0,
+          "total_minutes": 0,
+          "total_hours": 0.0
+        }
+      ]
+    },
+    {
+      "sql_contributor_rows": [
+        {
+          "project_id": 132,
+          "employee_id": 230,
+          "minutes": 420,
+          "hours": 7.0
+        },
+        {
+          "project_id": 132,
+          "employee_id": 231,
+          "minutes": 300,
+          "hours": 5.0
+        },
+        {
+          "project_id": 133,
+          "employee_id": 230,
+          "minutes": 360,
+          "hours": 6.0
+        },
+        {
+          "project_id": 133,
+          "employee_id": 231,
+          "minutes": 360,
+          "hours": 6.0
+        },
+        {
+          "project_id": 134,
+          "employee_id": null,
+          "minutes": 0,
+          "hours": 0.0
+        },
+        {
+          "project_id": 135,
+          "employee_id": null,
+          "minutes": 0,
+          "hours": 0.0
+        }
+      ]
+    },
+    {
+      "check": "Both SQL queries agree with all four project reports and historical contributors",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/132/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/132/report/: 200 (expected 200)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M33-final.png"
+  ]
+}

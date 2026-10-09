@@ -1,0 +1,186 @@
+{
+  "id": "M37",
+  "requirements": "R09,R10",
+  "scenario": "CSRF and strict JSON minutes",
+  "expected": "Missing/wrong CSRF rejected; valid CSRF accepted; invalid numeric types rejected.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:44.265557+00:00",
+  "duration_seconds": 1.02,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Login without CSRF returns 403",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/438/",
+      "payload": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/438/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "Wrong CSRF token returns 403",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/438/",
+      "payload": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/438/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": true
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": false
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": 1.5
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": 1.0
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": "60"
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": null
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": 0
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": 1441
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 438,
+        "work_date": "2026-10-09",
+        "minutes": 60
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 201 (expected 201)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M37-final.png"
+  ]
+}

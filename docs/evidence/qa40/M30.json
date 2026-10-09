@@ -1,0 +1,270 @@
+{
+  "id": "M30",
+  "requirements": "R08",
+  "scenario": "Report totals, completion and empty project",
+  "expected": "3 tasks, 2 complete, 180 minutes, 3 hours, 66.67%; empty project is zero.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:19.798279+00:00",
+  "duration_seconds": 1.73,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "POST /api/projects/",
+      "payload": {
+        "name": "QA40 report",
+        "start_date": "2026-10-09",
+        "end_date": "2026-10-09"
+      }
+    },
+    {
+      "check": "POST /api/projects/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/projects/123/memberships/",
+      "payload": {
+        "employee_id": 209
+      }
+    },
+    {
+      "check": "POST /api/projects/123/memberships/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 123,
+        "title": "Report task 0",
+        "assignee_id": 209
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 123,
+        "title": "Report task 1",
+        "assignee_id": 209
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 123,
+        "title": "Report task 2",
+        "assignee_id": 209
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/362/",
+      "payload": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/362/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 362,
+        "work_date": "2026-10-09",
+        "minutes": 90
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/363/",
+      "payload": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/363/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 363,
+        "work_date": "2026-10-09",
+        "minutes": 30
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 362,
+        "work_date": "2026-10-09",
+        "minutes": 60
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/362/",
+      "payload": {
+        "status": "COMPLETED"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/362/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/363/",
+      "payload": {
+        "status": "COMPLETED"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/363/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "GET /api/projects/123/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/123/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Report is 3 tasks, 2 completed, 180 min, 3h, 66.67%",
+      "passed": true
+    },
+    {
+      "report": {
+        "project_id": 123,
+        "scope": "project",
+        "scope_label": "Project work",
+        "task_counts": {
+          "TODO": 1,
+          "IN_PROGRESS": 0,
+          "COMPLETED": 2
+        },
+        "total_tasks": 3,
+        "completed_tasks": 2,
+        "completion_percentage": 66.67,
+        "total_minutes": 180,
+        "total_hours": 3.0,
+        "contributors": [
+          {
+            "employee_id": 209,
+            "name": "Asha Deshmukh",
+            "minutes": 180,
+            "hours": 3.0
+          }
+        ]
+      }
+    },
+    {
+      "check": "GET /projects/123/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/121/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/121/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Zero-task report returns zeros",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M30-report.png",
+    "M30-final.png"
+  ]
+}

@@ -1,324 +1,412 @@
 # Project & Resource Management System
 
-Django take-home assignment for Piiritu Innovations. Implemented: PostgreSQL,
-custom role-aware accounts, session authentication, password change, project data models,
-protected relationships, explicit data validation and deterministic demo data.
-Shared operations, scoped REST APIs/reports and the complete Phase 4A/4B desktop
-workspace, task management and time tracking are implemented.
+A web application for managing employees, assigning project work and recording time.
+Built as a technical assignment for Piiritu Innovations using Django, Django REST
+Framework and PostgreSQL.
 
-## Stack
+Managers create projects and assign tasks. Employees record their work and complete
+their tasks. Admins manage accounts and make authorized corrections. Reports show
+task progress and recorded hours from the database.
 
-Python 3.12, Django 5.2.18, DRF 3.18.3, PostgreSQL 17 (local verification), psycopg 3.3.6.
-Dependencies are locked in `uv.lock`. Frontend: Django templates, HTML/CSS and plain JavaScript.
-IBM Plex Sans is bundled with its SIL Open Font License in `static/fonts/`.
+**Demo:** [Open the deployed application](https://project-resource-management-s1bi.onrender.com).
+Request demo credentials privately from the project owner. Local setup below creates
+your own database and sample accounts; it does not copy the hosted database.
 
-## Setup
+## Contents
 
-For the interview demo deployment, see [Render Free setup](docs/render-deployment.md).
-It covers the exact build/start commands, secrets, migrations and explicit hosted seeding.
+- [Features and roles](#features-and-roles)
+- [Run it on your computer](#run-it-on-your-computer)
+- [Try the complete workflow](#try-the-complete-workflow)
+- [Architecture](#architecture)
+- [Project structure](#project-structure)
+- [Check database records](#check-database-records)
+- [Run the tests](#run-the-tests)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Documentation and limitations](#documentation-and-limitations)
 
-Install Python 3.12, uv and a running PostgreSQL server. From the repository root:
+## Features and roles
+
+| Role | What they can do |
+| --- | --- |
+| Admin | Create, edit and deactivate accounts; manage all projects; make explicit corrections to completed tasks and recorded time. |
+| Project Manager | Create and manage their own projects, add employees, assign tasks and view project reports. |
+| Employee | View membership projects, start and complete assigned tasks, and record/edit/delete their own eligible time entries. |
+
+The desktop workspace includes account management, project teams, task filters,
+**My tasks**, time-entry forms, confirmation pages and reports. The complete workflow
+is available through the application, without using Django Admin.
+
+- Tasks move **To do → In progress → Completed**, one step at a time.
+- New assignments require an active Employee who belongs to the project.
+- Completed work is read-only for Managers and Employees. Admin corrections preserve completed status and original time attribution.
+- Time is entered as whole **Hours** and additional **Minutes**: `1 hour + 30 minutes = 90 minutes` in the database. Each entry totals 1 minute–24 hours; future work dates are rejected.
+- Deactivation blocks access while preserving history. A member's unfinished tasks must be reassigned or completed before removal.
+- Completion is completed tasks ÷ total tasks; empty projects display 0%.
+
+Permissions are checked on the server for both pages and APIs, including direct requests.
+
+## Run it on your computer
+
+Follow these steps once. Commands run in a **terminal**: on macOS use Terminal;
+on Windows use PowerShell; in VS Code choose **Terminal → New Terminal**.
+Run each block in order and wait for it to finish before continuing.
+
+### 1. Install the required tools
+
+| Tool | Purpose | Installation |
+| --- | --- | --- |
+| Git | Downloads the source code. | [Git downloads](https://git-scm.com/downloads/) |
+| uv | Installs Python and the project's libraries. | [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/) |
+| PostgreSQL | Stores accounts, projects, tasks and time entries. | [PostgreSQL downloads](https://www.postgresql.org/download/) |
+
+This setup uses Python **3.12** through uv. Local database verification used
+PostgreSQL **17**. Note your PostgreSQL administrator username/password during
+installation and keep its server running. The usual Windows installer administrator
+is `postgres`; macOS installations may use your computer's username. VS Code is optional.
+
+Check that installation succeeded:
 
 ```bash
+git --version
+uv --version
+psql --version
+```
+
+If a command is not found, finish that installation and reopen the terminal.
+
+### 2. Download the project and install its libraries
+
+```bash
+git clone https://github.com/samarthya-06/project-resource-management.git
+cd project-resource-management
+uv python install 3.12
 uv sync --locked
+```
+
+If you already have the project, open its folder instead of cloning it again.
+You are in the correct folder when you can see `manage.py` and `README.md`.
+`uv sync --locked` installs the versions in `uv.lock` into `.venv`.
+You do not need to activate `.venv` when using `uv run`.
+
+### 3. Create your private configuration
+
+For a **new setup**, copy the example file:
+
+```bash
 cp .env.example .env
+```
+
+Do not replace an existing `.env`: it may contain working credentials.
+Open `.env` in your editor. Generate an application secret:
+
+```bash
 uv run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-Put the generated secret in `DJANGO_SECRET_KEY`; replace the database password and
-all other placeholders in `.env`. Keep `.env` private and outside version control.
-For local HTTP development set `DJANGO_DEBUG=True` and allow `localhost,127.0.0.1`.
-With debug disabled, cookies require HTTPS. Environment variables take precedence over `.env`.
+Copy its output into `DJANGO_SECRET_KEY`. Generate separate passwords for the
+database and sample accounts by running this command twice:
 
-Connect as a PostgreSQL administrator (adjust your administrator username/host):
+```bash
+uv run python -c "import secrets; print(secrets.token_urlsafe(24))"
+```
+
+Your local `.env` should contain these settings. Replace the three `paste-...`
+values with your generated values; keep the setting names:
+
+```dotenv
+DJANGO_SECRET_KEY=paste-generated-application-secret
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+DB_NAME=project_resource
+DB_USER=project_user
+DB_PASSWORD=paste-generated-database-password
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DEMO_PASSWORD=paste-generated-demo-password
+```
+
+Save the file. `.env` is private and ignored by Git. Debug mode is for local HTTP
+development; deployment uses `False`. Leave `DATABASE_URL` unset for local setup:
+if present, it takes precedence over the `DB_...` settings. Exported environment
+variables also take precedence over values in `.env`.
+
+### 4. Create a PostgreSQL database
+
+Connect with your PostgreSQL **administrator** account. Replace
+`YOUR_POSTGRES_ADMIN` with the username from installation:
 
 ```bash
 psql -h 127.0.0.1 -U YOUR_POSTGRES_ADMIN -d postgres
 ```
 
-Run once, using the same names/password as your `.env`:
+Enter its password when prompted. Nothing appears while typing; that is normal.
+At the `postgres=#` prompt, run:
 
 ```sql
-CREATE ROLE project_user LOGIN CREATEDB PASSWORD 'YOUR_LOCAL_DATABASE_PASSWORD';
+CREATE ROLE project_user LOGIN CREATEDB PASSWORD 'paste-generated-database-password';
 CREATE DATABASE project_resource OWNER project_user;
 ```
 
-`CREATEDB` is for local pytest test-database creation; this application role has no
-superuser or role-creation privileges. Tests use `test_<DB_NAME>` and do not reset
-the development database. If those names already exist, inspect/reuse the intended
-project resources rather than deleting or overwriting them.
+Replace only `paste-generated-database-password` with the exact `DB_PASSWORD`
+from `.env`; keep the single quotes. `project_user` is a database account, separate
+from website logins. `CREATEDB` allows local tests to create their own database;
+this role is not a PostgreSQL superuser.
 
-Then:
+Exit PostgreSQL to return to the normal terminal:
+
+```text
+\q
+```
+
+If the role/database already exists, reuse the intended database and matching
+credentials. Do not delete it to repeat setup.
+
+### 5. Create the tables and sample data
 
 ```bash
 uv run python manage.py migrate
-uv run python manage.py createsuperuser
-uv run python manage.py runserver
-```
-
-Open http://127.0.0.1:8000/login/. `createsuperuser` creates the initial Admin account.
-The authenticated landing page is the role-scoped Overview. The desktop workspace includes account, project/team management and project reports, with task assignment, time recording, completion, password change and POST sign-out.
-
-## Accounts and authentication
-
-- One login for all roles: Admin, Project Manager, Employee. Login identifier is the
-  unique Django username (demo usernames resemble email addresses). Identifiers are
-  case-sensitive; email is optional contact data, not a separate login identifier.
-- Django handles password hashing, session authentication and inactive-user checks.
-  Anonymous pages redirect to login; anonymous `/api/` requests return 403 with
-  SessionAuthentication. Login errors do not reveal whether an account exists/is inactive.
-- New accounts default to a required password change. Until changed, they may access
-  only login, password change and POST logout; API access returns 403. A password change
-  requires the old password, matching confirmation and Django strength validation
-  (minimum ten characters). It retains the current session and invalidates other sessions.
-- Application Admins provision, edit and deactivate accounts through `/employees/`.
-  Give initial credentials privately; new/reset accounts must change their password.
-  There is no public signup/email delivery. `/admin/` is optional bootstrap administration.
-- Development account administration requires an active Django superuser with the Admin
-  role. Manager/Employee roles cannot hold `is_staff` or `is_superuser`; database checks
-  enforce this. User deletion is disabled in Django Admin; deactivate instead. Resetting
-  another user's password there restores the initial-password requirement.
-- Application Admin is a business role; Django superuser is a separate administrative
-  privilege. Only bootstrap/development superusers use this administrative interface.
-- Login, password change and logout require CSRF tokens. Logout accepts POST only.
-  A same-origin JavaScript request must send the session cookie and `X-CSRFToken` on
-  future state-changing API requests. There is no token/JWT authentication configured.
-
-## Optional development demo data
-
-Set a strong `DEMO_PASSWORD` in `.env`, then explicitly run:
-
-```bash
 uv run python manage.py seed_demo
 ```
 
-| Identifier | Role | Status |
-| --- | --- | --- |
-| admin@demo.local | Admin (development superuser) | Active |
-| neha@demo.local | Project Manager | Active |
-| arjun@demo.local | Project Manager | Active |
-| asha@demo.local | Employee | Active |
-| ravi@demo.local | Employee | Active |
-| meera@demo.local | Employee | Inactive |
-| dev@demo.local | Employee | Active, unassigned |
+`migrate` creates the tables. `seed_demo` adds sample accounts and projects for
+practice. It requires debug mode and a strong `DEMO_PASSWORD`. Repeating it preserves
+existing passwords and existing demo project contents; it does not undo your edits.
 
-New demo accounts share your chosen `DEMO_PASSWORD`; credentials are never printed by
-the seed command or shown on the login page. Demo accounts skip the initial-password
-requirement for rehearsal. Repeating the command preserves existing accounts and
-passwords. It refuses to run when debug is disabled and never runs automatically.
-It also creates the following project fixtures on first use:
+For an empty installation, skip `seed_demo` and run
+`uv run python manage.py createsuperuser` to create the first Admin account.
 
-| Manager | Project | Tasks | Completed | Logged hours |
-| --- | --- | --- | --- | --- |
-| Neha | Client Website Redesign | 6 | 2 | 12 |
-| Neha | Employee Onboarding Portal | 5 | 2 | 12 |
-| Neha | Internal Knowledge Base | 0 | 0 | 0 |
-| Arjun | Operations Handbook | 1 | 0 | 0 |
-
-Neha's totals match the Paper handoff: three projects, seven unfinished tasks,
-four completed tasks and 24 hours. Website contributors are Asha 420 minutes and
-Ravi 300 minutes. Asha's own totals are two tasks in each status and 13 hours.
-The fourth project belongs to the second manager for isolation testing; it adds no
-hours to Neha's totals. Meera is inactive and unassigned; Dev is active and unassigned
-on a fresh seed. The complete seed creates 7 accounts, 4 projects, 5 memberships,
-12 tasks and 7 time entries. Work entries use 06 Oct 2026, or the current date if
-the command is run earlier, so the demo never creates future-dated time.
-
-Stable internal `Project.demo_key` values identify demo roots. Existing demo projects
-and their entire contents are skipped on subsequent runs: names, dates, assignments,
-statuses, time notes/minutes, deleted children and account changes are preserved.
-Normal user-created projects with matching display names are not adopted or overwritten.
-If an existing account's role/activity conflicts with a missing project's new data,
-validation fails and the transaction rolls back; the command does not repair/reset accounts.
-Deleting an entire demo project removes its key; an explicit later seed can recreate it.
-Expected sample totals apply to fresh fixtures; rerunning the seed does not restore totals
-after user edits. There is no destructive reset or force-refresh option.
-
-## Project data rules and deletion
-
-`Project` belongs to a Project Manager; `ProjectMembership` links an Employee to a
-project; `Task` belongs to that project and a member assignee; `TimeEntry` preserves
-its task and original contributor independently of later reassignment.
-
-Ordinary model saves explicitly validate roles/activity, membership, required fields,
-project date ordering, forward task status changes and positive whole-minute entries
-(1–1440, no future dates). Database constraints independently protect row invariants.
-Bulk ORM updates/inserts and raw SQL bypass cross-table validation and must not be used
-as future application write paths. See `docs/schema.md` for exact field definitions,
-constraints, lock order and the distinction between data validation and actor permissions.
-
-All dependent foreign keys use PROTECT. Projects with team/tasks, tasks with time,
-and referenced users cannot be casually deleted. Membership removal is blocked by
-unfinished assignments; completed tasks and original contribution history survive removal.
-Shared services and REST APIs authorize safe deletion of empty projects and eligible
-tasks/time entries; dependent history is protected and completed-work locks apply.
-The Phase 4A project UI implements create/edit/team operations, without a delete action.
-The four new models are not exposed as writable resources in Django Admin.
-
-Use additive migrations. `projects/0001_initial.py` adds new tables and depends on the
-existing User; `accounts/0001_initial.py` remains unchanged. Inspect `migrate --plan`
-before applying to an existing database. Never delete applied migrations or reset records.
-
-The prepared local worktree uses its own `prms_b532` database/role. Its generated local
-credentials and demo password are in the ignored `.env`; they are not repository defaults.
-
-## Checks
+### 6. Start the application and sign in
 
 ```bash
+uv run python manage.py runserver
+```
+
+Keep this terminal open. Visit [http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/).
+Use one of these sample accounts with the **DEMO_PASSWORD you chose in `.env`**:
+
+| Login identifier | Role | Sample state |
+| --- | --- | --- |
+| `admin@demo.local` | Admin | Active |
+| `neha@demo.local` | Project Manager | Owns three projects |
+| `arjun@demo.local` | Project Manager | Owns a separate project |
+| `asha@demo.local` | Employee | Assigned work and recorded time |
+| `ravi@demo.local` | Employee | Assigned work and recorded time |
+| `dev@demo.local` | Employee | Active, initially unassigned |
+| `meera@demo.local` | Employee | Inactive; sign-in is intentionally denied |
+
+**Login identifier** is the account's unique username. Sample usernames resemble
+email addresses; contact email is a separate optional field. Identifiers are
+case-sensitive. Sample accounts skip the initial-password-change step; newly created
+or password-reset accounts must change their initial password before using the workspace.
+
+Fresh sample data contains 4 projects, 12 tasks and 7 time entries. Neha's projects
+have 24 recorded hours; Asha's own work totals 13 hours.
+
+### Start it again later
+
+Start PostgreSQL, open a terminal in this project folder and run
+`uv run python manage.py runserver`. Press **Ctrl+C** to stop the web server.
+Saved records remain in PostgreSQL after refreshing or restarting. After updating
+the source, run `uv sync --locked` and `uv run python manage.py migrate` before restarting.
+
+## Try the complete workflow
+
+1. Sign in as **Admin** to explore Employees and create any additional accounts.
+2. Sign in as **Neha**. Create a project, open **Team** and add Asha.
+3. Open **Tasks**, create a task and assign it to Asha.
+4. Sign in as **Asha**. Open **My tasks**, choose the task and select **Start task**.
+5. Log a work date, `1` Hour, `30` Minutes and a note. Check the saved entry; try editing it.
+6. Select **Mark completed**, read the confirmation and confirm. Record remaining time first.
+7. Sign in as **Neha** and open the project's **Report** to check completion and hours.
+
+Completed work should show a read-only explanation. Use separate browser profiles/private
+windows when comparing roles, or sign out before switching accounts.
+
+## Architecture
+
+The browser displays pages generated by Django. Page forms and REST API requests
+use the same business operations, keeping permissions and validation consistent.
+PostgreSQL stores the records; refreshing a page reads those saved records again.
+
+```mermaid
+flowchart TD
+    Browser["Browser: pages, forms, CSS and JavaScript"]
+    Auth["Django: session authentication and CSRF"]
+    Pages["HTML views and forms"]
+    API["REST API views and serializers"]
+    Services["Shared services: authorized changes"]
+    Reads["Scoped selectors and reports: permitted reads"]
+    Models["Django models and ORM"]
+    DB[("PostgreSQL")]
+    Browser --> Auth
+    Auth --> Pages
+    Auth --> API
+    Pages --> Services
+    API --> Services
+    Pages --> Reads
+    API --> Reads
+    Services --> Models
+    Reads --> Models
+    Models --> DB
+```
+
+**Log time**, for example: the form validates Hours/Minutes → the view calls a
+shared service → the service checks the employee, assignment and current task status
+→ the model saves total minutes → the refreshed page shows the entry. Transactions
+and row locks protect competing completion, reassignment and time changes.
+
+The five main records are **User**, **Project**, **ProjectMembership**, **Task** and
+**TimeEntry**. Membership links an employee to a project; a task has an assignee;
+time retains its original contributor. See [architecture and relationships](docs/architecture.md)
+for a data diagram and a code-reading guide. Diagrams render on GitHub.
+
+## Project structure
+
+| Location | What it contains |
+| --- | --- |
+| `config/` | Settings, main URLs and deployment entry points. |
+| `accounts/` | Users, roles, login/password handling and account management. |
+| `projects/` | Projects, membership, tasks, time, permissions and reports. |
+| `templates/` | HTML pages and shared form/layout components. |
+| `static/` | CSS, small JavaScript helpers and licensed IBM Plex Sans fonts. |
+| `tests/` | Automated model, workflow, API, security and browser checks. |
+| `scripts/` | Deployment scripts and browser/SQL verification helpers. |
+| `sql/` | Read-only project-report queries. |
+| `docs/` | Schema, APIs, business rules, test results and limitations. |
+| `manage.py` | Entry point for Django commands such as migrate and runserver. |
+| `.env.example` | Configuration template; private values go in ignored `.env`. |
+| `pyproject.toml` / `uv.lock` | Required libraries and their reproducible versions. |
+
+The stack uses Python 3.12, Django 5.2, Django REST Framework, PostgreSQL,
+server-rendered HTML/CSS and plain JavaScript. Gunicorn and WhiteNoise serve the
+deployed app and static assets. Exact library versions are in `uv.lock`.
+
+## Check database records
+
+Changes are saved in the database configured by `.env` or `DATABASE_URL`.
+A fresh clone does not include another machine's database records.
+
+```bash
+uv run python manage.py dbshell
+```
+
+At the database prompt, run these read-only queries:
+
+```sql
+SELECT id, username, role, is_active FROM accounts_user ORDER BY id DESC LIMIT 10;
+SELECT id, name, manager_id FROM projects_project ORDER BY id DESC LIMIT 10;
+SELECT id, title, status, assignee_id FROM projects_task ORDER BY id DESC LIMIT 10;
+SELECT id, task_id, employee_id, work_date, minutes FROM projects_timeentry ORDER BY id DESC LIMIT 10;
+```
+
+Exit with `\q`. [sql/project_reports.sql](sql/project_reports.sql) contains full
+project/status/hour queries. Compare SQL with the app's reports without changing records:
+
+```bash
+uv run python manage.py shell -c "from scripts.verify_project_reports import verify; print(verify())"
+```
+
+This requires an active, password-ready Admin. A successful comparison includes
+`'result': 'MATCH'` in the output dictionary.
+
+## Run the tests
+
+Install Chromium once, then run checks from the project folder:
+
+```bash
+uv run playwright install chromium
 uv run python manage.py check
 uv run python manage.py makemigrations --check --dry-run
 uv run pytest
-uv run ruff check accounts config projects tests scripts
+uv run ruff check .
 uv run ruff format --check accounts config projects tests scripts
 ```
 
-PostgreSQL must be available and the database role needs permission to create a test
-database. Do not switch tests to SQLite. In a filesystem sandbox, a writable uv cache
-can be selected with `--cache-dir .cache/uv`; this does not change the environment or lockfile.
+Tests use a separate PostgreSQL database (`test_<DB_NAME>`) and fixture accounts;
+the local role needs `CREATEDB`. Browser tests start their own server. On Linux,
+system dependencies may require `uv run playwright install --with-deps chromium`.
 
-### Desktop browser check
+Latest recorded local verification, **9 October 2026**:
 
-Install Chromium once and run the smoke script while the development server is running:
+| Check | Recorded result |
+| --- | --- |
+| Existing PostgreSQL regression suite | 284 passed. |
+| Additional 40-case browser/HTTP review | 40 executable tests passed; case sheet: 39 PASS, 1 partially BLOCKED for native zoom/human usability. |
+| SQL versus application reports | MATCH for 4 projects and 4 contributor pairs. |
+| Django, migration drift, Ruff lint/format | Passed. |
+| Fresh-checkout setup smoke check | Locked install, migrations, sample seed, database reads, SQL comparison and Admin login/Overview passed. |
+
+The 284 and 40 tests were executed separately. Evidence is agent-executed browser/API
+testing; human manual cases remain separate and marked **NOT RUN**. Hosted-site
+verification and native browser-menu 200% zoom remain pending.
+
+Open the [review report](docs/qa40-review.md), [results workbook](docs/qa40-results.xlsx),
+[full CSV](docs/qa40-results.csv), [screenshots](docs/evidence/qa40/index.md) or
+[defect list](docs/qa40-defects.md). Human testers can use the [40-case template](docs/manual-test-cases.csv)
+and [testing guide](docs/manual-testing-guide.md).
+
+Run only the additional review with `uv run pytest tests/test_submission_review.py -q`.
+With `QA40_EVIDENCE=1` set in your terminal environment, it replaces JSON/screenshots;
+it does not update the CSV/workbook automatically. Existing browser tests also write
+screenshots; preserve needed evidence before rerunning. The optional
+`scripts/verify_auth_browser.py` smoke script uses a running development server and
+unchanged seeded credentials from `DEMO_PASSWORD`:
 
 ```bash
-uv run playwright install chromium
 uv run python scripts/verify_auth_browser.py
 ```
 
-Run `seed_demo` first and keep its accounts/passwords unchanged for this script. It uses
-`DEMO_PASSWORD` from your local environment, tests login for all three roles, checks
-Show/Hide and failed/inactive login, visits password change, verifies POST logout and
-saves 1440 × 900 screenshots in `docs/evidence/authentication/`. It does not submit a
-password change or modify account data. Optional `AUTH_BASE_URL` selects another local
-server address. This is an automated browser check, not manual-case evidence.
+## Deployment
 
-See `docs/auth-foundation-verification.md` and `docs/project-data-verification.md` for
-executed checks, `docs/api.md` for current endpoints, `docs/schema.md` for the models,
-and `docs/known-limitations.md`.
-The Paper design handoff is in `docs/paper-ui-handoff.md`. Desktop-only design artifacts
-were requested by the user. The complete assignment and required manual evidence are pending.
+The demo uses a Render Python web service and separate PostgreSQL database.
+Follow [the deployment guide](docs/render-deployment.md) for secrets, TLS and explicit seeding.
 
-## Shared business operations (Phase 2)
-
-`projects/services.py` handles authorized projects, membership, tasks and time;
-`projects/selectors.py` scopes reads; `accounts/services.py` handles Admin account
-management. Future views/APIs must use these functions. See
-[the operation contract](docs/business-rules.md) for editable fields, completed-work
-corrections, private notes, role-change prerequisites and transaction behavior.
-Existing roles are read-only in Django Admin; guarded application operations change them.
-
-Run the focused permission journey and rejection tests with:
-
-```bash
-uv run pytest tests/test_business_operations.py -q
-```
-
-## REST resources and reports (Phase 3)
-
-See [API documentation](docs/api.md) for the exact account/project/membership/task/time
-routes, session/CSRF instructions, field restrictions, filters, pagination and errors.
-Reports and Overview use current scoped database values and original time contributors.
-No additional project migration is required for this phase.
-
-```bash
-uv run pytest tests/test_resource_api.py -q
-uv run python manage.py shell -c 'from scripts.verify_project_reports import verify; print(verify())'
-```
-
-The comparison executes [read-only PostgreSQL queries](sql/project_reports.sql) against
-existing data without reseeding/resetting it. See `docs/api-verification.md` for actual
-HTTP/test and SQL comparison evidence. Task/time application screens are implemented in Phase 4B.
-
-## Desktop workspace (Phase 4A)
-
-| Route | Screen and access |
+| Render setting | Value |
 | --- | --- |
-| `/` | Overview; all roles, authorized scope only |
-| `/employees/` | Account list/search/status filter; Admin only |
-| `/employees/create/` | Account creation; Admin only |
-| `/employees/<id>/edit/` | Account edit/optional password reset; Admin only |
-| `/employees/<id>/deactivate/` | Confirmation then POST deactivation; Admin only |
-| `/projects/` | Scoped project list/name search; all roles |
-| `/projects/create/` | Admin or Manager project creation |
-| `/projects/<id>/edit/` | Admin or owning Manager edit |
-| `/projects/<id>/` | Scoped project Overview |
-| `/projects/<id>/team/` | Scoped Team, read-only for Employees |
-| `/projects/<id>/report/` | Scoped Report; Employees see labelled Own work |
-| `/projects/<id>/team/add/` | Admin or owning Manager active Employee picker |
-| `/projects/<id>/team/<employee_id>/remove/` | Confirmation then POST removal; unfinished-task guard |
+| Branch | `main` |
+| Build command | `bash scripts/render-build.sh` |
+| Start command | `bash scripts/render-start.sh` |
+| Production debug | `DJANGO_DEBUG=False` |
 
-Create/edit forms share templates and existing services. Only Admin sees a project
-Manager selector; Manager ownership comes from the actor. Role changes require an
-explicit checkbox and the existing reassignment guards. Blank password reset keeps
-the current password. Deactivation preserves all history. Lists paginate 25 records
-in ID order; searches operate within authorized scope. All mutations use POST/CSRF.
+Build installs locked libraries and collects static files. Startup applies migrations
+before Gunicorn starts; it does not seed accounts automatically. After pushing an
+approved change, use **Manual Deploy → Deploy latest commit** in Render, or configure
+automatic deploys. Check logs and repeat important workflows on the hosted site.
 
-The desktop shell uses bundled IBM Plex Sans, a 48px header, 240px sidebar, neutral
-surfaces and square controls. Native date controls follow browser locale. Task titles on Overview link to task details. Project Tasks is reachable from every
-project section; Employees have My tasks navigation. All required account, project,
-team, task and time workflows run outside Django Admin.
+## Troubleshooting
 
-Install Chromium once, then run the isolated UI checks (no development server needed):
-
-```bash
-uv run playwright install chromium
-uv run pytest tests/test_workspace_html.py tests/test_workspace_browser.py -q
-```
-
-The browser fixture serves Django/static files on an ephemeral local port and seeds
-only the PostgreSQL test database. It creates/edits/deactivates fixture accounts and
-projects, preserving development data and demo credentials. It captures screenshots
-in `docs/evidence/workspace/`. Browser checks also run with `uv run pytest` and require
-Chromium to be installed. Linux hosts may need `uv run playwright install --with-deps chromium`.
-See [Phase 4A verification](docs/workspace-ui-verification.md) for actual results,
-Paper comparisons, keyboard/reflow scope and remaining work. These are automated
-checks; the assignment's human manual cases remain pending.
-
-
-## Task and time desktop workflow (Phase 4B)
-
-| Route | Screen/action and access |
+| Problem | What to check |
 | --- | --- |
-| `/projects/<id>/tasks/` | Scoped team task summaries; status/assignee filters |
-| `/projects/<id>/tasks/create/` | Admin/owning Manager create and assign a TODO task |
-| `/my-tasks/` | Employee current assignments; status/project filters, default unfinished |
-| `/tasks/<id>/` | Scoped task details, progress, readable time history |
-| `/tasks/<id>/edit/` | Admin/owning Manager edit/reassign unfinished tasks |
-| `/tasks/<id>/start/` | POST start; assigned Employee or Admin/owning Manager |
-| `/tasks/<id>/complete/` | GET confirmation, POST completion; same actors |
-| `/tasks/<id>/delete/` | GET confirmation, POST safe unfinished deletion; Admin/owning Manager |
-| `/tasks/<id>/time/add/` | Inline or full-page Log time; assigned Employee on IN_PROGRESS task |
-| `/time-entries/<id>/edit/` | Own time edit while still assigned and IN_PROGRESS |
-| `/time-entries/<id>/delete/` | GET confirmation, POST own time deletion under the same rule |
-| `/tasks/<id>/correction/` | Explicit Admin completed-task correction; status retained |
-| `/time-entries/<id>/correction/` | Explicit Admin historical/current time correction; identity retained |
+| `uv`, `git` or `psql` is not found | Finish installation, ensure the tool is on PATH, then reopen the terminal. PostgreSQL's installation `bin` folder contains `psql`. |
+| Database connection refused | Start PostgreSQL; verify `DB_HOST` and `DB_PORT`. |
+| Database password authentication failed | Match `DB_USER`/`DB_PASSWORD` to step 4. Check whether `DATABASE_URL` overrides them. |
+| Missing secret or example-value error | Save `.env` with generated values instead of placeholders. |
+| `seed_demo` requests a strong password | Set a generated `DEMO_PASSWORD`; local debug must be `True`. Existing passwords are preserved on repeat runs. |
+| Sign-in rejected | Use the exact identifier/password for this database. Meera is inactive; hosted credentials may differ. |
+| Sent to Change password | New/reset accounts must change their initial password before workspace access. |
+| Local HTTP sign-in does not persist | Use local `DJANGO_DEBUG=True`; debug-off cookies require HTTPS. |
+| Port 8000 is in use | Stop the previous server or use `uv run python manage.py runserver 8001` and open port 8001. |
+| Tests cannot create a database | Grant the local role `CREATEDB`; do not target a hosted production database. |
+| Browser executable is missing | Run `uv run playwright install chromium`. |
+| Records remain after refresh | Expected: PostgreSQL preserves saved work. Refresh is not a reset. |
 
-Every mutation calls the existing services and requires POST with CSRF. Task project
-and time contributor/task identity are fixed. Task assignment options are active project
-Employees; edit forms allow blank to keep an existing historical/inactive assignee.
-Filters include current members and historical assignees, without foreign users.
-Lists use 25-row ID ordering and retain filters when paging. Invalid filters render 400;
-ordinary HTML validation/save errors retain values with 200; stale/forbidden service
-writes retain values with 403. Foreign/missing objects return 404; unsupported methods
-return 405. Repeated current status is a no-op, including repeated completion POST.
+## Documentation and limitations
 
-The HTML time form accepts whole Hours and additional Minutes (0–59), with a total
-from 1 minute to 24 hours. For example, 3 hours and 0 minutes saves 180 minutes.
-Create, edit and Admin correction share this form; existing entries split into hours
-and minutes for editing. PostgreSQL and the REST API still use whole minutes 1–1440
-and a nonfuture date. An Employee sees only their own
-detailed time/notes and original contributions; Admin/owning Manager can read project
-history. Managers cannot edit time. Reassignment/completion immediately blocks ordinary
-time writes; completed work exposes read-only guidance and explicit Admin corrections.
-Completion asks users to record remaining time first. Delete time requires confirmation;
-tasks with recorded history cannot be deleted. Admin cannot reopen/delete completed tasks
-or invent/delete historical time through correction forms.
+| Document | Purpose |
+| --- | --- |
+| [Architecture](docs/architecture.md) | Request flow, data relationships and code-reading guide. |
+| [Database schema](docs/schema.md) | Fields, constraints, indexes and deletion policy. |
+| [Business rules](docs/business-rules.md) | Permissions, editable fields, locks and corrections. |
+| [REST API](docs/api.md) | Endpoints, JSON examples, session/CSRF authentication and response codes. |
+| [Design](design.md) / [Paper handoff](docs/paper-ui-handoff.md) | Visual specification and desktop reference screens. |
+| [Workspace verification](docs/workspace-ui-verification.md) / [Task verification](docs/task-ui-verification.md) | Earlier UI checks and design differences. |
+| [Known limitations](docs/known-limitations.md) | Assumptions, excluded features and unverified work. |
+| [Setup verification](docs/readme-setup-verification.md) | Executed fresh-checkout smoke check using a temporary database. |
 
-```bash
-uv run pytest tests/test_task_html.py tests/test_task_browser.py -q
-```
-
-These checks use isolated PostgreSQL fixtures and Chromium. Screenshots are in
-`docs/evidence/tasks/`; [Phase 4B verification](docs/task-ui-verification.md) records
-actual results and Paper differences. [Manual cases](docs/manual-test-cases.csv) are
-prepared with NOT RUN status for human execution; automated checks do not mark them PASS.
+The scope is the desktop assignment workflow. Time entry is manual; there is no
+automatic timer, overlap detection or daily-capacity rule. Public signup, email password
+recovery and account reactivation are not implemented. Login has no application rate
+limiting. Human manual testing and native zoom remain pending. Setup was smoke-tested
+with tools already installed; operating-system installer instructions and Windows
+setup were not executed. Recorded checks are not a full security audit.

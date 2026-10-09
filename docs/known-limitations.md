@@ -27,8 +27,10 @@ As of Phase 4B complete desktop workflow, 8 October 2026:
 - Chromium keyboard checks and 200% zoom-equivalent reflow were executed. Native
   browser-menu zoom, screen-reader review, complete contrast audit and other browsers
   were not manually tested. Mobile design/layout verification is excluded by the user.
-- Required human manual cases and a full clean-checkout submission rehearsal remain
-  pending. Thirty manual cases are drafted in `manual-test-cases.csv`, all NOT RUN.
+- Required human manual cases remain pending. Fresh-checkout setup was smoke-tested
+  on 9 October with installed tools; installer instructions, Windows and a full
+  browser submission rehearsal remain unverified. See `readme-setup-verification.md`.
+  Forty manual cases are drafted in `manual-test-cases.csv`, all NOT RUN.
   Automated browser/HTTP/SQL checks do not replace manual evidence.
 - Login has no application rate limiting. This assignment is not a deployment
   readiness claim. `.env` stays ignored; no submission or database reset.
@@ -44,3 +46,8 @@ As of Phase 4B complete desktop workflow, 8 October 2026:
 - Failed inline time saves render the shared full-page Log time form with retained values.
   Browser reflow tables scroll horizontally inside a focusable region at 200% equivalent
   zoom; this is not mobile layout support. No live notifications or stale-state polling.
+
+9 October local review: see `qa40-review.md` for 40 agent-executed browser/HTTP cases,
+SQL evidence and regression results. Human manual-case evidence remains separate.
+M39's native browser-menu zoom/usability portion and hosted-site retesting remain
+unverified. No application defect was confirmed in this checked scope.

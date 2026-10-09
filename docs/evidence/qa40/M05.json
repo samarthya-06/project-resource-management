@@ -1,0 +1,96 @@
+{
+  "id": "M05",
+  "requirements": "R01",
+  "scenario": "Create account and reject duplicate identifier",
+  "expected": "One record only; valid names retained and password cleared on failure.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:34:58.918403+00:00",
+  "duration_seconds": 1.23,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /employees/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill First name",
+      "value": "Review"
+    },
+    {
+      "step": "Fill Last name",
+      "value": "Employee"
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "review-employee"
+    },
+    {
+      "step": "Fill Initial password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Create employee"
+    },
+    {
+      "check": "GET /employees/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill First name",
+      "value": "Review"
+    },
+    {
+      "step": "Fill Last name",
+      "value": "Employee"
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "review-employee"
+    },
+    {
+      "step": "Fill Initial password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Create employee"
+    },
+    {
+      "check": "Duplicate rejected; one account stored",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M05-final.png"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "id": "M35",
+  "requirements": "R09,R10",
+  "scenario": "Forged ownership and privileged fields",
+  "expected": "Protected fields rejected without altering ownership or privileges.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:36.669511+00:00",
+  "duration_seconds": 1.47,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/projects/141/",
+      "payload": {
+        "manager_id": 247
+      }
+    },
+    {
+      "check": "PATCH /api/projects/141/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/414/",
+      "payload": {
+        "project_id": 143
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/414/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/414/",
+      "payload": {
+        "id": 999
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/414/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/time-entries/247/",
+      "payload": {
+        "employee_id": 245
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/247/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/time-entries/247/",
+      "payload": {
+        "task_id": 416
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/247/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/accounts/244/",
+      "payload": {
+        "is_staff": true
+      }
+    },
+    {
+      "check": "PATCH /api/accounts/244/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/accounts/244/",
+      "payload": {
+        "is_superuser": true
+      }
+    },
+    {
+      "check": "PATCH /api/accounts/244/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/accounts/244/",
+      "payload": {
+        "must_change_password": true
+      }
+    },
+    {
+      "check": "PATCH /api/accounts/244/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/accounts/244/",
+      "payload": {
+        "groups": true
+      }
+    },
+    {
+      "check": "PATCH /api/accounts/244/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/accounts/244/",
+      "payload": {
+        "user_permissions": true
+      }
+    },
+    {
+      "check": "PATCH /api/accounts/244/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "Ownership/contributor/privileges unchanged",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M35-final.png"
+  ]
+}

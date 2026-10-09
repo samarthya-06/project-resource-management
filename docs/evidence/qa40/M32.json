@@ -1,0 +1,86 @@
+{
+  "id": "M32",
+  "requirements": "R05,R07,R10",
+  "scenario": "Explicit Admin completed-work corrections",
+  "expected": "Correction retains COMPLETED, original task and original contributor.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:27.004673+00:00",
+  "duration_seconds": 0.95,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/381/correction/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Task title",
+      "value": "QA40 corrected audit"
+    },
+    {
+      "step": "Click Correct completed task"
+    },
+    {
+      "check": "GET /time-entries/227/correction/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Hours",
+      "value": "4"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "10"
+    },
+    {
+      "step": "Click Correct time entry"
+    },
+    {
+      "check": "Admin correction preserves completed status and original identity",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/381/correction/",
+      "payload": {
+        "status": "TODO"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/381/correction/: 400 (expected 400)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M32-final.png"
+  ]
+}

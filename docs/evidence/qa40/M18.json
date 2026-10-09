@@ -1,0 +1,78 @@
+{
+  "id": "M18",
+  "requirements": "R04",
+  "scenario": "No eligible members, blank title and nonmember selection",
+  "expected": "Clear empty guidance and validation; no invalid task saved.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:40.516190+00:00",
+  "duration_seconds": 0.85,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/73/tasks/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/71/tasks/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Description",
+      "value": "Retain this description"
+    },
+    {
+      "step": "Click Create task"
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 71,
+        "title": "Bad assignment",
+        "assignee_id": 128
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "Nonmember assignment rejected",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M18-no-eligible-members.png",
+    "M18-final.png"
+  ]
+}

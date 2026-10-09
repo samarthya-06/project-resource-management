@@ -1,0 +1,158 @@
+{
+  "id": "M38",
+  "requirements": "R10",
+  "scenario": "Stored XSS, search input and account permissions",
+  "expected": "Markup escaped; search treated literally; non-Admins cannot manage accounts.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:47.311026+00:00",
+  "duration_seconds": 1.48,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/450/",
+      "payload": {
+        "description": "<script>window.qa40xss=1</script><img src=x onerror=\"window.qa40xss=2\">"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/450/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/450/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Stored markup does not execute JavaScript",
+      "passed": true
+    },
+    {
+      "check": "Markup displayed as literal escaped text",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/?q=%27%20OR%201%3D1--: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "SQL-like search is literal and does not broaden results",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /employees/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/accounts/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/accounts/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/accounts/",
+      "payload": {
+        "username": "forbidden",
+        "password": "[chosen strong password]"
+      }
+    },
+    {
+      "check": "POST /api/accounts/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /employees/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/accounts/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/accounts/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/accounts/",
+      "payload": {
+        "username": "forbidden",
+        "password": "[chosen strong password]"
+      }
+    },
+    {
+      "check": "POST /api/accounts/: 403 (expected 403)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M38-final.png"
+  ]
+}

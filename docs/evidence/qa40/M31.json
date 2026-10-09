@@ -1,0 +1,158 @@
+{
+  "id": "M31",
+  "requirements": "R08,R10",
+  "scenario": "Role-scoped Overview and reports",
+  "expected": "Admin sees all; Manager owned projects; Employee own work.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:23.575792+00:00",
+  "duration_seconds": 1.4,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "request": "GET /api/overview/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/overview/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "admin sees 4 authorized projects",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/124/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/124/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "admin project report has correctly scoped minutes",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "GET /api/overview/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/overview/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "neha sees 3 authorized projects",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/124/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/124/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "neha project report has correctly scoped minutes",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "GET /api/overview/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/overview/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "asha sees 2 authorized projects",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/124/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/124/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "asha project report has correctly scoped minutes",
+      "passed": true
+    },
+    {
+      "check": "Employee contributor report includes own work only",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M31-final.png"
+  ]
+}

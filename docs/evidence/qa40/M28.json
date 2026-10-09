@@ -1,0 +1,156 @@
+{
+  "id": "M28",
+  "requirements": "R07,R10",
+  "scenario": "Time ownership and task-state permissions",
+  "expected": "Other Employee, Manager and disallowed task states cannot mutate time.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:12.219781+00:00",
+  "duration_seconds": 1.42,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "ravi@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as ravi; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/time-entries/194/",
+      "payload": {
+        "minutes": 1
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/194/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/time-entries/194/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/time-entries/194/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/time-entries/194/",
+      "payload": {
+        "minutes": 1
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/194/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/time-entries/194/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/time-entries/194/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 328,
+        "work_date": "2026-10-09",
+        "minutes": 60
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 330,
+        "work_date": "2026-10-09",
+        "minutes": 60
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/time-entries/194/",
+      "payload": {
+        "minutes": 1
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/194/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "Time ownership/state failures leave entry intact",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M28-final.png"
+  ]
+}

@@ -1,0 +1,292 @@
+{
+  "id": "M36",
+  "requirements": "R09,R10",
+  "scenario": "List/filter/detail/report privacy and picker scope",
+  "expected": "Foreign records/notes excluded; picker exposes only id and name.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:40.167594+00:00",
+  "duration_seconds": 1.98,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "arjun@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as arjun; Overview displayed"
+    },
+    {
+      "request": "GET /api/projects/145/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/145/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/tasks/426/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/tasks/426/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/145/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/145/report/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/time-entries/254/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/time-entries/254/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/tasks/?project=145",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/tasks/?project=145: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign filter contains zero records",
+      "passed": true
+    },
+    {
+      "request": "GET /api/time-entries/?project=145",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/time-entries/?project=145: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign filter contains zero records",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign project absent from list",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "dev@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as dev; Overview displayed"
+    },
+    {
+      "request": "GET /api/projects/145/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/145/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/tasks/426/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/tasks/426/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/145/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/145/report/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/time-entries/254/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/time-entries/254/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/tasks/?project=145",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/tasks/?project=145: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign filter contains zero records",
+      "passed": true
+    },
+    {
+      "request": "GET /api/time-entries/?project=145",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/time-entries/?project=145: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign filter contains zero records",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Foreign project absent from list",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "ravi@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as ravi; Overview displayed"
+    },
+    {
+      "request": "GET /api/time-entries/254/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/time-entries/254/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/426/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Other Employee's detailed time note absent from HTML",
+      "passed": true
+    },
+    {
+      "request": "GET /api/tasks/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/tasks/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "No private notes/password/privilege fields in serialization",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/145/report/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/145/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "No private notes/password/privilege fields in serialization",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "GET /api/projects/145/employee-options/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/145/employee-options/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Picker fields limited to id/name",
+      "passed": true
+    },
+    {
+      "check": "Picker includes active Employees only",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M36-final.png"
+  ]
+}

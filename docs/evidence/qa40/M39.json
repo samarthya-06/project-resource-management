@@ -1,0 +1,130 @@
+{
+  "id": "M39",
+  "requirements": "R04,R07",
+  "scenario": "Keyboard, desktop zoom, numeric alignment and saving feedback",
+  "expected": "Controls reachable with visible focus, readable at 200%, and one save.",
+  "status": "BLOCKED",
+  "error": "Native browser 200% zoom and human usability assessment not executed. Zoom-equivalent reflow, keyboard and saving checks executed.",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:50.813261+00:00",
+  "duration_seconds": 1.55,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/462/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "30"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "QA40 work"
+    },
+    {
+      "check": "Keyboard focus has visible outline",
+      "passed": true
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "1.5"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "GET /tasks/462/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "30"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Single browser submit"
+    },
+    {
+      "check": "Zoom-equivalent viewport has no page-level horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "Minutes has associated helper text",
+      "passed": true
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Submit marks form busy and shows saving feedback",
+      "passed": true
+    },
+    {
+      "check": "Disabled button ignores a second click",
+      "passed": true
+    },
+    {
+      "check": "One entry saved through browser submission",
+      "passed": true
+    },
+    {
+      "check": "Time durations are right aligned",
+      "passed": true
+    },
+    {
+      "limitation": "720x450 CSS viewport at 2x pixel density used for zoom reflow. Native browser zoom and subjective human usability remain unverified."
+    }
+  ],
+  "screenshots": [
+    "M39-keyboard-error-focus.png",
+    "M39-200-percent-viewport-equivalent.png",
+    "M39-saving-feedback.png",
+    "M39-final.png"
+  ]
+}

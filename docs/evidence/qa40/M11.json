@@ -1,0 +1,95 @@
+{
+  "id": "M11",
+  "requirements": "R02",
+  "scenario": "Project edit, persistence and no-results state",
+  "expected": "Edit survives refresh and new login; unmatched search is empty.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:19.080840+00:00",
+  "duration_seconds": 1.25,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/43/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Project name",
+      "value": "QA40 persisted rename"
+    },
+    {
+      "step": "Click Save project"
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/43/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/?q=there-is-no-such-project: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Project search renders no-results message",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/45/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Empty project has zero-work summary",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M11-final.png"
+  ]
+}

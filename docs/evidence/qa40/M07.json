@@ -1,0 +1,74 @@
+{
+  "id": "M07",
+  "requirements": "R01,R03,R10",
+  "scenario": "Role changes with dependent relationships",
+  "expected": "Invalid changes rejected without altering roles or relationships.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:05.726158+00:00",
+  "duration_seconds": 1.07,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /employees/46/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Save employee"
+    },
+    {
+      "check": "Role guard preserves existing role",
+      "passed": true
+    },
+    {
+      "check": "GET /employees/48/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Save employee"
+    },
+    {
+      "check": "Role guard preserves existing role",
+      "passed": true
+    },
+    {
+      "check": "Dependent relationships intact",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M07-neha.png",
+    "M07-asha.png",
+    "M07-final.png"
+  ]
+}

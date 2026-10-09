@@ -1,0 +1,128 @@
+{
+  "id": "M12",
+  "requirements": "R02,R10",
+  "scenario": "Project/team/report URL isolation",
+  "expected": "Member reads allowed; foreign reads return 404 and Employee edits return 403.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:22.351887+00:00",
+  "duration_seconds": 1.6,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/47/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/team/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/report/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "arjun@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as arjun; Overview displayed"
+    },
+    {
+      "check": "GET /projects/47/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/team/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/report/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/edit/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "dev@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as dev; Overview displayed"
+    },
+    {
+      "check": "GET /projects/47/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/team/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/report/: 404 (expected 404)",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/47/edit/: 403 (expected 403)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M12-arjun-unavailable.png",
+    "M12-dev-unavailable.png",
+    "M12-final.png"
+  ]
+}

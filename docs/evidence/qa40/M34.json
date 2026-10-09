@@ -1,0 +1,208 @@
+{
+  "id": "M34",
+  "requirements": "R09",
+  "scenario": "REST workflow, partial updates and malformed input",
+  "expected": "Valid workflow succeeds; omitted fields retained; invalid JSON/fields rejected.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:33.095487+00:00",
+  "duration_seconds": 1.55,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "GET /api/projects/",
+      "payload": {}
+    },
+    {
+      "check": "GET /api/projects/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "POST /api/projects/",
+      "payload": {
+        "name": "HTTP review",
+        "start_date": "2026-10-09",
+        "end_date": "2026-10-09"
+      }
+    },
+    {
+      "check": "POST /api/projects/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/projects/140/",
+      "payload": {
+        "description": "Partial PATCH"
+      }
+    },
+    {
+      "check": "PATCH /api/projects/140/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "PUT /api/projects/140/",
+      "payload": {
+        "name": "Partial PUT"
+      }
+    },
+    {
+      "check": "PUT /api/projects/140/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Partial PUT/PATCH retain omitted fields",
+      "passed": true
+    },
+    {
+      "request": "POST /api/projects/140/memberships/",
+      "payload": {
+        "employee_id": 237
+      }
+    },
+    {
+      "check": "POST /api/projects/140/memberships/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 140,
+        "title": "HTTP work",
+        "assignee_id": 237
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/413/",
+      "payload": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/413/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/time-entries/",
+      "payload": {
+        "task_id": 413,
+        "work_date": "2026-10-09",
+        "minutes": 45
+      }
+    },
+    {
+      "check": "POST /api/time-entries/: 201 (expected 201)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/413/",
+      "payload": {
+        "status": "COMPLETED"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/413/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "request": "POST /api/tasks/",
+      "payload": {
+        "project_id": 140
+      }
+    },
+    {
+      "check": "POST /api/tasks/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/projects/",
+      "payload": {
+        "name": "Missing dates"
+      }
+    },
+    {
+      "check": "POST /api/projects/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "check": "Malformed JSON returns 400",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M34-final.png"
+  ]
+}

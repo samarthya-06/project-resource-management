@@ -1,6 +1,6 @@
 # Human manual testing preparation
 
-Thirty cases are drafted in `manual-test-cases.csv`; all are NOT RUN. Execute at least
+Forty cases are drafted in `manual-test-cases.csv`; all are NOT RUN. Execute at least
 20 with positive/negative workflow, API and permission/security categories. Do not copy
 automated test results into Actual result or mark PASS without human execution.
 
@@ -23,6 +23,13 @@ keyboard-only navigation/focus, native browser-menu 200% zoom, table-region scro
 and current Firefox/Safari if available. Those human checks remain unexecuted.
 
 Current automated evidence is in `workspace-ui-verification.md` and
-`task-ui-verification.md`. Full clean-checkout setup rehearsal and human manual evidence
-remain required before calling the assignment submission-ready. No submission/push or
+`task-ui-verification.md`. The 9 October local 40-case review is in `qa40-review.md`,
+with separate executed results in `qa40-results.csv` and `qa40-results.xlsx`.
+Case URLs/IDs in the draft reflect isolated review fixtures: substitute your own
+test-record IDs when following the steps. M10's failed-save subcheck requires a
+controlled test-only failure, and M39 requires native browser zoom.
+Fresh-checkout setup smoke evidence is in `readme-setup-verification.md`; tools were
+already installed and Windows/installer instructions were not exercised. Human manual
+evidence and a full submission rehearsal remain required before calling the assignment
+submission-ready. No submission/push or
 deployment is part of this phase.

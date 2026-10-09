@@ -1,0 +1,95 @@
+{
+  "id": "M06",
+  "requirements": "R01,R10",
+  "scenario": "Edit account and explicitly reset password",
+  "expected": "Blank reset preserves password; explicit reset requires password change.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:02.179349+00:00",
+  "duration_seconds": 1.48,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "admin@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as admin; Overview displayed"
+    },
+    {
+      "check": "GET /employees/41/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill First name",
+      "value": "Asha Edited"
+    },
+    {
+      "step": "Click Save employee"
+    },
+    {
+      "check": "Blank reset preserves password and gate",
+      "passed": true
+    },
+    {
+      "check": "GET /employees/41/edit/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Reset password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Save employee"
+    },
+    {
+      "check": "Explicit reset hashes new password and sets gate",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "check": "Reset account signs in to mandatory password change",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M06-final.png"
+  ]
+}

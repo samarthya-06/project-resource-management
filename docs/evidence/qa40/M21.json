@@ -1,0 +1,80 @@
+{
+  "id": "M21",
+  "requirements": "R05",
+  "scenario": "Reject skipping, reversing and reopening status",
+  "expected": "Illegal transitions rejected and stored status unchanged.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:49.255495+00:00",
+  "duration_seconds": 0.68,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "request": "PATCH /api/tasks/244/",
+      "payload": {
+        "status": "COMPLETED"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/244/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/242/",
+      "payload": {
+        "status": "TODO"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/242/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/246/",
+      "payload": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/246/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "No illegal transition saved",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M21-final.png"
+  ]
+}

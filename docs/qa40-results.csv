@@ -1,4 +1,4 @@
-"Test ID","Requirement ID","Scenario","Preconditions","Steps","Test data","Expected result","Actual result","Status","Priority","Evidence"
+"Test ID","Requirement ID","Scenario","Preconditions","Steps","Test data","Expected result","Actual result","Status","Priority","Evidence","Execution method","Executed UTC"
 "M01","R10","Valid sign-in for all three roles","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -18,7 +18,13 @@ Fill Password = [password omitted]
 Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
 Fill Login identifier = asha@demo.local
-Fill Password = [password omitted]","Correct identity, Overview and role navigation.","","NOT RUN","High",""
+Fill Password = [password omitted]","Correct identity, Overview and role navigation.","Admin: correct Employees navigation
+Project Manager: correct Employees navigation
+Employee: correct Employees navigation","PASS","High","docs/evidence/qa40/M01-admin.png
+docs/evidence/qa40/M01-neha.png
+docs/evidence/qa40/M01-asha.png
+docs/evidence/qa40/M01-final.png
+docs/evidence/qa40/M01.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:34:45.054494+00:00"
 "M02","R10","Invalid and empty sign-in credentials","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -31,7 +37,11 @@ Fill Password = [password omitted]","Correct identity, Overview and role navigat
 10. Click Sign in","Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
 Fill Login identifier = does-not-exist@demo.local
-Fill Password = [password omitted]","Generic incorrect-credentials errors and required-field validation.","","NOT RUN","High",""
+Fill Password = [password omitted]","Generic incorrect-credentials errors and required-field validation.","Invalid sign-in creates no account
+Invalid sign-in creates no account
+Blank credentials show required errors","PASS","High","docs/evidence/qa40/M02-incorrect-credentials.png
+docs/evidence/qa40/M02-final.png
+docs/evidence/qa40/M02.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:34:48.663682+00:00"
 "M03","R01,R10","New account password-change gate","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -67,7 +77,10 @@ Fill New password = [password omitted]
 Fill New password confirmation = [password omitted]
 Fill Old password = [password omitted]
 Fill New password = [password omitted]
-Fill New password confirmation = [password omitted]","Workspace blocked until a strong matching password is set.","","NOT RUN","High",""
+Fill New password confirmation = [password omitted]","Workspace blocked until a strong matching password is set.","Direct project URL gated
+Password changed and gate cleared in database","PASS","High","docs/evidence/qa40/M03-password-errors.png
+docs/evidence/qa40/M03-final.png
+docs/evidence/qa40/M03.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:34:51.735677+00:00"
 "M04","R10","POST logout and protected-page access","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -79,7 +92,8 @@ Fill New password confirmation = [password omitted]","Workspace blocked until a 
 9. Click Sign out
 10. GET /my-tasks/: 200 (expected 200)","Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
-GET /logout/ {}","GET logout is 405; POST logout revokes workspace access.","","NOT RUN","High",""
+GET /logout/ {}","GET logout is 405; POST logout revokes workspace access.","Protected URL requires login after POST logout","PASS","High","docs/evidence/qa40/M04-final.png
+docs/evidence/qa40/M04.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:34:56.162451+00:00"
 "M05","R01","Create account and reject duplicate identifier","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -105,7 +119,8 @@ Fill Initial password = [password omitted]
 Fill First name = Review
 Fill Last name = Employee
 Fill Login identifier = review-employee
-Fill Initial password = [password omitted]","One record only; valid names retained and password cleared on failure.","","NOT RUN","High",""
+Fill Initial password = [password omitted]","One record only; valid names retained and password cleared on failure.","Duplicate rejected; one account stored","PASS","High","docs/evidence/qa40/M05-final.png
+docs/evidence/qa40/M05.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:34:58.918403+00:00"
 "M06","R01,R10","Edit account and explicitly reset password","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -125,7 +140,10 @@ Fill Password = [password omitted]
 Fill First name = Asha Edited
 Fill Reset password = [password omitted]
 Fill Login identifier = asha@demo.local
-Fill Password = [password omitted]","Blank reset preserves password; explicit reset requires password change.","","NOT RUN","High",""
+Fill Password = [password omitted]","Blank reset preserves password; explicit reset requires password change.","Blank reset preserves password and gate
+Explicit reset hashes new password and sets gate
+Reset account signs in to mandatory password change","PASS","High","docs/evidence/qa40/M06-final.png
+docs/evidence/qa40/M06.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:02.179349+00:00"
 "M07","R01,R03,R10","Role changes with dependent relationships","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -135,7 +153,12 @@ Fill Password = [password omitted]","Blank reset preserves password; explicit re
 7. Click Save employee
 8. GET /employees/48/edit/: 200 (expected 200)
 9. Click Save employee","Fill Login identifier = admin@demo.local
-Fill Password = [password omitted]","Invalid changes rejected without altering roles or relationships.","","NOT RUN","High",""
+Fill Password = [password omitted]","Invalid changes rejected without altering roles or relationships.","Role guard preserves existing role
+Role guard preserves existing role
+Dependent relationships intact","PASS","High","docs/evidence/qa40/M07-neha.png
+docs/evidence/qa40/M07-asha.png
+docs/evidence/qa40/M07-final.png
+docs/evidence/qa40/M07.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:05.726158+00:00"
 "M08","R01,R07,R10","Deactivate account with open session and work history","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -156,7 +179,9 @@ Fill Login identifier = admin@demo.local
 Fill Password = [password omitted]
 POST /api/accounts/55/deactivate/ {}
 Fill Login identifier = asha@demo.local
-Fill Password = [password omitted]","Existing session and new login denied; historical work retained.","","NOT RUN","High",""
+Fill Password = [password omitted]","Existing session and new login denied; historical work retained.","Existing inactive session denied
+Task and original contributor history preserved","PASS","High","docs/evidence/qa40/M08-final.png
+docs/evidence/qa40/M08.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:08.861171+00:00"
 "M09","R02,R06","Create project with equal dates and correct owner","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -185,7 +210,9 @@ Fill Login identifier = admin@demo.local
 Fill Password = [password omitted]
 Fill Project name = Admin selected project
 Fill Start date = 2026-10-09
-Fill End date = 2026-10-09","Manager owns their project; Admin may choose another Manager.","","NOT RUN","High",""
+Fill End date = 2026-10-09","Manager owns their project; Admin may choose another Manager.","Equal dates accepted and Manager ownership assigned
+Admin-selected Manager stored","PASS","High","docs/evidence/qa40/M09-final.png
+docs/evidence/qa40/M09.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:12.227359+00:00"
 "M10","R02,R06","Invalid project dates and required fields","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting. The failed-save subcheck uses an explicitly injected DatabaseError in the test harness; a human tester needs a controlled test-only failure setup.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -234,7 +261,15 @@ Fill End date = 2026-10-09
 Fill Project name = Retain after failed save
 Fill Start date = 2026-10-09
 Fill End date = 2026-10-09
-Fill Description = Retain this useful description","Validation errors; useful input retained; no invalid record saved.","","NOT RUN","High",""
+Fill Description = Retain this useful description","Validation errors; useful input retained; no invalid record saved.","Invalid project was not saved
+Invalid project was not saved
+Invalid project was not saved
+Simulated save failure retains input and stores no project","PASS","High","docs/evidence/qa40/M10-dates.png
+docs/evidence/qa40/M10-dates.png
+docs/evidence/qa40/M10-required.png
+docs/evidence/qa40/M10-simulated-failed-save.png
+docs/evidence/qa40/M10-final.png
+docs/evidence/qa40/M10.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:15.583476+00:00"
 "M11","R02","Project edit, persistence and no-results state","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -254,7 +289,9 @@ Fill Description = Retain this useful description","Validation errors; useful in
 Fill Password = [password omitted]
 Fill Project name = QA40 persisted rename
 Fill Login identifier = neha@demo.local
-Fill Password = [password omitted]","Edit survives refresh and new login; unmatched search is empty.","","NOT RUN","Medium",""
+Fill Password = [password omitted]","Edit survives refresh and new login; unmatched search is empty.","Project search renders no-results message
+Empty project has zero-work summary","PASS","Medium","docs/evidence/qa40/M11-final.png
+docs/evidence/qa40/M11.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:19.080840+00:00"
 "M12","R02,R10","Project/team/report URL isolation","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -285,7 +322,10 @@ Fill Password = [password omitted]
 Fill Login identifier = arjun@demo.local
 Fill Password = [password omitted]
 Fill Login identifier = dev@demo.local
-Fill Password = [password omitted]","Member reads allowed; foreign reads return 404 and Employee edits return 403.","","NOT RUN","High",""
+Fill Password = [password omitted]","Member reads allowed; foreign reads return 404 and Employee edits return 403.","All recorded browser/HTTP assertions passed. See per-case event log.","PASS","High","docs/evidence/qa40/M12-arjun-unavailable.png
+docs/evidence/qa40/M12-dev-unavailable.png
+docs/evidence/qa40/M12-final.png
+docs/evidence/qa40/M12.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:22.351887+00:00"
 "M13","R03","Add active Employee and reject ineligible members","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -297,7 +337,8 @@ Fill Password = [password omitted]","Member reads allowed; foreign reads return 
 9. POST /api/projects/53/memberships/ with JSON {""employee_id"":88}","Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
 POST /api/projects/53/memberships/ {""employee_id"":92}
-POST /api/projects/53/memberships/ {""employee_id"":88}","Active Employee added; inactive account and Manager rejected.","","NOT RUN","High",""
+POST /api/projects/53/memberships/ {""employee_id"":88}","Active Employee added; inactive account and Manager rejected.","Active Employee membership saved","PASS","High","docs/evidence/qa40/M13-final.png
+docs/evidence/qa40/M13.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:25.980942+00:00"
 "M14","R03","Reject duplicate project membership","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -305,7 +346,8 @@ POST /api/projects/53/memberships/ {""employee_id"":88}","Active Employee added;
 5. Browser sign-in as neha; Overview displayed
 6. POST /api/projects/55/memberships/ with JSON {""employee_id"":97}","Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
-POST /api/projects/55/memberships/ {""employee_id"":97}","Duplicate is rejected and only one membership remains.","","NOT RUN","High",""
+POST /api/projects/55/memberships/ {""employee_id"":97}","Duplicate is rejected and only one membership remains.","One membership after duplicate request","PASS","High","docs/evidence/qa40/M14-final.png
+docs/evidence/qa40/M14.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:28.809030+00:00"
 "M15","R03,R04","Block removal with unfinished assignments","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -313,7 +355,8 @@ POST /api/projects/55/memberships/ {""employee_id"":97}","Duplicate is rejected 
 5. Browser sign-in as neha; Overview displayed
 6. GET /projects/59/team/104/remove/: 200 (expected 200)
 7. Click Remove employee","Fill Login identifier = neha@demo.local
-Fill Password = [password omitted]","Actionable error; membership and assignments remain intact.","","NOT RUN","High",""
+Fill Password = [password omitted]","Actionable error; membership and assignments remain intact.","Removal guard keeps membership and task","PASS","High","docs/evidence/qa40/M15-final.png
+docs/evidence/qa40/M15.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:31.422952+00:00"
 "M16","R03,R07,R10","Remove member after reassignment","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -336,7 +379,8 @@ PATCH /api/tasks/183/ {""assignee_id"":112}
 DELETE /api/projects/63/memberships/111/ {}
 Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
-GET /api/projects/63/report/ {}","Removal succeeds; original time attribution retained; access revoked.","","NOT RUN","High",""
+GET /api/projects/63/report/ {}","Removal succeeds; original time attribution retained; access revoked.","Original contributor retained after reassignment/removal","PASS","High","docs/evidence/qa40/M16-final.png
+docs/evidence/qa40/M16.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:34.178353+00:00"
 "M17","R04","Create and assign task through the desktop UI","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -355,7 +399,8 @@ GET /api/projects/63/report/ {}","Removal succeeds; original time attribution re
 Fill Password = [password omitted]
 Fill Task title = QA40 assigned task
 Fill Login identifier = asha@demo.local
-Fill Password = [password omitted]","New task starts TODO and appears in project and assignee's My tasks.","","NOT RUN","High",""
+Fill Password = [password omitted]","New task starts TODO and appears in project and assignee's My tasks.","TODO task and assignment stored","PASS","High","docs/evidence/qa40/M17-final.png
+docs/evidence/qa40/M17.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:37.249641+00:00"
 "M18","R04","No eligible members, blank title and nonmember selection","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -368,7 +413,9 @@ Fill Password = [password omitted]","New task starts TODO and appears in project
 10. POST /api/tasks/ with JSON {""project_id"":71,""title"":""Bad assignment"",""assignee_id"":128}","Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
 Fill Description = Retain this description
-POST /api/tasks/ {""project_id"":71,""title"":""Bad assignment"",""assignee_id"":128}","Clear empty guidance and validation; no invalid task saved.","","NOT RUN","High",""
+POST /api/tasks/ {""project_id"":71,""title"":""Bad assignment"",""assignee_id"":128}","Clear empty guidance and validation; no invalid task saved.","Nonmember assignment rejected","PASS","High","docs/evidence/qa40/M18-no-eligible-members.png
+docs/evidence/qa40/M18-final.png
+docs/evidence/qa40/M18.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:40.516190+00:00"
 "M19","R04,R07","Edit/reassign task with fixed project","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -381,7 +428,9 @@ POST /api/tasks/ {""project_id"":71,""title"":""Bad assignment"",""assignee_id""
 10. GET /tasks/218/edit/: 200 (expected 200)","Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
 Fill Task title = QA40 edited task
-PATCH /api/tasks/218/ {""project_id"":77}","Task updated; project fixed; recorded work retains original contributor.","","NOT RUN","High",""
+PATCH /api/tasks/218/ {""project_id"":77}","Task updated; project fixed; recorded work retains original contributor.","Reassignment retains fixed project and historical contributor
+Project is not editable","PASS","High","docs/evidence/qa40/M19-final.png
+docs/evidence/qa40/M19.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:43.382950+00:00"
 "M20","R05,R07","Employee starts assigned task","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -389,7 +438,8 @@ PATCH /api/tasks/218/ {""project_id"":77}","Task updated; project fixed; recorde
 5. Browser sign-in as asha; Overview displayed
 6. GET /tasks/232/: 200 (expected 200)
 7. Click Start task","Fill Login identifier = asha@demo.local
-Fill Password = [password omitted]","IN_PROGRESS enables Log time; starting creates no automatic time entry.","","NOT RUN","High",""
+Fill Password = [password omitted]","IN_PROGRESS enables Log time; starting creates no automatic time entry.","Start changes only status, not recorded duration","PASS","High","docs/evidence/qa40/M20-final.png
+docs/evidence/qa40/M20.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:46.225970+00:00"
 "M21","R05","Reject skipping, reversing and reopening status","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -401,7 +451,8 @@ Fill Password = [password omitted]","IN_PROGRESS enables Log time; starting crea
 Fill Password = [password omitted]
 PATCH /api/tasks/244/ {""status"":""COMPLETED""}
 PATCH /api/tasks/242/ {""status"":""TODO""}
-PATCH /api/tasks/246/ {""status"":""IN_PROGRESS""}","Illegal transitions rejected and stored status unchanged.","","NOT RUN","High",""
+PATCH /api/tasks/246/ {""status"":""IN_PROGRESS""}","Illegal transitions rejected and stored status unchanged.","No illegal transition saved","PASS","High","docs/evidence/qa40/M21-final.png
+docs/evidence/qa40/M21.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:49.255495+00:00"
 "M22","R05","Completion confirmation and cancellation","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -410,7 +461,10 @@ PATCH /api/tasks/246/ {""status"":""IN_PROGRESS""}","Illegal transitions rejecte
 6. GET /tasks/254/complete/: 200 (expected 200)
 7. GET /tasks/254/complete/: 200 (expected 200)
 8. Click Mark completed","Fill Login identifier = asha@demo.local
-Fill Password = [password omitted]","Remaining-time guidance; cancel preserves status; confirm locks task.","","NOT RUN","High",""
+Fill Password = [password omitted]","Remaining-time guidance; cancel preserves status; confirm locks task.","Cancel retains status
+Completion stored and Log time removed","PASS","High","docs/evidence/qa40/M22-confirmation.png
+docs/evidence/qa40/M22-final.png
+docs/evidence/qa40/M22.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:51.991712+00:00"
 "M23","R05,R07,R10","Completed-task and time locks","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -449,7 +503,10 @@ PATCH /api/tasks/270/ {""status"":""TODO""}
 DELETE /api/tasks/270/ {}
 PATCH /api/time-entries/157/ {""minutes"":1}
 DELETE /api/time-entries/157/ {}
-PATCH /api/tasks/270/ {""assignee_id"":161}","Manager/Employee direct URLs and API mutations reject prohibited changes.","","NOT RUN","High",""
+PATCH /api/tasks/270/ {""assignee_id"":161}","Manager/Employee direct URLs and API mutations reject prohibited changes.","Completed task edit hidden
+Completed task edit hidden
+Rejected mutations leave completed work unchanged","PASS","High","docs/evidence/qa40/M23-final.png
+docs/evidence/qa40/M23.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:54.980432+00:00"
 "M24","R07","Hours/minutes positive and boundary durations","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -485,7 +542,10 @@ Fill Work note = Boundary 1
 Fill Work date = 2026-10-09
 Fill Hours = 24
 Fill Minutes = 0
-Fill Work note = Boundary 1440","1h30m, 0h1m and 24h0m persist as 90, 1 and 1440 minutes.","","NOT RUN","Medium",""
+Fill Work note = Boundary 1440","1h30m, 0h1m and 24h0m persist as 90, 1 and 1440 minutes.","1h 30m persisted as 90 minutes
+0h 1m persisted as 1 minutes
+24h 0m persisted as 1440 minutes","PASS","Medium","docs/evidence/qa40/M24-final.png
+docs/evidence/qa40/M24.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:35:58.463768+00:00"
 "M25","R07","Invalid hours/minutes retain useful input","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -569,7 +629,16 @@ Fill Minutes = 10
 Fill Work note = Retain useful note
 Fill Work date = 2026-10-09
 Fill Hours = 1
-Fill Work note = Retain useful note","Zero, overflow, negative, fractional, minutes 60 and blanks rejected.","","NOT RUN","High",""
+Fill Work note = Retain useful note","Zero, overflow, negative, fractional, minutes 60 and blanks rejected.","Invalid duration 0h 0m rejected; note/date retained
+Invalid duration 24h 1m rejected; note/date retained
+Invalid duration -1h 0m rejected; note/date retained
+Invalid duration 1.5h 0m rejected; note/date retained
+Invalid duration 0h 60m rejected; note/date retained
+Invalid duration 0h 1.5m rejected; note/date retained
+Invalid duration ''h 10m rejected; note/date retained
+Invalid duration 1h ''m rejected; note/date retained","PASS","High","docs/evidence/qa40/M25-validation.png
+docs/evidence/qa40/M25-final.png
+docs/evidence/qa40/M25.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:01.746753+00:00"
 "M26","R07","Reject future work dates","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -589,7 +658,8 @@ Fill Hours = 1
 Fill Minutes = 0
 Fill Work note = QA40 work
 Fill Work date = 2026-10-10
-POST /api/time-entries/ {""task_id"":302,""work_date"":""2026-10-10"",""minutes"":60}","HTML and API reject tomorrow without saving time.","","NOT RUN","High",""
+POST /api/time-entries/ {""task_id"":302,""work_date"":""2026-10-10"",""minutes"":60}","HTML and API reject tomorrow without saving time.","Future date creates no time record","PASS","High","docs/evidence/qa40/M26-final.png
+docs/evidence/qa40/M26.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:05.830955+00:00"
 "M27","R07","Edit time and cancel/confirm deletion","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -614,7 +684,12 @@ Fill Minutes = 0
 Fill Work date = 2026-10-09
 Fill Hours = 0
 Fill Minutes = 30
-Fill Work note = Delete this test entry","Prefill splits 90 into 1h30m; edit saves 120; confirmed delete reduces total.","","NOT RUN","Medium",""
+Fill Work note = Delete this test entry","Prefill splits 90 into 1h30m; edit saves 120; confirmed delete reduces total.","Edited duration stored as 120 minutes
+Cancel preserves time entry
+Confirmed deletion removes only selected entry
+Confirmed deletion restores the original task time total","PASS","Medium","docs/evidence/qa40/M27-delete-confirmation.png
+docs/evidence/qa40/M27-final.png
+docs/evidence/qa40/M27.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:08.836898+00:00"
 "M28","R07,R10","Time ownership and task-state permissions","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = ravi@demo.local
 3. Fill Password = [password omitted]
@@ -648,7 +723,8 @@ Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
 POST /api/time-entries/ {""task_id"":328,""work_date"":""2026-10-09"",""minutes"":60}
 POST /api/time-entries/ {""task_id"":330,""work_date"":""2026-10-09"",""minutes"":60}
-PATCH /api/time-entries/194/ {""minutes"":1}","Other Employee, Manager and disallowed task states cannot mutate time.","","NOT RUN","High",""
+PATCH /api/time-entries/194/ {""minutes"":1}","Other Employee, Manager and disallowed task states cannot mutate time.","Time ownership/state failures leave entry intact","PASS","High","docs/evidence/qa40/M28-final.png
+docs/evidence/qa40/M28.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:12.219781+00:00"
 "M29","R05,R07","Stale time form after completion or reassignment","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -692,7 +768,13 @@ Fill Minutes = 0
 Fill Work note = Retained stale note
 Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
-PATCH /api/tasks/340/ {""assignee_id"":203}","403 with retained input; no late entry is saved.","","NOT RUN","High",""
+PATCH /api/tasks/340/ {""assignee_id"":203}","403 with retained input; no late entry is saved.","Stale time POST returns 403
+Stale form saves no entry and retains note
+Stale time POST returns 403
+Stale form saves no entry and retains note","PASS","High","docs/evidence/qa40/M29-completed.png
+docs/evidence/qa40/M29-reassign.png
+docs/evidence/qa40/M29-final.png
+docs/evidence/qa40/M29.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:15.661839+00:00"
 "M30","R08","Report totals, completion and empty project","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -743,7 +825,10 @@ PATCH /api/tasks/363/ {""status"":""COMPLETED""}
 Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
 GET /api/projects/123/report/ {}
-GET /api/projects/121/report/ {}","3 tasks, 2 complete, 180 minutes, 3 hours, 66.67%; empty project is zero.","","NOT RUN","High",""
+GET /api/projects/121/report/ {}","3 tasks, 2 complete, 180 minutes, 3 hours, 66.67%; empty project is zero.","Report is 3 tasks, 2 completed, 180 min, 3h, 66.67%
+Zero-task report returns zeros","PASS","High","docs/evidence/qa40/M30-report.png
+docs/evidence/qa40/M30-final.png
+docs/evidence/qa40/M30.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:19.798279+00:00"
 "M31","R08,R10","Role-scoped Overview and reports","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -781,7 +866,14 @@ GET /api/projects/124/report/ {}
 Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
 GET /api/overview/ {}
-GET /api/projects/124/report/ {}","Admin sees all; Manager owned projects; Employee own work.","","NOT RUN","High",""
+GET /api/projects/124/report/ {}","Admin sees all; Manager owned projects; Employee own work.","admin sees 4 authorized projects
+admin project report has correctly scoped minutes
+neha sees 3 authorized projects
+neha project report has correctly scoped minutes
+asha sees 2 authorized projects
+asha project report has correctly scoped minutes
+Employee contributor report includes own work only","PASS","High","docs/evidence/qa40/M31-final.png
+docs/evidence/qa40/M31.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:23.575792+00:00"
 "M32","R05,R07,R10","Explicit Admin completed-work corrections","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = admin@demo.local
 3. Fill Password = [password omitted]
@@ -799,7 +891,8 @@ Fill Password = [password omitted]
 Fill Task title = QA40 corrected audit
 Fill Hours = 4
 Fill Minutes = 10
-PATCH /api/tasks/381/correction/ {""status"":""TODO""}","Correction retains COMPLETED, original task and original contributor.","","NOT RUN","High",""
+PATCH /api/tasks/381/correction/ {""status"":""TODO""}","Correction retains COMPLETED, original task and original contributor.","Admin correction preserves completed status and original identity","PASS","High","docs/evidence/qa40/M32-final.png
+docs/evidence/qa40/M32.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:27.004673+00:00"
 "M33","R07,R08","SQL/report agreement and persistence","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -816,7 +909,8 @@ PATCH /api/tasks/381/correction/ {""status"":""TODO""}","Correction retains COMP
 Fill Password = [password omitted]
 PATCH /api/tasks/389/ {""assignee_id"":231}
 Fill Login identifier = neha@demo.local
-Fill Password = [password omitted]","Read-only SQL agrees with ORM reports, including historical contributors.","","NOT RUN","High",""
+Fill Password = [password omitted]","Read-only SQL agrees with ORM reports, including historical contributors.","Both SQL queries agree with all four project reports and historical contributors","PASS","High","docs/evidence/qa40/M33-final.png
+docs/evidence/qa40/M33.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:29.986513+00:00"
 "M34","R09","REST workflow, partial updates and malformed input","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. GET /api/projects/ with JSON {}
 3. GET /api/projects/: 403 (expected 403)
@@ -860,7 +954,9 @@ PATCH /api/tasks/413/ {""status"":""COMPLETED""}
 Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
 POST /api/tasks/ {""project_id"":140}
-POST /api/projects/ {""name"":""Missing dates""}","Valid workflow succeeds; omitted fields retained; invalid JSON/fields rejected.","","NOT RUN","High",""
+POST /api/projects/ {""name"":""Missing dates""}","Valid workflow succeeds; omitted fields retained; invalid JSON/fields rejected.","Partial PUT/PATCH retain omitted fields
+Malformed JSON returns 400","PASS","High","docs/evidence/qa40/M34-final.png
+docs/evidence/qa40/M34.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:33.095487+00:00"
 "M35","R09,R10","Forged ownership and privileged fields","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -900,7 +996,8 @@ PATCH /api/accounts/244/ {""is_staff"":true}
 PATCH /api/accounts/244/ {""is_superuser"":true}
 PATCH /api/accounts/244/ {""must_change_password"":true}
 PATCH /api/accounts/244/ {""groups"":true}
-PATCH /api/accounts/244/ {""user_permissions"":true}","Protected fields rejected without altering ownership or privileges.","","NOT RUN","High",""
+PATCH /api/accounts/244/ {""user_permissions"":true}","Protected fields rejected without altering ownership or privileges.","Ownership/contributor/privileges unchanged","PASS","High","docs/evidence/qa40/M35-final.png
+docs/evidence/qa40/M35.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:36.669511+00:00"
 "M36","R09,R10","List/filter/detail/report privacy and picker scope","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = arjun@demo.local
 3. Fill Password = [password omitted]
@@ -982,7 +1079,18 @@ GET /api/tasks/ {}
 GET /api/projects/145/report/ {}
 Fill Login identifier = neha@demo.local
 Fill Password = [password omitted]
-GET /api/projects/145/employee-options/ {}","Foreign records/notes excluded; picker exposes only id and name.","","NOT RUN","High",""
+GET /api/projects/145/employee-options/ {}","Foreign records/notes excluded; picker exposes only id and name.","Foreign filter contains zero records
+Foreign filter contains zero records
+Foreign project absent from list
+Foreign filter contains zero records
+Foreign filter contains zero records
+Foreign project absent from list
+Other Employee's detailed time note absent from HTML
+No private notes/password/privilege fields in serialization
+No private notes/password/privilege fields in serialization
+Picker fields limited to id/name
+Picker includes active Employees only","PASS","High","docs/evidence/qa40/M36-final.png
+docs/evidence/qa40/M36.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:40.167594+00:00"
 "M37","R09,R10","CSRF and strict JSON minutes","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. GET /login/: 200 (expected 200)
 3. Fill Login identifier = asha@demo.local
@@ -1011,7 +1119,9 @@ POST /api/time-entries/ {""task_id"":438,""work_date"":""2026-10-09"",""minutes"
 POST /api/time-entries/ {""task_id"":438,""work_date"":""2026-10-09"",""minutes"":null}
 POST /api/time-entries/ {""task_id"":438,""work_date"":""2026-10-09"",""minutes"":0}
 POST /api/time-entries/ {""task_id"":438,""work_date"":""2026-10-09"",""minutes"":1441}
-POST /api/time-entries/ {""task_id"":438,""work_date"":""2026-10-09"",""minutes"":60}","Missing/wrong CSRF rejected; valid CSRF accepted; invalid numeric types rejected.","","NOT RUN","High",""
+POST /api/time-entries/ {""task_id"":438,""work_date"":""2026-10-09"",""minutes"":60}","Missing/wrong CSRF rejected; valid CSRF accepted; invalid numeric types rejected.","Login without CSRF returns 403
+Wrong CSRF token returns 403","PASS","High","docs/evidence/qa40/M37-final.png
+docs/evidence/qa40/M37.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:44.265557+00:00"
 "M38","R10","Stored XSS, search input and account permissions","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -1047,7 +1157,10 @@ POST /api/accounts/ {""username"":""forbidden"",""password"":""[chosen strong pa
 Fill Login identifier = asha@demo.local
 Fill Password = [password omitted]
 GET /api/accounts/ {}
-POST /api/accounts/ {""username"":""forbidden"",""password"":""[chosen strong password]""}","Markup escaped; search treated literally; non-Admins cannot manage accounts.","","NOT RUN","High",""
+POST /api/accounts/ {""username"":""forbidden"",""password"":""[chosen strong password]""}","Markup escaped; search treated literally; non-Admins cannot manage accounts.","Stored markup does not execute JavaScript
+Markup displayed as literal escaped text
+SQL-like search is literal and does not broaden results","PASS","High","docs/evidence/qa40/M38-final.png
+docs/evidence/qa40/M38.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:47.311026+00:00"
 "M39","R04,R07","Keyboard, desktop zoom, numeric alignment and saving feedback","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting. Native browser menu zoom must be tested by a human. Automated reflow uses a 720x450 CSS viewport at 2x density. Saving feedback inspection temporarily prevents navigation in the test browser.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = asha@demo.local
 3. Fill Password = [password omitted]
@@ -1075,7 +1188,18 @@ Fill Minutes = 1.5
 Fill Work date = 2026-10-09
 Fill Hours = 1
 Fill Minutes = 30
-Fill Work note = Single browser submit","Controls reachable with visible focus, readable at 200%, and one save.","","NOT RUN","Medium",""
+Fill Work note = Single browser submit","Controls reachable with visible focus, readable at 200%, and one save.","Keyboard focus has visible outline
+Zoom-equivalent viewport has no page-level horizontal overflow
+Minutes has associated helper text
+Submit marks form busy and shows saving feedback
+Disabled button ignores a second click
+One entry saved through browser submission
+Time durations are right aligned
+Native browser 200% zoom and human usability assessment not executed. Zoom-equivalent reflow, keyboard and saving checks executed.","BLOCKED","Medium","docs/evidence/qa40/M39-keyboard-error-focus.png
+docs/evidence/qa40/M39-200-percent-viewport-equivalent.png
+docs/evidence/qa40/M39-saving-feedback.png
+docs/evidence/qa40/M39-final.png
+docs/evidence/qa40/M39.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:50.813261+00:00"
 "M40","R02,R04,R07","Protect history and allow safe deletion","Fresh isolated PostgreSQL test database seeded with Admin, Neha/Arjun Managers, Asha/Ravi Employees, inactive Meera and unassigned Dev. Four projects include empty, unfinished and completed work. Local Chromium at 1440×900, DEBUG=False, source static assets. Use your own record IDs for human retesting.","1. GET /login/: 200 (expected 200)
 2. Fill Login identifier = neha@demo.local
 3. Fill Password = [password omitted]
@@ -1091,4 +1215,6 @@ DELETE /api/projects/161/ {}
 DELETE /api/tasks/474/ {}
 DELETE /api/tasks/478/ {}
 DELETE /api/projects/163/ {}
-DELETE /api/tasks/476/ {}","Dependent work protected; empty projects and tasks without history removable.","","NOT RUN","High",""
+DELETE /api/tasks/476/ {}","Dependent work protected; empty projects and tasks without history removable.","Dependent project/task/time history preserved
+Safe empty project and task deleted","PASS","High","docs/evidence/qa40/M40-final.png
+docs/evidence/qa40/M40.json","Agent-executed Chromium browser/HTTP checks with PostgreSQL readback","2026-10-09T06:36:54.387081+00:00"

@@ -1,0 +1,263 @@
+{
+  "id": "M25",
+  "requirements": "R07",
+  "scenario": "Invalid hours/minutes retain useful input",
+  "expected": "Zero, overflow, negative, fractional, minutes 60 and blanks rejected.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:36:01.746753+00:00",
+  "duration_seconds": 2.03,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "0"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration 0h 0m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "24"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "1"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration 24h 1m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "-1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration -1h 0m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1.5"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "0"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration 1.5h 0m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "0"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "60"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration 0h 60m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "0"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "1.5"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration 0h 1.5m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": ""
+    },
+    {
+      "step": "Fill Minutes",
+      "value": "10"
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration ''h 10m rejected; note/date retained",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/290/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Work date",
+      "value": "2026-10-09"
+    },
+    {
+      "step": "Fill Hours",
+      "value": "1"
+    },
+    {
+      "step": "Fill Minutes",
+      "value": ""
+    },
+    {
+      "step": "Fill Work note",
+      "value": "Retain useful note"
+    },
+    {
+      "step": "Click Log time"
+    },
+    {
+      "check": "Invalid duration 1h ''m rejected; note/date retained",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M25-validation.png",
+    "M25-final.png"
+  ]
+}

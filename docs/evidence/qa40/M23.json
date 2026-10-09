@@ -1,0 +1,190 @@
+{
+  "id": "M23",
+  "requirements": "R05,R07,R10",
+  "scenario": "Completed-task and time locks",
+  "expected": "Manager/Employee direct URLs and API mutations reject prohibited changes.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:54.980432+00:00",
+  "duration_seconds": 1.44,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/270/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Completed task edit hidden",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/270/edit/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /time-entries/157/edit/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /time-entries/157/delete/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/270/",
+      "payload": {
+        "status": "TODO"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/270/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/tasks/270/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/tasks/270/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/time-entries/157/",
+      "payload": {
+        "minutes": 1
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/157/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/time-entries/157/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/time-entries/157/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/270/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "Completed task edit hidden",
+      "passed": true
+    },
+    {
+      "check": "GET /tasks/270/edit/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /time-entries/157/edit/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "GET /time-entries/157/delete/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/270/",
+      "payload": {
+        "status": "TODO"
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/270/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/tasks/270/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/tasks/270/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/time-entries/157/",
+      "payload": {
+        "minutes": 1
+      }
+    },
+    {
+      "check": "PATCH /api/time-entries/157/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "DELETE /api/time-entries/157/",
+      "payload": {}
+    },
+    {
+      "check": "DELETE /api/time-entries/157/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "request": "PATCH /api/tasks/270/",
+      "payload": {
+        "assignee_id": 161
+      }
+    },
+    {
+      "check": "PATCH /api/tasks/270/: 403 (expected 403)",
+      "passed": true
+    },
+    {
+      "check": "Rejected mutations leave completed work unchanged",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M23-final.png"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "M20",
+  "requirements": "R05,R07",
+  "scenario": "Employee starts assigned task",
+  "expected": "IN_PROGRESS enables Log time; starting creates no automatic time entry.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:46.225970+00:00",
+  "duration_seconds": 0.77,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /tasks/232/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Start task"
+    },
+    {
+      "check": "Start changes only status, not recorded duration",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M20-final.png"
+  ]
+}

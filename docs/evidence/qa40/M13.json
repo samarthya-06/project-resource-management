@@ -1,0 +1,77 @@
+{
+  "id": "M13",
+  "requirements": "R03",
+  "scenario": "Add active Employee and reject ineligible members",
+  "expected": "Active Employee added; inactive account and Manager rejected.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:25.980942+00:00",
+  "duration_seconds": 0.78,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/53/team/add/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Add employee"
+    },
+    {
+      "check": "Active Employee membership saved",
+      "passed": true
+    },
+    {
+      "request": "POST /api/projects/53/memberships/",
+      "payload": {
+        "employee_id": 92
+      }
+    },
+    {
+      "check": "POST /api/projects/53/memberships/: 400 (expected 400)",
+      "passed": true
+    },
+    {
+      "request": "POST /api/projects/53/memberships/",
+      "payload": {
+        "employee_id": 88
+      }
+    },
+    {
+      "check": "POST /api/projects/53/memberships/: 400 (expected 400)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M13-final.png"
+  ]
+}

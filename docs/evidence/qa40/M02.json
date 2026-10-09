@@ -1,0 +1,78 @@
+{
+  "id": "M02",
+  "requirements": "R10",
+  "scenario": "Invalid and empty sign-in credentials",
+  "expected": "Generic incorrect-credentials errors and required-field validation.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:34:48.663682+00:00",
+  "duration_seconds": 1.04,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "check": "Invalid sign-in creates no account",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "does-not-exist@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "check": "Invalid sign-in creates no account",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "check": "Blank credentials show required errors",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M02-incorrect-credentials.png",
+    "M02-final.png"
+  ]
+}

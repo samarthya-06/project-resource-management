@@ -1,0 +1,87 @@
+{
+  "id": "M17",
+  "requirements": "R04",
+  "scenario": "Create and assign task through the desktop UI",
+  "expected": "New task starts TODO and appears in project and assignee's My tasks.",
+  "status": "PASS",
+  "error": "",
+  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "started_utc": "2026-10-09T06:35:37.249641+00:00",
+  "duration_seconds": 1.23,
+  "events": [
+    {
+      "check": "Isolated PostgreSQL test database",
+      "passed": true
+    },
+    {
+      "check": "DEBUG=False: controlled production error responses",
+      "passed": true
+    },
+    {
+      "check": "Test live server serves source CSS (production asset build not exercised)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "neha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as neha; Overview displayed"
+    },
+    {
+      "check": "GET /projects/67/tasks/create/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Task title",
+      "value": "QA40 assigned task"
+    },
+    {
+      "step": "Click Create task"
+    },
+    {
+      "check": "TODO task and assignment stored",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/67/tasks/?status=TODO&assignee=118: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "check": "GET /login/: 200 (expected 200)",
+      "passed": true
+    },
+    {
+      "step": "Fill Login identifier",
+      "value": "asha@demo.local"
+    },
+    {
+      "step": "Fill Password",
+      "value": "[password omitted]"
+    },
+    {
+      "step": "Click Sign in"
+    },
+    {
+      "step": "Browser sign-in as asha; Overview displayed"
+    },
+    {
+      "check": "GET /my-tasks/?status=TODO&project=67: 200 (expected 200)",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "M17-final.png"
+  ]
+}
