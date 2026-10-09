@@ -339,10 +339,16 @@ Latest recorded local verification, **9 October 2026**:
 
 The 284 and 40 tests were executed separately.
 
-Open the [review report](docs/qa40-review.md), [results workbook](docs/qa40-results.xlsx),
+Open the [requirement coverage guide](docs/testing-requirement-coverage.md),
+[review report](docs/qa40-review.md), [final results workbook](docs/qa40-results.xlsx),
 [full CSV](docs/qa40-results.csv), [screenshots](docs/evidence/qa40/index.md) or
 [defect list](docs/qa40-defects.md). Human testers can use the [40-case template](docs/manual-test-cases.csv)
 and [testing guide](docs/manual-testing-guide.md).
+
+The final workbook groups all 40 cases by category and identifies positive, negative
+and combined scenarios. [Database/schema information](docs/schema.md),
+[API documentation](docs/api.md), [SQL report queries](sql/project_reports.sql) and
+[known limitations](docs/known-limitations.md) complete the supporting documents.
 
 Run only the additional review with `uv run pytest tests/test_submission_review.py -q`.
 With `QA40_EVIDENCE=1` set in your terminal environment, it replaces JSON/screenshots;

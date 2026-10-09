@@ -1,8 +1,8 @@
 # Local 40-case QA execution record
 
 Review date: 9 October 2026. Application commit: `ea0366bab91eb5d37b53a416635f303b447e5435`.
-Execution method: agent-executed Chromium browser and HTTP checks, with PostgreSQL
-readback. These results are separate from human manual testing.
+Execution method: automated checks using pytest, Playwright Chromium and PostgreSQL
+verification. These results are separate from human manual testing.
 
 The results sheet contains **40 PASS and 0 FAIL**. M39 verifies Overview visibility
 before and after the assigned Employee uses Start task. Admin and Manager project
@@ -15,9 +15,14 @@ case. Test mutations used isolated fixtures, not development or hosted records.
 
 ## Deliverables
 
+Cases are grouped by the assignment categories. See [requirement coverage](testing-requirement-coverage.md)
+and the workbook’s Requirement coverage tab. Scenario type distinguishes positive, negative
+and combined cases; all original IDs, outcomes and evidence are retained.
+
 - [Full results CSV](qa40-results.csv): requirement mapping, preconditions, steps,
   data, expected/actual results, status, priority, evidence and execution date.
-- [Results workbook](qa40-results.xlsx): review summary, full case details and SQL comparison.
+- [Results workbook](qa40-results.xlsx): summary, case information,
+  requirement coverage and SQL comparison.
 - [Defects and unverified checks](qa40-defects.md).
 - [Evidence directory](evidence/qa40/): case JSON request/assertion logs,
   screenshots and JUnit execution records. Each results-sheet row names its evidence.

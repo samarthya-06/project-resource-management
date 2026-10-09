@@ -1,7 +1,7 @@
 # Local QA review: defects and unverified work
 
 Review date: 9 October 2026. Application commit: `ea0366b`.
-Execution: agent-executed local Chromium browser/HTTP checks with PostgreSQL readback.
+Execution details and environment: [local review report](qa40-review.md).
 
 No application defects were confirmed by the executed 40-case review or the existing
 284-test PostgreSQL regression suite. This is a statement about the checked scope,

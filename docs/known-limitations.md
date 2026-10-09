@@ -47,7 +47,7 @@ As of Phase 4B complete desktop workflow, 8 October 2026:
   Browser reflow tables scroll horizontally inside a focusable region at 200% equivalent
   zoom; this is not mobile layout support. No live notifications or stale-state polling.
 
-9 October local review: see `qa40-review.md` for 40 agent-executed browser/HTTP cases,
+9 October local review: see `qa40-review.md` for 40 automated browser/HTTP cases,
 SQL evidence and regression results. Human manual-case evidence remains separate.
 Native browser-menu zoom/usability and hosted-site retesting remain
 unverified. No application defect was confirmed in this checked scope.

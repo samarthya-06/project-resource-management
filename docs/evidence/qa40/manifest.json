@@ -1,6 +1,6 @@
 {
   "application_commit": "ea0366bab91eb5d37b53a416635f303b447e5435",
-  "execution_method": "Agent-executed local Chromium/HTTP and PostgreSQL checks",
+  "execution_method": "Automated checks using pytest, Playwright Chromium and PostgreSQL verification",
   "case_counts": {
     "PASS": 40,
     "FAIL": 0
@@ -39,6 +39,11 @@
     }
   },
   "files": [
+    {
+      "path": "README.md",
+      "bytes": 19340,
+      "sha256": "41f74f3e17611cec9f7283eaabd25e5cad55f5f9685b0c87392df01725cb79fb"
+    },
     {
       "path": "docs/evidence/qa40/M01-admin.png",
       "bytes": 76985,
@@ -606,13 +611,13 @@
     },
     {
       "path": "docs/evidence/qa40/workbook-overview-preview.png",
-      "bytes": 126272,
-      "sha256": "dcf097f7da85a6329a0321cb3e9fbeac4f7f2a5c331abd3e2634f674c8a61711"
+      "bytes": 27709,
+      "sha256": "deab9182f2d2709fb39e8e909f7e0f31ab305daa599b8b18c356bdfec46d1319"
     },
     {
       "path": "docs/evidence/qa40/workbook-results-preview.png",
-      "bytes": 130622,
-      "sha256": "8ff4fb169afe720e5a086e0b3d6ddc795bf5e8c3aee9dcf3d49d03b8f16c4063"
+      "bytes": 40852,
+      "sha256": "bc9a702342a3d312164ddc43819a0557d71bcb04fbe0e9435f2af72c1417cd0e"
     },
     {
       "path": "docs/evidence/qa40/workbook-sql-preview.png",
@@ -620,29 +625,39 @@
       "sha256": "f64ef03142b657ffa2645d1a1f064d10ad864f5b2a381a9c1b31b71dabda5c83"
     },
     {
+      "path": "docs/known-limitations.md",
+      "bytes": 3962,
+      "sha256": "95fbf0571478f7a60264ca9b23cd0c02b89f200b205959cdbb08313e1b1af395"
+    },
+    {
       "path": "docs/manual-test-cases.csv",
-      "bytes": 66073,
-      "sha256": "4eef95461545a50f4c6354d75422cd78ffa6b3b1d53f69547a55146499ec1d2d"
+      "bytes": 66772,
+      "sha256": "9573540f5e33fc898703922bb5cf110bfe22299831b2dd03854284fa65daade9"
     },
     {
       "path": "docs/qa40-defects.md",
-      "bytes": 2033,
-      "sha256": "3e94b648a377b2bd2951cfaf0b8762536df74efeb0710e10d0f016182b1ec221"
+      "bytes": 2020,
+      "sha256": "f2177cf84257b4a09e1f291dee06af707bf12794beaa39be35ef0b106910744a"
     },
     {
       "path": "docs/qa40-results.csv",
-      "bytes": 77891,
-      "sha256": "027f311bffadcec3e5479ab53e4a7ba97414f5ea6a72cf3d66ccf4ab1b2dce54"
+      "bytes": 79036,
+      "sha256": "373c29b274436b770a938e1094f01a72281b5f9bcafe12d633bd4730518f63d7"
     },
     {
       "path": "docs/qa40-results.xlsx",
-      "bytes": 25134,
-      "sha256": "3bf85ef25a9c4aeb9a2b0d74ca4488636d67b8ce9584ea539e98bdb9237cd81d"
+      "bytes": 28807,
+      "sha256": "292615889e8e12de35d42647ca5d9606fef0a8d21315a0dcdac5975032c91d5f"
     },
     {
       "path": "docs/qa40-review.md",
-      "bytes": 7682,
-      "sha256": "9fecf9d786eb7b1d35b4997dfc3467d47d2ae5f32f6f8cdf44da2365a86fd427"
+      "bytes": 7980,
+      "sha256": "4b072567eef185336a16299ddda55913e5768ad5bdcf94859bffb1f7084586dc"
+    },
+    {
+      "path": "docs/testing-requirement-coverage.md",
+      "bytes": 1392,
+      "sha256": "433b3efccfe8b8c59319aca96bcedbf074825436c6de7e7f023f2f78aa904d5b"
     }
   ]
 }
