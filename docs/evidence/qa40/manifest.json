@@ -41,8 +41,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 19006,
-      "sha256": "3907fbfbcf60cb2979161c4a2e8506ca2f0e915a71cee9466d56dd109f016517"
+      "bytes": 19101,
+      "sha256": "45d70d0c19f24a891e0f650220cd162d48d58e4d6b97edebfaf68b89f7c4dd51"
     },
     {
       "path": "docs/evidence/qa40/M01-admin.png",
@@ -606,13 +606,13 @@
     },
     {
       "path": "docs/known-limitations.md",
-      "bytes": 2906,
-      "sha256": "2da000b24c7992fb4efa7b77952a482941dd603a1667f9b629ffdb680d8b3c0d"
+      "bytes": 1825,
+      "sha256": "c925fa5f06cc0c741f3ce9f9c910b879a02a3241ba98975b0e25f67cf3c5a99e"
     },
     {
       "path": "docs/manual-test-cases.csv",
-      "bytes": 66772,
-      "sha256": "9573540f5e33fc898703922bb5cf110bfe22299831b2dd03854284fa65daade9"
+      "bytes": 69505,
+      "sha256": "9a0e96eadbb5caf2031587cb4945b9f31f025498cb5a9f0492ea5f049f6382d4"
     },
     {
       "path": "docs/qa40-results.csv",
@@ -626,9 +626,9 @@
     },
     {
       "path": "docs/testing.md",
-      "bytes": 8699,
-      "sha256": "09e182c91343b9455b18ce1f716fb206fb976af21789a5a1765d722f39596cee"
+      "bytes": 8835,
+      "sha256": "95aab8ac3f146b8dfa84563d76dd995b05f3160a848c9d76476e43611d5e1809"
     }
   ],
-  "documentation_note": "Documentation consolidated; execution dates, counts, case outcomes and workbook contents unchanged."
+  "documentation_note": "Manual CSV updated from tester confirmation on 2026-10-09; original automated case logs, execution dates, outcomes and workbook contents unchanged."
 }

@@ -347,7 +347,8 @@ the resolved setup defect, manual execution instructions and remaining verificat
 
 The [forty-case workbook](docs/qa40-results.xlsx), [detailed results CSV](docs/qa40-results.csv)
 and [evidence index](docs/evidence/qa40/index.md) contain the recorded outcomes.
-Use [manual-test-cases.csv](docs/manual-test-cases.csv) to record personal manual runs.
+[Manual-test-cases.csv](docs/manual-test-cases.csv) records the separate forty-case
+manual run, confirmed as passing by Samarthya Jambavalikar on 9 October 2026.
 
 Run only the additional review with `uv run pytest tests/test_submission_review.py -q`.
 With `QA40_EVIDENCE=1` set in your terminal environment, it replaces JSON/screenshots;
@@ -404,11 +405,11 @@ The assignment's submission files are collected here:
 | Database/schema information | [Schema](docs/schema.md), with fields, relationships, constraints and indexes. |
 | Setup instructions | This README. |
 | API documentation | [REST API](docs/api.md), including session/CSRF examples and permissions. |
-| Manual test cases | [Forty-case template](docs/manual-test-cases.csv); [testing guide and recorded results](docs/testing.md). |
+| Manual test cases | [Forty completed manual cases](docs/manual-test-cases.csv); [testing guide and recorded results](docs/testing.md). |
 | SQL queries | [Project reports](sql/project_reports.sql). |
 | Known limitations | [Scope and verification gaps](docs/known-limitations.md). |
 
 Three supporting guides explain [architecture](docs/architecture.md),
 [business rules](docs/business-rules.md) and [Render deployment](docs/render-deployment.md).
 The desktop workflow is implemented. Manual time entry, missing login rate limiting
-and the outstanding human/hosted verification are documented limitations.
+and the additional accessibility/hosted verification gaps are documented limitations.
