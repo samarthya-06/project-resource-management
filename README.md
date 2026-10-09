@@ -342,18 +342,12 @@ Latest recorded local verification, **9 October 2026**:
 
 The original 284 and 40 tests were executed separately. After fixing the missing
 static-asset test prerequisite, the full suite passed **324 tests in one invocation**.
-See the [setup defect and retest record](docs/test-staticfiles-verification.md).
+See [testing and results](docs/testing.md) for category coverage, SQL comparisons,
+the resolved setup defect, manual execution instructions and remaining verification.
 
-Open the [requirement coverage guide](docs/testing-requirement-coverage.md),
-[review report](docs/qa40-review.md), [final results workbook](docs/qa40-results.xlsx),
-[full CSV](docs/qa40-results.csv), [screenshots](docs/evidence/qa40/index.md) or
-[defect list](docs/qa40-defects.md). Human testers can use the [40-case template](docs/manual-test-cases.csv)
-and [testing guide](docs/manual-testing-guide.md).
-
-The final workbook groups all 40 cases by category and identifies positive, negative
-and combined scenarios. [Database/schema information](docs/schema.md),
-[API documentation](docs/api.md), [SQL report queries](sql/project_reports.sql) and
-[known limitations](docs/known-limitations.md) complete the supporting documents.
+The [forty-case workbook](docs/qa40-results.xlsx), [detailed results CSV](docs/qa40-results.csv)
+and [evidence index](docs/evidence/qa40/index.md) contain the recorded outcomes.
+Use [manual-test-cases.csv](docs/manual-test-cases.csv) to record personal manual runs.
 
 Run only the additional review with `uv run pytest tests/test_submission_review.py -q`.
 With `QA40_EVIDENCE=1` set in your terminal environment, it replaces JSON/screenshots;
@@ -402,20 +396,19 @@ automatic deploys. Check logs and repeat important workflows on the hosted site.
 
 ## Documentation and limitations
 
-| Document | Purpose |
-| --- | --- |
-| [Architecture](docs/architecture.md) | Request flow, data relationships and code-reading guide. |
-| [Database schema](docs/schema.md) | Fields, constraints, indexes and deletion policy. |
-| [Business rules](docs/business-rules.md) | Permissions, editable fields, locks and corrections. |
-| [REST API](docs/api.md) | Endpoints, JSON examples, session/CSRF authentication and response codes. |
-| [Design](design.md) / [Paper handoff](docs/paper-ui-handoff.md) | Visual specification and desktop reference screens. |
-| [Workspace verification](docs/workspace-ui-verification.md) / [Task verification](docs/task-ui-verification.md) | Earlier UI checks and design differences. |
-| [Known limitations](docs/known-limitations.md) | Assumptions, excluded features and unverified work. |
-| [Setup verification](docs/readme-setup-verification.md) | Executed fresh-checkout smoke check using a temporary database. |
+The assignment's submission files are collected here:
 
-The scope is the desktop assignment workflow. Time entry is manual; there is no
-automatic timer, overlap detection or daily-capacity rule. Public signup, email password
-recovery and account reactivation are not implemented. Login has no application rate
-limiting. Human manual testing and native zoom remain pending. Setup was smoke-tested
-with tools already installed; operating-system installer instructions and Windows
-setup were not executed. Recorded checks are not a full security audit.
+| Requirement | File |
+| --- | --- |
+| Source code / Git repository | This repository, including migrations and locked dependencies. |
+| Database/schema information | [Schema](docs/schema.md), with fields, relationships, constraints and indexes. |
+| Setup instructions | This README. |
+| API documentation | [REST API](docs/api.md), including session/CSRF examples and permissions. |
+| Manual test cases | [Forty-case template](docs/manual-test-cases.csv); [testing guide and recorded results](docs/testing.md). |
+| SQL queries | [Project reports](sql/project_reports.sql). |
+| Known limitations | [Scope and verification gaps](docs/known-limitations.md). |
+
+Three supporting guides explain [architecture](docs/architecture.md),
+[business rules](docs/business-rules.md) and [Render deployment](docs/render-deployment.md).
+The desktop workflow is implemented. Manual time entry, missing login rate limiting
+and the outstanding human/hosted verification are documented limitations.

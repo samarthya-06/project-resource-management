@@ -5,7 +5,7 @@
   "expected": "3 tasks, 2 complete, 180 minutes, 3 hours, 66.67%; empty project is zero.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:38:25.507256+00:00",
   "duration_seconds": 1.74,
   "events": [

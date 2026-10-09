@@ -1,53 +1,50 @@
-# Current limitations
+# Known limitations
 
-As of Phase 4B complete desktop workflow, 8 October 2026:
+Current scope: the desktop Project & Resource Management assignment workflow.
 
-- Implemented: PostgreSQL models/constraints/migrations, guarded shared operations,
-  session authentication and initial-password change, role-scoped REST APIs/reports,
-  read-only SQL comparisons and deterministic idempotent demo data.
-- Desktop UI now includes the shared header/sidebar, real role Overview metrics,
-  Admin account list/search/create/edit/deactivate, project list/search/create/edit,
-  project Overview/Team/Report and guarded membership add/remove. Existing password
-  change keeps the centered authentication layout and adds accessible save/error feedback.
-- Task/time UI now includes scoped Project Tasks and My tasks filters, create/edit/
-  reassignment, role-specific task details, start/confirmed completion, own time create/
-  edit/confirmed deletion, safe task deletion and explicit Admin corrections. All writes
-  reuse services. Completed work remains locked; historical attribution is retained.
-- Safe project deletion is supported by services/API, without a Phase 4A UI action.
-  There is no account reactivation operation; inactive rows offer Edit only.
-- Credential handoff is private/manual. Public signup, invitations and email password
-  recovery are outside scope. Application Admin can reset passwords from Employees.
-- Account names/contact email remain optional to match existing backend contracts;
-  login identifier, role and initial password are required. Native date inputs follow
-  browser locale; displayed record dates use readable day/month/year text.
-- Paper and exported PNGs were compared with rendered desktop screenshots, but no
-  exact pixel-parity claim is made. IBM Plex Sans replaces incidental system-font
-  layers, actual database totals replace design samples, and accessibility/real forms
-  introduce visible changes. See `workspace-ui-verification.md` and `task-ui-verification.md` for differences.
-- Chromium keyboard checks and 200% zoom-equivalent reflow were executed. Native
-  browser-menu zoom, screen-reader review, complete contrast audit and other browsers
-  were not manually tested. Mobile design/layout verification is excluded by the user.
-- Required human manual cases remain pending. Fresh-checkout setup was smoke-tested
-  on 9 October with installed tools; installer instructions, Windows and a full
-  browser submission rehearsal remain unverified. See `readme-setup-verification.md`.
-  Forty manual cases are drafted in `manual-test-cases.csv`, all NOT RUN.
-  Automated browser/HTTP/SQL checks do not replace manual evidence.
-- Login has no application rate limiting. This assignment is not a deployment
-  readiness claim. `.env` stays ignored; no submission or database reset.
-  Render deployment configuration is prepared and locally verified; live deployment
-  and hosted workflow checks remain pending. See `render-deployment.md`.
-- Bulk ORM/raw writes bypass cross-table validation; application mutations must keep
-  using shared operations rather than introducing direct model writes.
+## Product scope
 
-- Task time history is shown without pagination (small assignment data); task lists
-  paginate 25 rows. Dates are manual durations, without timers, overlap detection or
-  daily capacity limits. Former members lose access to old project contributions,
-  while Manager/Admin history remains available. This preserves existing policies.
-- Failed inline time saves render the shared full-page Log time form with retained values.
-  Browser reflow tables scroll horizontally inside a focusable region at 200% equivalent
-  zoom; this is not mobile layout support. No live notifications or stale-state polling.
+- Time uses manually entered Hours/Minutes and a work date. There is no timer,
+  overlap detection, daily capacity limit or resource forecasting.
+- Account deactivation preserves history. Account reactivation, public signup,
+  email invitations and email password recovery are not implemented. Admin can
+  explicitly reset a password through Employees.
+- Login has no application rate limiting.
+- Project deletion is available through guarded services/API; there is no desktop
+  project-delete button. Dependent work is protected from destructive deletion.
+- Task lists paginate 25 rows; a task's time history is not paginated.
+- Names/contact email are optional. Date inputs follow browser locale; displayed
+  records use readable day/month/year dates.
+- Former members lose access to their old project contributions. Original history
+  remains visible to the owning Manager and Admin.
+- Failed inline time saves use the full-page Log time form with retained values.
+  There are no live notifications or stale-state polling.
+- Bulk ORM or raw SQL writes can bypass cross-table validation. Application writes
+  must use the shared services; the application UI/API do so.
 
-9 October local review: see `qa40-review.md` for 40 automated browser/HTTP cases,
-SQL evidence and regression results. Human manual-case evidence remains separate.
-Native browser-menu zoom/usability and hosted-site retesting remain
-unverified. No application defect was confirmed in this checked scope.
+## Interface differences
+
+The desktop interface was compared with Paper/exported references; exact pixel
+parity is not claimed. Actual database values replace illustrative constants.
+IBM Plex Sans is used consistently. Native date/select/number controls, persistent
+labels, link underlines, validation summaries and full-page confirmations support
+the working forms. Employee reports show Own work to preserve privacy. Tables can
+scroll within their regions when space is limited. Mobile design is outside scope.
+
+## Verification limits
+
+- The forty recorded browser/API cases and PostgreSQL regression results are
+  automated checks. Personal manual execution is separate; the manual template
+  contains forty NOT RUN cases with blank actual results.
+- Keyboard operation and 200% zoom-equivalent reflow were checked in Chromium.
+  Native browser-menu zoom, human usability, other browsers, screen readers and a
+  complete accessibility audit have not been verified manually.
+- A fresh-checkout setup smoke check passed with tools already installed. Operating
+  system installers and Windows setup were not exercised.
+- The Render site is deployed. The recorded local review did not verify the hosted
+  database or complete deployed workflow; a hosted retest remains unverified.
+- No unresolved application defect was confirmed by the recorded local checks.
+  This is not a guarantee of defect-free software or a complete security audit.
+
+See [testing and results](testing.md) for executed outcomes, evidence and the resolved
+static-file test setup defect, and [deployment](render-deployment.md) for hosting setup.

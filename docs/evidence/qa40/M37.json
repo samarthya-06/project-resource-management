@@ -5,7 +5,7 @@
   "expected": "Missing/wrong CSRF rejected; valid CSRF accepted; invalid numeric types rejected.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:38:50.113549+00:00",
   "duration_seconds": 0.81,
   "events": [

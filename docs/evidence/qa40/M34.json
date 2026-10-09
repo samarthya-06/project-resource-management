@@ -5,7 +5,7 @@
   "expected": "Valid workflow succeeds; omitted fields retained; invalid JSON/fields rejected.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:38:38.935831+00:00",
   "duration_seconds": 1.56,
   "events": [

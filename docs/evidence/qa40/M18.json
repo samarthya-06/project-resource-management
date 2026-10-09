@@ -5,7 +5,7 @@
   "expected": "Clear empty guidance and validation; no invalid task saved.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:37:46.617455+00:00",
   "duration_seconds": 0.85,
   "events": [

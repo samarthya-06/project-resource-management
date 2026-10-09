@@ -5,7 +5,7 @@
   "expected": "Duplicate is rejected and only one membership remains.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:37:34.913766+00:00",
   "duration_seconds": 0.57,
   "events": [

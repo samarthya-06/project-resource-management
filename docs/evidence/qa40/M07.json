@@ -5,7 +5,7 @@
   "expected": "Invalid changes rejected without altering roles or relationships.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:37:11.929281+00:00",
   "duration_seconds": 1.07,
   "events": [

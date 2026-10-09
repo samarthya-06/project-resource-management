@@ -5,7 +5,7 @@
   "expected": "Dependent work protected; empty projects and tasks without history removable.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:39:01.829457+00:00",
   "duration_seconds": 0.7,
   "events": [

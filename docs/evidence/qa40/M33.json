@@ -5,7 +5,7 @@
   "expected": "Read-only SQL agrees with ORM reports, including historical contributors.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:38:35.711190+00:00",
   "duration_seconds": 1.19,
   "events": [

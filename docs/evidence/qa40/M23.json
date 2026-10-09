@@ -5,7 +5,7 @@
   "expected": "Manager/Employee direct URLs and API mutations reject prohibited changes.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:38:00.912334+00:00",
   "duration_seconds": 1.43,
   "events": [

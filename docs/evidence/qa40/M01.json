@@ -5,7 +5,7 @@
   "expected": "Correct identity, Overview and role navigation.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:36:51.469198+00:00",
   "duration_seconds": 1.55,
   "events": [

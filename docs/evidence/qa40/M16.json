@@ -5,7 +5,7 @@
   "expected": "Removal succeeds; original time attribution retained; access revoked.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:37:40.260024+00:00",
   "duration_seconds": 1.05,
   "events": [

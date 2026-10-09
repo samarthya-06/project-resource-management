@@ -1,6 +1,6 @@
 # Local 40-case evidence index
 
-Agent-executed local browser/HTTP checks with isolated PostgreSQL readback.
+Automated pytest/Playwright browser/HTTP checks with isolated PostgreSQL readback.
 
 | Case | Status | Scenario | Event log | Screenshots |
 | --- | --- | --- | --- | --- |

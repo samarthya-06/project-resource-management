@@ -1,9 +1,8 @@
-# Phase 2 — shared business operations
+# Business rules and permissions
 
-The application boundary is `projects/services.py`, `projects/selectors.py` and
-`accounts/services.py`. Future HTML views and DRF must call these functions rather
-than save models directly. No resource endpoint or screen is introduced here.
-Models, migrations, authentication, demo seeding and their existing tests are preserved.
+HTML views and REST APIs use shared operations in `projects/services.py` and
+`accounts/services.py`. Scoped selectors control reads. Forms and serializers parse
+inputs; the services enforce authorization and mutations.
 
 ## Authorization and input contract
 
@@ -13,8 +12,8 @@ from PostgreSQL; a stale in-memory user cannot keep privileges after deactivatio
 role change or password reset. Anonymous, inactive and initial-password actors are denied.
 IDs use `manager_id`, `assignee_id` and `employee_id`, not arbitrary model objects.
 Unknown/protected fields raise Django ValidationError, permissions raise
-PermissionDenied, and out-of-scope details raise model DoesNotExist. Future adapters
-must map all ObjectDoesNotExist exceptions to the same unavailable/404 response.
+PermissionDenied, and out-of-scope details raise model DoesNotExist. Adapters
+map all ObjectDoesNotExist exceptions to the same unavailable/404 response.
 They must never serialize arbitrary model relations or private time notes.
 
 - Admin creates/manages all projects and chooses an active Manager. A Manager's new
@@ -59,7 +58,7 @@ email, first/last name and role; an optional password reset validates Django pas
 rules, hashes the password and sets must_change_password. Account creation requires
 an initial password and the same gate. Staff/superuser/groups/permissions and the gate
 are never application-writable. Accounts are created active; reactivation is outside
-this phase's operations. Deactivation preserves all relationships and contributions.
+the application operations. Deactivation preserves all relationships and contributions.
 
 A role change requires reassignment of owned projects and unfinished tasks, and
 removal of memberships first. Completed assignments and original time attribution
@@ -83,49 +82,7 @@ membership addition waits for deactivation, then rejects the inactive account.
 These guarantees apply to shared operations; trusted model-only seed/bootstrap work
 must not run concurrently as an alternative application mutation path.
 
-## Remaining work
-
-Wire these operations into authenticated, CSRF-protected HTML and DRF actions with
-field parsing and consistent errors. Add account listings/employee pickers, reports,
-SQL, API tests, Paper screens and required executed manual evidence. This phase's
-function tests do not claim HTTP permission or browser workflow coverage.
-
-## Executed verification — 7 October 2026
-
-Started from project-data commit `b6d39fe` with a clean checkout. No models,
-applied migrations, seed data or authentication flows were changed. The only
-administration change makes existing account roles read-only to prevent a bypass.
-Ruff also removed unused scaffold imports in projects/admin.py, tests.py and views.py,
-and normalized quotes in projects/apps.py; those changes add no behavior.
-
-Commands used the existing locked uv environment (`--cache-dir .cache/uv`).
-PostgreSQL checks ran with local database access; SQLite was not used.
-
-| Executed check | Actual result |
-| --- | --- |
-| Focused initial business tests | 44 passed in 4.72 seconds |
-| Full `pytest -q` after all additions | 162 passed in 28.81 seconds |
-| Existing tests included in full suite | All 111 passed, including 31 authentication tests |
-| New business-operation cases | All 51 passed, including deactivation/membership race |
-| `python manage.py check` | No issues |
-| `python manage.py makemigrations --check --dry-run` | No changes detected |
-| `ruff check accounts config projects tests scripts` | Passed |
-| `ruff format --check accounts config projects tests scripts` | 38 files already formatted |
-| `git diff --check` | Passed |
-
-The first broad Ruff run found three pre-existing unused scaffold imports; removed
-and rechecked successfully. No remaining infrastructure blocker. Tests used Django's
-separate PostgreSQL test database; development data was not reset or reseeded. No
-migration application was needed, and no push or deployment was performed.
-
-## Phase 3 adapters
-
-Resource REST adapters now call these operations and selectors; see `api.md` for
-exact routes, permissions, field parsing and error responses. Report and Overview
-functions scope queries before aggregating. The existing service functions and
-locking behavior remain unchanged. HTML workflow screens are the next milestone.
-
-## HTML entry points (Phase 4A)
+## HTML entry points
 
 The desktop pages adapt the same services/selectors/reports without calling the
 server's own HTTP API. Each page reloads the actor; account pages require application
@@ -135,10 +92,10 @@ after errors. Native controls parse input; existing operations remain authoritat
 Role edits require a confirmation checkbox, password resets are optional and restore
 the initial-password gate, and destructive actions show a confirmation page before
 CSRF-protected POST. Eligible member options exclude existing members; service validation
-still rejects a forged duplicate. No activation action is exposed. Task/time UI is implemented in Phase 4B below.
+still rejects a forged duplicate. No activation action is exposed. Task and time forms follow the same contract below.
 
 
-## HTML task/time adapters (Phase 4B)
+## Task and time forms
 
 HTML duration input accepts whole hours (0–24) and additional minutes (0–59).
 TimeForm validates a combined duration of 1–1440 minutes and converts it before

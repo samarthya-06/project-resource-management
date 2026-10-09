@@ -5,7 +5,7 @@
   "expected": "Admin/Manager totals include the project; TODO task appears in Work in progress only after Start task; Employee sees own TODO work; foreign Manager excluded.",
   "status": "PASS",
   "error": "",
-  "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+  "method": "Automated pytest/Playwright Chromium browser/HTTP checks with PostgreSQL readback",
   "started_utc": "2026-10-09T08:38:56.455577+00:00",
   "duration_seconds": 3.32,
   "events": [

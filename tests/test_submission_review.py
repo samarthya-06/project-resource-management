@@ -1,4 +1,4 @@
-"""40 agent-executed local browser/HTTP review cases, using an isolated test DB.
+"""40 automated local browser/HTTP review cases, using an isolated test DB.
 
 Run explicitly with QA40_EVIDENCE=1 to persist evidence. Ordinary pytest runs
 exercise the assertions without overwriting the dated review artifacts.
@@ -363,7 +363,10 @@ def test_review(case, page, live_server, demo, monkeypatch, settings):
                 "expected": expected,
                 "status": status,
                 "error": error,
-                "method": "Agent-executed Chromium browser/HTTP checks with PostgreSQL readback",
+                "method": (
+                    "Automated pytest/Playwright Chromium browser/HTTP checks "
+                    "with PostgreSQL readback"
+                ),
                 "started_utc": datetime.fromtimestamp(started, tz=UTC).isoformat(),
                 "duration_seconds": round(time.time() - started, 2),
                 "events": q.events,
