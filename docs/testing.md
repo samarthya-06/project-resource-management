@@ -93,24 +93,6 @@ changing time attribution.
 
 No application defect was confirmed by the executed forty-case review.
 
-**QA-STATIC-01 — resolved test setup defect.** A checkout without collected assets
-produced missing static-file manifest errors. The reported run had 59 failed and
-225 passed tests. Two deployment checks reproduced the error with an empty
-STATIC_ROOT. The session fixture now collects real production assets once into a
-temporary directory. The deployment test checks the manifest and anonymous hashed
-CSS serving. All 324 tests passed after the fix; four deployment tests passed again
-from the main Developer folder. Production settings, migrations and business rules
-were unchanged. This was a test prerequisite defect, not a task-permission failure.
-
-**M39 — expected Overview behavior.** Admin/Manager project totals include a newly
-created project immediately. Their Work in progress tables include its task after
-the assigned Employee selects Start task. The Employee can see the assigned TODO
-task earlier. [Before](evidence/qa40/M39-admin-before-start.png) and
-[after](evidence/qa40/M39-admin-after-start.png) screenshots document this behavior.
-
-For a future defect, record the case ID, severity, role, preconditions, steps,
-expected/actual outcome, evidence, fix reference and retest result. Do not classify
-an expected validation or permission rejection as an application defect.
 
 ## Run the checks
 
