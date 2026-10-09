@@ -41,8 +41,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 19340,
-      "sha256": "41f74f3e17611cec9f7283eaabd25e5cad55f5f9685b0c87392df01725cb79fb"
+      "bytes": 19787,
+      "sha256": "37ab82bd1de2dd25f7a138e0e7b178536b9851a85876b4f89f9a81dfaff0fa22"
     },
     {
       "path": "docs/evidence/qa40/M01-admin.png",
@@ -636,8 +636,8 @@
     },
     {
       "path": "docs/qa40-defects.md",
-      "bytes": 2020,
-      "sha256": "f2177cf84257b4a09e1f291dee06af707bf12794beaa39be35ef0b106910744a"
+      "bytes": 2466,
+      "sha256": "2d1423c8d9b287ca325b034feab729f388db0081c68598a4e885dff18afeb67f"
     },
     {
       "path": "docs/qa40-results.csv",

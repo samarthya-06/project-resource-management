@@ -326,6 +326,9 @@ uv run ruff format --check accounts config projects tests scripts
 Tests use a separate PostgreSQL database (`test_<DB_NAME>`) and fixture accounts;
 the local role needs `CREATEDB`. Browser tests start their own server. On Linux,
 system dependencies may require `uv run playwright install --with-deps chromium`.
+The test suite runs `collectstatic` once into a temporary directory automatically,
+so production-template and static-file tests also work on a fresh clone. Deployment
+still runs its own asset build; tests do not overwrite local collected files.
 
 Latest recorded local verification, **9 October 2026**:
 
@@ -337,7 +340,9 @@ Latest recorded local verification, **9 October 2026**:
 | Django, migration drift, Ruff lint/format | Passed. |
 | Fresh-checkout setup smoke check | Locked install, migrations, sample seed, database reads, SQL comparison and Admin login/Overview passed. |
 
-The 284 and 40 tests were executed separately.
+The original 284 and 40 tests were executed separately. After fixing the missing
+static-asset test prerequisite, the full suite passed **324 tests in one invocation**.
+See the [setup defect and retest record](docs/test-staticfiles-verification.md).
 
 Open the [requirement coverage guide](docs/testing-requirement-coverage.md),
 [review report](docs/qa40-review.md), [final results workbook](docs/qa40-results.xlsx),

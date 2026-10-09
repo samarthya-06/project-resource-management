@@ -29,3 +29,11 @@ M39 confirms expected Overview behavior: Admin/Manager Work in progress excludes
 TODO tasks and includes them after the assigned Employee clicks Start task. Project
 counts update immediately. The user's observation was reproduced with isolated
 fixtures and is a passing workflow case, not a confirmed defect.
+
+## Subsequent test setup defect: resolved
+
+QA-STATIC-01: Running the suite without collected assets produced missing-manifest
+errors. Pytest now builds assets once in an isolated temporary directory, retaining
+production asset checks. The complete suite passed 324 tests after the fix.
+See [reproduction and retest record](test-staticfiles-verification.md).
+This follow-up does not rewrite the original 40-case workbook or its execution record.

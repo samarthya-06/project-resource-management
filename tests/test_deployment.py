@@ -2,7 +2,10 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
+from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.test import Client, override_settings
 
 
@@ -70,8 +73,11 @@ def test_https_proxy_serves_login_without_redirect_loop():
 
 
 @override_settings(DEBUG=False)
-def test_collected_css_is_served_without_login():
-    # collectstatic is part of the documented verification/build sequence.
-    response = Client().get("/static/css/workspace.css", secure=True)
+def test_collected_css_is_served_without_login(collected_staticfiles):
+    assert Path(settings.STATIC_ROOT) == collected_staticfiles
+    assert (collected_staticfiles / "staticfiles.json").is_file()
+    asset_url = staticfiles_storage.url("css/workspace.css")
+    assert asset_url != "/static/css/workspace.css"
+    response = Client().get(asset_url, secure=True)
     assert response.status_code == 200
     assert response["Content-Type"].startswith("text/css")
