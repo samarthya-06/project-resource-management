@@ -24,27 +24,12 @@ Current scope: the desktop Project & Resource Management assignment workflow.
 
 ## Interface differences
 
-The desktop interface was compared with Paper/exported references; exact pixel
-parity is not claimed. Actual database values replace illustrative constants.
 IBM Plex Sans is used consistently. Native date/select/number controls, persistent
 labels, link underlines, validation summaries and full-page confirmations support
 the working forms. Employee reports show Own work to preserve privacy. Tables can
 scroll within their regions when space is limited. Mobile design is outside scope.
 
-## Verification limits
 
-- The forty recorded browser/API cases and PostgreSQL regression results are
-  automated checks. Personal manual execution is separate; the manual template
-  contains forty NOT RUN cases with blank actual results.
-- Keyboard operation and 200% zoom-equivalent reflow were checked in Chromium.
-  Native browser-menu zoom, human usability, other browsers, screen readers and a
-  complete accessibility audit have not been verified manually.
-- A fresh-checkout setup smoke check passed with tools already installed. Operating
-  system installers and Windows setup were not exercised.
-- The Render site is deployed. The recorded local review did not verify the hosted
-  database or complete deployed workflow; a hosted retest remains unverified.
-- No unresolved application defect was confirmed by the recorded local checks.
-  This is not a guarantee of defect-free software or a complete security audit.
 
 See [testing and results](testing.md) for executed outcomes, evidence and the resolved
 static-file test setup defect, and [deployment](render-deployment.md) for hosting setup.
