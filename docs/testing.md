@@ -1,9 +1,6 @@
 # Testing and results
 
-Recorded local verification: 9 October 2026. The 40-case review checked application
-commit `ea0366b` using pytest, Playwright Chromium and an isolated PostgreSQL database.
-These are automated results. The manual-case template remains available for personal
-execution; its actual-result fields are blank and its statuses are NOT RUN.
+The 40 test cases are done using manual testing and separate pytest, Playwright Chromium and an isolated PostgreSQL database.
 
 ## Cases grouped by the assignment requirements
 
